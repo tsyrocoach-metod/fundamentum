@@ -1,0 +1,1712 @@
+<title>Методология. Fundamentum — интерактивная книга</title>
+<style>
+  :root{
+    --sea:#46707C; --sea-deep:#345258; --ink:#2B3E43; --ink-soft:#5C7178;
+    --page:#FBF8F1; --page-edge:#F0EADA; --cream:#F0E8D5;
+    --gold:#B8965A; --line:#E3DCC9;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; color:var(--ink);
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:19px; line-height:1.8;
+    background-color:var(--sea);
+    background-image:
+      radial-gradient(ellipse 55% 38% at 15% 10%, rgba(240,233,214,.30), transparent 70%),
+      radial-gradient(ellipse 48% 32% at 85% 25%, rgba(255,255,255,.20), transparent 70%),
+      radial-gradient(ellipse 65% 42% at 50% 85%, rgba(228,236,232,.15), transparent 70%),
+      radial-gradient(ellipse 45% 30% at 5% 60%, rgba(43,69,75,.5), transparent 72%),
+      linear-gradient(165deg,#54808C 0%, #46707C 45%, #3B6069 100%);
+    background-attachment:fixed;
+  }
+
+  /* ── Кнопка меню и выдвижная панель ── */
+  .menu-btn{
+    position:fixed; top:18px; left:18px; z-index:60;
+    width:48px; height:48px; border-radius:50%; border:1px solid rgba(240,232,213,.5);
+    background:rgba(52,82,88,.88); color:var(--cream); cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 20px rgba(20,40,45,.35);
+  }
+  .menu-btn:hover{background:var(--sea-deep)}
+  .menu-btn svg{display:block}
+  .drawer{
+    position:fixed; top:0; left:0; bottom:0; z-index:70;
+    width:330px; max-width:88vw; box-sizing:border-box;
+    background:linear-gradient(170deg,#3A5B64,#2E484F);
+    color:var(--cream); padding:28px 26px 40px; overflow-y:auto;
+    transform:translateX(-102%); transition:transform .3s ease;
+    box-shadow:24px 0 60px rgba(20,40,45,.4);
+  }
+  .drawer.open{transform:translateX(0)}
+  .drawer .close{
+    position:absolute; top:16px; right:16px; width:36px; height:36px;
+    border:none; border-radius:50%; background:rgba(240,232,213,.12);
+    color:var(--cream); font-size:20px; line-height:1; cursor:pointer;
+  }
+  .drawer .brand{font-size:17px; letter-spacing:.2em; text-transform:uppercase; margin:6px 0 2px}
+  .drawer .sub{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:rgba(240,232,213,.6); padding-bottom:18px; border-bottom:1px solid rgba(240,232,213,.25); margin-bottom:10px}
+  .nav-group{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin:20px 0 4px}
+  .nav-item{
+    display:block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:15px; line-height:1.45;
+    color:rgba(240,232,213,.92); text-decoration:none; padding:7px 0 7px 14px;
+    border-left:2px solid rgba(240,232,213,.2);
+  }
+  .nav-item:hover{color:#fff; border-left-color:var(--gold)}
+  .nav-item.soon{color:rgba(240,232,213,.45); cursor:default; font-style:italic}
+  .overlay{position:fixed; inset:0; z-index:65; background:rgba(20,35,40,.45); opacity:0; pointer-events:none; transition:opacity .3s}
+  .overlay.show{opacity:1; pointer-events:auto}
+
+  /* ── Небесная шапка книги ── */
+  .sky-head{color:var(--cream); text-align:center; padding:64px 24px 44px}
+  .sky-head .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.35em; text-transform:lowercase; color:rgba(240,232,213,.75)}
+  .sky-head .brand{font-size:34px; letter-spacing:.24em; text-transform:uppercase; margin-top:6px}
+  .sky-head .crumbs{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:rgba(240,232,213,.7); margin-top:24px}
+
+  /* ── Колонка листов ── */
+  .sheets{max-width:780px; margin:0 auto 72px; padding:0 12px; display:flex; flex-direction:column; gap:34px}
+
+  .sheet{
+    background:var(--page); border-radius:14px;
+    box-shadow:0 22px 60px rgba(20,40,45,.32), 0 3px 12px rgba(20,40,45,.18);
+    padding:52px 76px 56px; position:relative;
+  }
+  .sheet .tab{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+    background:var(--sea-deep); color:var(--cream); white-space:nowrap;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:600;
+    letter-spacing:.26em; text-transform:uppercase;
+    border-radius:999px; padding:7px 22px; border:1px solid rgba(240,232,213,.35);
+  }
+  .sheet .tab b{color:var(--gold); font-weight:700; margin-right:10px}
+
+  /* Титульные листы глав */
+  .chapter-head{text-align:center; scroll-margin-top:30px;
+    background:linear-gradient(180deg, #FBF8F1 0%, #F4EEDF 100%);
+    border:1px solid rgba(200,169,107,.45);
+  }
+  .chapter-head .kicker{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:600}
+  .chapter-head h1{font-weight:400; font-size:37px; line-height:1.25; margin:16px 0 0; color:var(--sea-deep)}
+  .chapter-head .orn{color:var(--gold); font-size:18px; letter-spacing:.6em; margin-top:22px}
+  .chapter-head .lede{font-style:italic; color:var(--ink-soft); max-width:480px; margin:18px auto 0; font-size:18px}
+
+  .kicker-line{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); font-weight:700; text-align:center; margin-bottom:10px}
+
+  p{margin:0 0 24px}
+  p:last-child{margin-bottom:0}
+  .drop::first-letter{
+    font-size:74px; float:left; line-height:.82; padding:8px 14px 0 0; color:var(--sea); font-weight:400;
+  }
+  em{font-style:normal; box-shadow:inset 0 -9px 0 rgba(70,112,124,.18)}
+  .sheet{scroll-margin-top:30px}
+
+  h2{
+    font-weight:400; font-size:27px; color:var(--sea-deep); line-height:1.35;
+    margin:6px 0 6px; text-align:center;
+  }
+  .h-orn{text-align:center; color:var(--gold); letter-spacing:.5em; font-size:14px; margin-bottom:28px}
+  h3{font-weight:400; font-size:21.5px; color:var(--sea-deep); margin:34px 0 14px}
+  .sheet ul, .sheet ol{margin:0 0 24px; padding-left:26px}
+  .sheet li{margin-bottom:10px}
+
+  /* Определение */
+  .define{
+    margin:34px 0; padding:30px 36px; text-align:center;
+    border-top:2px solid var(--gold); border-bottom:2px solid var(--gold);
+    background:linear-gradient(180deg, rgba(200,169,107,.07), transparent 60%);
+  }
+  .define .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:12px}
+  .define p{font-size:21.5px; font-style:italic; line-height:1.65; margin:0; color:var(--sea-deep)}
+
+  /* Лесенка */
+  .ladder{display:flex; flex-direction:column; gap:0; margin:30px 0; border:1px solid var(--line); border-radius:14px; overflow:hidden}
+  .step{padding:22px 28px; display:grid; grid-template-columns:130px 1fr; gap:18px; align-items:baseline}
+  .step + .step{border-top:1px solid var(--line)}
+  .step:nth-child(2){background:var(--page-edge)}
+  .step:nth-child(3){background:var(--sea-deep); color:var(--cream)}
+  .step b{font-weight:400; font-size:20px; letter-spacing:.02em}
+  .step span{font-family:-apple-system,'Segoe UI',sans-serif; font-size:15.5px; line-height:1.65; color:var(--ink-soft)}
+  .step:nth-child(3) span{color:rgba(240,232,213,.85)}
+
+  /* История-пример */
+  .story{margin:36px 0; padding:26px 30px; border-radius:12px; background:var(--page-edge); font-style:italic; color:#5A5642}
+  .story .who{font-family:-apple-system,'Segoe UI',sans-serif; font-style:normal; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px}
+  .story p{margin:0 0 14px}
+  .story p:last-child{margin:0}
+
+  /* Как не надо / как надо */
+  .pair{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:32px 0; font-family:-apple-system,'Segoe UI',sans-serif; font-size:16px; line-height:1.65}
+  .pair>div{border-radius:12px; padding:22px 24px}
+  .pair .no{background:var(--page-edge); color:#8B8271}
+  .pair .yes{background:var(--sea-deep); color:var(--cream)}
+  .pair .tag{font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; display:block; margin-bottom:10px}
+  .pair .no .tag{color:#A79E8D}
+  .pair .yes .tag{color:var(--gold)}
+
+  .chips{display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; justify-content:center; font-family:-apple-system,'Segoe UI',sans-serif}
+  .chips i{font-style:normal; border:1px solid var(--gold); color:var(--sea-deep); border-radius:999px; padding:6px 18px; font-size:15px}
+
+  .example{border:1px solid var(--line); border-radius:12px; padding:22px 28px; margin-bottom:14px; background:#fff}
+  .example:last-child{margin-bottom:0}
+  .example .field{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px}
+  .example p{margin:0; font-size:17px}
+
+  /* Практика — небесный лист */
+  .sheet.sky-sheet{
+    color:var(--cream);
+    background-color:var(--sea);
+    background-image:
+      radial-gradient(ellipse 60% 50% at 18% 15%, rgba(240,233,214,.28), transparent 70%),
+      radial-gradient(ellipse 50% 45% at 88% 85%, rgba(43,69,75,.5), transparent 75%),
+      linear-gradient(155deg,#527D89,#3C636D);
+    border:1px solid rgba(240,232,213,.35);
+  }
+  .sky-sheet .tab{background:var(--cream); color:var(--sea-deep); border:none}
+  .sky-sheet .tab b{color:#96742F}
+  .sky-sheet .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:14px; text-align:center}
+  .sky-sheet h3{font-weight:400; font-size:25px; margin:0 0 20px; color:#fff; text-align:center}
+  .sky-sheet ol, .sky-sheet ul{margin:0 0 26px; padding-left:22px}
+  .sky-sheet li{margin-bottom:12px; font-size:17.5px}
+  .sky-sheet .calm{border-top:1px solid rgba(240,232,213,.3); padding-top:22px; font-style:italic; color:rgba(240,232,213,.9); font-size:17.5px}
+  .sky-sheet em{box-shadow:inset 0 -9px 0 rgba(200,169,107,.35)}
+
+  /* Пронумерованный пункт структурного перечня */
+  .n-item{margin:24px 0; padding:24px 28px; border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; background:#fff}
+  .n-item .n-tag{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px}
+  .n-item .n-title{font-size:20.5px; color:var(--sea-deep); margin:0 0 12px; font-weight:400; line-height:1.4}
+  .n-item p{font-size:17px; margin-bottom:14px}
+  .n-item p:last-child{margin-bottom:0}
+  .n-item .pair{margin:18px 0 0}
+  .n-item ul,.n-item ol{margin-bottom:0}
+
+  /* Показ по одной главе */
+  section.chapter{display:none}
+  section.chapter.active{display:flex; flex-direction:column; gap:34px}
+
+  /* Отметка «пройдено» в меню */
+  .nav-group .check{color:#9FCDAB; margin-left:8px; display:none; letter-spacing:0}
+  .nav-group.read .check{display:inline}
+
+  /* Тост «глава пройдена» */
+  .toast{
+    position:fixed; bottom:26px; left:50%; z-index:80;
+    transform:translateX(-50%) translateY(90px); opacity:0;
+    background:var(--sea-deep); color:var(--cream);
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; letter-spacing:.06em;
+    padding:12px 28px; border-radius:999px; border:1px solid rgba(240,232,213,.4);
+    box-shadow:0 10px 30px rgba(20,40,45,.4);
+    transition:transform .35s ease, opacity .35s ease; pointer-events:none;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0); opacity:1}
+
+  /* Кликабельный переход к следующей главе */
+  a.next-link{display:block; text-align:center; text-decoration:none; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
+  a.next-link:hover{transform:translateY(-4px); box-shadow:0 30px 70px rgba(20,40,45,.4), 0 5px 16px rgba(20,40,45,.22)}
+  .next-link .orn{color:var(--gold); letter-spacing:.6em; font-size:16px; margin-bottom:16px}
+  .next-link .to{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-soft)}
+  .next-link .title{font-size:23px; color:var(--sea-deep); margin-top:10px; line-height:1.4}
+  .next-link .go{display:inline-block; margin-top:18px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--cream); background:var(--sea-deep); border-radius:999px; padding:10px 26px}
+  .next-link:hover .go{background:var(--sea)}
+  .next-soon{text-align:center}
+  .next-soon .orn{color:var(--gold); letter-spacing:.6em; font-size:16px; margin-bottom:16px}
+  .next-soon .to{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-soft)}
+  .next-soon .title{font-size:23px; color:var(--sea-deep); margin-top:10px}
+  .next-soon .note{font-style:italic; color:var(--ink-soft); margin-top:14px; font-size:17px}
+
+  /* Письмо от автора */
+  .letter .sig{font-style:italic; color:var(--ink-soft); text-align:right; margin-top:34px}
+  .letter .sig b{display:block; font-style:normal; font-weight:400; font-size:21px; color:var(--sea-deep); margin-top:6px}
+
+  footer{text-align:center; padding:0 0 48px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.15em; color:rgba(240,232,213,.6)}
+
+  @media (max-width:840px){
+    body{font-size:17.5px}
+    .sheets{gap:26px}
+    .sheet{padding:42px 24px 46px}
+    .sheet .tab{font-size:10px; padding:6px 14px; max-width:82%; overflow:hidden; text-overflow:ellipsis}
+    .chapter-head h1{font-size:28px}
+    .sky-head .brand{font-size:24px}
+    h2{font-size:24px}
+    .pair{grid-template-columns:1fr}
+    .step{grid-template-columns:1fr; gap:6px}
+    .menu-btn{top:12px; left:12px; width:44px; height:44px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .drawer,.overlay{transition:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+
+<button class="menu-btn" id="menuBtn" aria-label="Оглавление">
+  <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="20" height="2" rx="1" fill="#F0E8D5"></rect>
+    <rect y="7" width="14" height="2" rx="1" fill="#F0E8D5"></rect>
+    <rect y="14" width="20" height="2" rx="1" fill="#F0E8D5"></rect>
+  </svg>
+</button>
+<div class="overlay" id="overlay"></div>
+<nav class="drawer" id="drawer" aria-label="Оглавление книги">
+  <button class="close" id="closeBtn" aria-label="Закрыть">×</button>
+  <div class="brand">Fundamentum</div>
+  <div class="sub">Оглавление</div>
+  <a class="nav-item" href="#letter">От автора</a>
+<div class="nav-group" data-ch="0">Пролог · Искусство обучать взрослых</div>
+<a class="nav-item" href="#ch0-u1">Как устроено наше путешествие</a>
+<a class="nav-item" href="#ch0-u2">Методология и методолог</a>
+<a class="nav-item" href="#ch0-u3">Метапозиция методолога</a>
+<a class="nav-item" href="#ch0-u4">Чем взрослые отличаются от детей</a>
+<div class="nav-group" data-ch="1">Глава 1 · От чистого листа — к фундаменту вашей программы</div>
+<a class="nav-item" href="#ch1-u1">Чему учим: цель обучения</a>
+<a class="nav-item" href="#ch1-u2">Кого учим: портрет студента</a>
+<a class="nav-item" href="#ch1-u3">Результат обучения</a>
+<a class="nav-item" href="#ch1-u4">Сроки: обещания и время</a>
+<div class="nav-group" data-ch="2">Глава 2 · Концепт программы: путь героя</div>
+<a class="nav-item" href="#ch2-u1">Концепт — это история</a>
+<a class="nav-item" href="#ch2-u2">Модель TOTE</a>
+<a class="nav-item" href="#ch2-u3">Три позиции описания</a>
+<a class="nav-item" href="#ch2-u4">Простые и комплексные навыки</a>
+<a class="nav-item" href="#ch2-u5">Лестница навыков</a>
+<div class="nav-group" data-ch="3">Глава 3 · Матрёшка: как рождается навык</div>
+<a class="nav-item" href="#ch3-u1">Формирование навыка: матрёшка</a>
+<a class="nav-item" href="#ch3-u2">Концептуальная часть матрёшки</a>
+<a class="nav-item" href="#ch3-u3">Инструкция и опыт</a>
+<a class="nav-item" href="#ch3-u4">Шеринг и рефлексия</a>
+  <div class="nav-group">Дальше — готовится</div>
+  <span class="nav-item soon">Задачи, отношения, атмосфера</span>
+  <span class="nav-item soon">Мотивация и групповая динамика</span>
+  <span class="nav-item soon">Внимание студентов и ведущий</span>
+  <span class="nav-item soon">Визуальная дидактика</span>
+  <span class="nav-item soon">Сертификация и доходимость</span>
+  <span class="nav-item soon">12 убеждений методолога</span>
+  <span class="nav-item soon">Архитектура промпта</span>
+</nav>
+
+<div class="sky-head">
+  <div class="over">методология</div>
+  <div class="brand">Fundamentum</div>
+  <div class="crumbs">Интерактивная книга Андрея Ланда</div>
+</div>
+
+<div class="sheets">
+
+<section class="chapter active" id="sec-letter">
+  <div class="sheet letter" id="letter">
+    <div class="tab"><b>✦</b>От автора</div>
+    <div class="kicker-line">Вместо предисловия</div>
+    <h2>Добро пожаловать в книгу</h2>
+    <div class="h-orn">✦</div>
+    <p class="drop">Привет, дорогой друг и коллега! Я рад приветствовать тебя на страницах книги «Методология. Fundamentum». Впереди — десять глав глубокой работы, где мы будем вместе учиться мыслить как инженеры и архитекторы образовательных продуктов.</p>
+    <p>Я хочу, чтобы ты с самого начала почувствовал: обучение — это не скука и не серость, а вдохновляющий, интересный и очень глубокий процесс. А создавать его для других — задача ещё более увлекательная и глубокая. Эта книга выросла из живого курса, поэтому я буду разговаривать с тобой так, как привык разговаривать со своими студентами: с историями, метафорами и примерами — а не сухими определениями.</p>
+    <h3>Как устроена книга</h3>
+    <p>Главы выстроены в той же логике, в которой строится сама обучающая программа: шаг за шагом, колышек за колышком — от цели и портрета студента до концепта, структуры и живого проведения. Поэтому лучше двигаться последовательно: каждая глава опирается на предыдущую.</p>
+    <p>В каждой главе тебя ждут задания для самостоятельной работы — тёмные листы «Рабочая тетрадь». Пожалуйста, не пропускай их: методология складывается в руках, а не в глазах. Заведи отдельную тетрадь или документ — к финалу книги из этих записей соберётся каркас твоей собственной обучающей программы.</p>
+    <h3>В каком темпе читать</h3>
+    <p>Темп выбирай свой. Кому-то комфортна глава в неделю — с паузой на задания и обдумывание. Кто-то пройдёт быстрее. Торопиться некуда: важно не «прочитать», а присвоить — чтобы к последней странице у тебя на руках был не конспект, а собственный продукт.</p>
+    <p>Ну что ж — поехали!</p>
+    <div class="sig">С уважением,<b>Андрей Ланд</b></div>
+  </div>
+
+  <a class="sheet next-link" href="#ch0">
+    <div class="orn">✦ ✦ ✦</div>
+    <div class="to">Начинаем</div>
+    <div class="title">Пролог · Искусство обучать взрослых</div>
+    <span class="go">Читать дальше →</span>
+  </a>
+</section>
+<section class="chapter" id="sec-0">
+<!-- ГЛАВА: Пролог — Искусство обучать взрослых -->
+
+<div class="sheet chapter-head" id="ch0">
+  <div class="kicker">Пролог</div>
+  <h1>Искусство обучать взрослых</h1>
+  <div class="orn">✦ ✦ ✦</div>
+  <p class="lede">Методология — это не душная серая заумь. Это искусство — как музыка, как живопись, как театр.</p>
+</div>
+
+<div class="sheet" id="ch0-u1">
+  <div class="tab"><b>01</b>Три профессии</div>
+  <div class="kicker-line">Раздел 1 · Как устроено наше путешествие</div>
+  <h2>Родитель, учитель и лидер</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Один из моих учителей как-то сказал, что в мире существует всего три самых главных профессии — родитель, учитель и лидер. И на страницах этой книги мы будем глубоко, последовательно, подробно раскапывать искусство того, как обучать других взрослых людей. Что может быть более увлекательно?</p>
+  <p>Давайте я коротко расскажу, как будет организован этот процесс. Прежде всего, я постарался сделать так, чтобы в каждой главе был самый необходимый минимум, самая необходимая выжимка теоретического материала — чтобы как можно быстрее вы перешли к практической работе. На протяжении всей книги я стараюсь поддерживать с вами непрерывный диалог, потому что вообще считаю: без взаимодействия и диалога никакое эффективное обучение невозможно. И поэтому, когда я буду обращаться к вам и просить сделать что-то прямо сейчас, — я прошу вас находить в себе силы, откладывать книгу и делать именно прямо сейчас то, о чём я прошу.</p>
+  <p>И, наконец, важно сказать, что эта книга построена как сериал, где одна глава плавно вытекает из другой. Я надеюсь, что сначала вы это заметите, а потом мы с вами обсудим, почему всё устроено именно так.</p>
+  <h3>Куда и как мы пойдём</h3>
+  <p>Какова же будет логика нашего движения? Мне очень важно, чтобы вы почувствовали и прямо прожили: методолог — это не мальчик и не девочка на побегушках, не тот, кто перебирает шаблоны наугад — авось какой-нибудь да подойдёт и пригодится. Нет. Методолог, с моей точки зрения, — это инженер, мыслитель, тот, кто умеет смотреть на сложный процесс обучения сверху и в самую глубь.</p>
+  <div class="define"><div class="label">Ключевая мысль</div><p>Мы будем двигаться от принципов — от общего к частному. Сначала разберёмся, как вообще выстроен и структурирован процесс обучения взрослых людей с самых общих точек, а потом постепенно будем укрупняться до конкретных решений и конкретных инструментов — чтобы к концу пути у вас в голове была полная, целостная карта того, как организовывать обучение на своих собственных программах.</p></div>
+  <p>Одним словом, я постарался сделать всё от меня зависящее, чтобы за это плотное путешествие вы получили полный пакет знаний, умений и навыков. Чтобы вы выросли методологически на совершенно качественно новый уровень, чтобы ваши продукты стали совершенно другого качества, чтобы ваши студенты учились с удовольствием, радостно — может быть, не всегда легко, но всегда глубоко — и вспоминали именно ваше обучение, именно ваши курсы и программы как самое лучшее, что было с ними в жизни.</p>
+  <h3>О чём я хочу вас отдельно попросить</h3>
+  <p>Пожалуйста, о двух вещах.</p>
+  <div class="n-item">
+    <div class="n-tag">Просьба 1</div>
+    <div class="n-title">Лучше один раз вовремя, чем два раза правильно</div>
+    <p>Как говорил мой покойный друг Андрей Парабеллум, лучше один раз вовремя, чем два раза правильно. Поэтому, как только у вас появляется возможность попробовать — пробуйте, не отходя от кассы. И фиксируйте, что и как у вас получается или не получается. То, что мы называем негативным опытом, — порой самая полезная, самая ценная, самая вкусная почва, на которой вырастает полноценное мастерство.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Просьба 2</div>
+    <div class="n-title">Лучше один раз спросить, чем долго догадываться</div>
+    <p>Как говорю уже я сам: лучше один раз спросить, чем долго догадываться. Поэтому при любых сомнениях, при любых двойных-тройных предположениях — «может быть, я так понял, а может, эдак» — не оставляйте вопрос висеть в воздухе. Записывайте его в рабочую тетрадь и возвращайтесь к нему по мере движения по книге: очень многие ответы ждут вас в следующих главах. Добивайтесь того, чтобы вы шли дальше с ясностью, с пониманием, с практическими инструментами в руках.</p>
+  </div>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>02</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Заведите бортовой журнал</h3>
+  <ol>
+    <li>Заведите себе бортовой журнал — тетрадь или блокнот, который будет сопровождать вас на протяжении всей книги.</li>
+    <li>Прямо сейчас, не откладывая, запишите в него ответ на вопрос: какой высший смысл привёл вас к методологии? Чего ради вы здесь?</li>
+    <li>Заложите эту страницу. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляните в эту запись и возьмите оттуда ресурс, чтобы сделать ещё один шаг навстречу вашей цели, навстречу вашему методологическому мастерству.</li>
+  </ol>
+  <div class="calm">Мы начинаем. Ура! Поехали!</div>
+</div>
+
+<div class="sheet" id="ch0-u2">
+  <div class="tab"><b>03</b>Что такое методология</div>
+  <div class="kicker-line">Раздел 2 · Методология и методолог</div>
+  <h2>Управляемо и предсказуемо</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну что ж, мы начинаем. И, наверное, у вас есть вопрос: а с чего же мы начнём? Очень важно договориться о понятиях и определиться, что мы имеем в виду, когда произносим это слово — «методология», — которое многим, возможно, уже навязло в зубах.</p>
+  <div class="define"><div class="label">Определение</div><p>Методология — это учение о способах, методах, стратегиях и принципах организации той или иной человеческой деятельности, как теоретической, так и практической.</p></div>
+  <p>А теперь, переводя всё это на более человеческий, понятный язык: методология — особенно методология обучения взрослых людей — это о том, как выстроить процесс передачи знаний таким образом, чтобы этот процесс был действительно управляемым и предсказуемым. Я буду много раз повторять именно эти два слова — управляемым и предсказуемым.</p>
+  <p>Какое ещё слово здесь очень важно произнести? Слово «структура». Когда мы говорим о способах организации чего бы то ни было, мы говорим о том, как структурно устроена та или иная деятельность. В нашем с вами случае — как устроена деятельность по передаче знаний другим людям, по превращению знаний, которые мы, скажем, взяли с полки, в образовательный процесс.</p>
+  <p>А чтобы хорошо представить себе, что означает слово «структура», достаточно оглядеться по сторонам.</p>
+  <div class="story"><div class="who">Пример из архитектуры</div><p>Вот, скажем, чудесный мост. Мы, обыватели, смотрим на него просто как на некую монолитную постройку. Но любой грамотный инженер, любой грамотный архитектор, глядя на мост, будет видеть огромное количество математически точных закономерностей, принципов и решений, благодаря которым мост позволяет нам безопасно ездить с одного берега реки на другой — и вообще позволяет ему стоять здесь не один-два дня, а годы, десятилетия, может быть, даже века, если повезёт.</p></div>
+  <div class="story"><div class="who">Пример из музыки</div><p>То же самое в музыке. Когда вы слушаете фугу Баха, вы слышите поток непрекращающихся звуков. Но любой профессионал, услышав баховскую музыку, немедленно определит: внутри она подчинена строго организованным, математически выверенным законам полифонии и гармонии — благодаря которым во многом мы и испытываем такое колоссальное наслаждение, когда эту музыку слушаем.</p></div>
+  <div class="define"><div class="label">Запомним</div><p>Методология обучения — это не разрозненные приёмы вроде «как нарезать слайды» или «в каком порядке расставить уроки». Это целостная система мышления, операционная система, если хотите, которая позволяет делать процесс обучения взрослых людей управляемым и предсказуемым.</p></div>
+</div>
+
+<div class="sheet" id="ch0-s4">
+  <div class="tab"><b>04</b>Кто такой методолог</div>
+  <h2>Сфера ведения профессионала</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну и теперь давайте разберёмся, кто такой методолог, в чём заключается его функционал и какие задачи он должен решать. Что это за профессионал такой, что он должен уметь, что входит в сферу его ведения и компетенции — по крайней мере, как я вижу этот процесс.</p>
+  <ul>
+    <li><b>Во-первых</b> — всё, что касается ответов на вопросы: кого мы учим, зачем и какого результата мы хотим достичь.</li>
+    <li><b>Во-вторых</b> — на какие шаги мы раздробим процесс, чтобы результат действительно был достигнут, и какие форматы предложим, чтобы именно эти люди именно к этому результату пришли.</li>
+    <li><b>В-третьих</b> — какова будет система оценивания каждого этапа работы: благодаря каким технологиям мы поймём, что прогресс происходит.</li>
+    <li><b>Далее</b> — каков будет темп движения, с какой частотой и как мы будем встречаться, будем ли встречаться вообще — здесь пошли технические моменты.</li>
+  </ul>
+  <p>И дальше — ещё один большой блок задач. Всё, что касается выстраивания взаимоотношений между преподавателем и студентами. Всё, что касается организации пространства взаимодействия между самими студентами, процесса коммуникации между ними. Всё, что касается состояния студентов — того, как они себя чувствуют и, вы не поверите, насколько они счастливы. Да-да: методолог может и, как мне кажется, должен отвечать за то, чтобы студенты получали удовольствие от процесса обучения. И мы обязательно поговорим о том, как именно это устроить.</p>
+  <p>И, конечно, очень важный вопрос, который многих беспокоит, — больной для огромного количества онлайн-школ и отдельных экспертов. Как мы будем управлять мотивацией студентов? Что мы будем делать, когда она падает, когда люди начинают по каким-то причинам отваливаться и пропускать? Что мы будем делать, когда по определённым законам социальной динамики — и об этом у нас разговор тоже впереди — между участниками обучения начинает накапливаться напряжение, повышается уровень конфликтности?</p>
+  <p>Вот сфера деятельности, вот сфера компетенции, вот сфера ведения профессионального методолога.</p>
+</div>
+
+<div class="sheet" id="ch0-s5">
+  <div class="tab"><b>05</b>Три профессии рядом</div>
+  <h2>Методолог, продуктолог, маркетолог</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">На этом в целом можно было бы и закончить. Но в онлайн-образовании есть ещё как минимум две специализации, которые находятся совсем рядышком с методологией процесса, — и нам нужно чётко провести границы, чтобы понимать, где заканчивается одно и начинается другое.</p>
+  <div class="n-item">
+    <div class="n-tag">Специализация 1</div>
+    <div class="n-title">Продакт-менеджмент</div>
+    <p>Это целый стек компетенций, который пришёл в онлайн-образование из сферы IT. Продакт-менеджер, он же продуктолог — так нам привычнее, — это человек, который смотрит на образование как на продукт. Его не надо за это бить, его надо за это любить, потому что продуктолог отвечает на очень важные вопросы: как этот продукт будет развиваться во времени и пространстве, как он будет жить, в какие упаковки мы будем его заворачивать, какие варианты предлагать — и насколько прибыльным, насколько выгодным этот образовательный продукт для нас является. Для продуктолога обучение — это продукт, и он отвечает за то, чтобы это была конфетка и чтобы она была хорошо завёрнута.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Специализация 2</div>
+    <div class="n-title">Маркетинг</div>
+    <p>Очень важная специализация. Маркетолог в обучающем продукте отвечает за то, чтобы выяснить, кто наши люди, кто наша целевая аудитория, каким месседжем мы их зацепим и как сделаем так, чтобы они пришли к нам учиться.</p>
+  </div>
+  <div class="ladder">
+    <div class="step"><b>Методолог</b><span>Отвечает за то, чтобы образовательный процесс был рабочим и результативным.</span></div>
+    <div class="step"><b>Продуктолог</b><span>Отвечает за то, чтобы образовательный продукт жил во времени, развивался и приносил прибыль.</span></div>
+    <div class="step"><b>Маркетолог</b><span>Отвечает за то, чтобы у нас были люди, которых мы можем учить.</span></div>
+  </div>
+  <p>И да, я не раз встречал, как эти трое — продуктолог, маркетолог и методолог — на дух не переносят друг друга, когда работают вместе на одном проекте. Потому что они где-то трутся друг об друга боками, где-то заходят на территории друг друга. Но важно помнить: все трое работают на одно целое и, по сути, на одну общую цель — чтобы онлайн-курс, онлайн-программа, онлайн-школа, образовательный проект существовал, развивался, рос и приносил пользу.</p>
+  <p>Что здесь ещё важно отметить? Да, это близкие друг другу специальности, но очень важно, чтобы мы их с вами не путали.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>06</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Проведите границы трёх ролей</h3>
+  <ol>
+    <li>Откройте свой бортовой журнал прямо сейчас — не откладывайте ни в коем случае на потом, чтобы не забыть.</li>
+    <li>Зафиксируйте своими словами, как вы услышали и как понимаете, где пролегает граница между маркетологом, методологом и продуктологом.</li>
+    <li>Опишите вашу зону компетенций как методолога — если вы уже работаете на проекте или планируете когда-нибудь работать в таком качестве.</li>
+    <li>Проверьте себя: прочитайте написанное вслух. Если бы вы объясняли эти границы коллеге — понял бы он с первого раза, кто за что отвечает?</li>
+  </ol>
+  <div class="calm">А дальше нас ждёт ещё один очень важный нюанс — очень тонкий, очень глубокий. Не переключайтесь.</div>
+</div>
+
+<div class="sheet" id="ch0-u3">
+  <div class="tab"><b>07</b>Метапозиция</div>
+  <div class="kicker-line">Раздел 3 · Метапозиция методолога</div>
+  <h2>Взгляд архитектора сверху</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Знаете, я решил вставить эту тему именно в пролог книги о методологии, когда обнаружил, что мы с моими коллегами порой не слишком хорошо друг друга понимаем — просто потому, что по-разному думаем о процессе обучения, по-разному его воспринимаем. Зачастую коллеги очень зацикливаются на отдельных мелких решениях и теряют взгляд на систему целиком. Мы уже сказали, что методология обучающего процесса — это целостная операционная система мышления. Так вот, внутри этой операционной системы есть очень важный мыслительный инструмент, который так и называется — метапозиция.</p>
+  <div class="define"><div class="label">Определение</div><p>Метапозиция — это, метафорически выражаясь, взгляд архитектора сверху. Способность смотреть над системой, видеть весь цикл образовательного процесса целиком. Способность мыслить в категориях: что поменяется, если мы переставим вот здесь уроки местами? Как это в долгосрочном режиме повлияет на опыт студентов? Как мы теми или иными действиями воздействуем на результаты обучения — и промежуточные, и финальные?</p></div>
+  <p>И чтобы было чуть более понятно, что такое метапозиция, я приведу буквально пару примеров.</p>
+  <div class="story"><div class="who">Пример из театра</div><p>Театральный режиссёр сидит в заднем ряду зрительного зала и смотрит, как репетируют артисты. Именно благодаря тому, что он видит систему целиком, он видит и знает, каким образом можно переставить местами сцены, как ужать темпоритм или ускорить его, какие световые решения применить — чтобы общая драматургия, общее развитие спектакля работали лучше.</p></div>
+  <div class="story"><div class="who">Пример из кино</div><p>Если вы смотрите действительно крутое кино, вы, скорее всего, не обращаете внимания на монтажные склейки. И не обращаете именно потому, что в своё время монтажёр Уолтер Мёрч разработал правило из шести критериев, ставшее потом в Голливуде золотым стандартом. Эти шесть правил направлены ровно на то, чтобы вы не замечали склеек, а были полностью погружены в слежение за развитием истории и персонажей. Чтобы кино поглотило вас полностью — и вы не замечали никаких швов.</p></div>
+  <div class="define"><div class="label">Ключевая мысль</div><p>Наша задача как методологов — научиться, глядя на систему сверху, выстраивать процесс обучения так, чтобы студенты не замечали швов, получали удовольствие от процесса и непременно получали те результаты, за которыми пришли. Я буду напоминать снова и снова: наша задача — делать процесс обучения управляемым и предсказуемым.</p></div>
+  <p>И давайте попробуем нащупать эту метапозицию внутри себя. Для этого мы просто зададимся несколькими самыми базовыми вопросами и проверим, насколько нам свойственно такие вопросы себе задавать. Мы обязательно будем углубляться и тренировать этот метавзгляд дальше — всё наше движение по книге подчинено ровно тому, чтобы к её концу метапозиция была хорошенечко внутрь вас встроена.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>08</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Нащупайте свою метапозицию</h3>
+  <ol>
+    <li>Откройте тетрадь и порефлексируйте прямо сейчас, в лёгком режиме: где и как проявляется ваша метапозиция, когда вы делаете свои продукты? Если вы только собираетесь сделать первый продукт — просто запишите себе вопросы ниже, они ещё пригодятся.</li>
+    <li>Принимая решения в рамках собственного курса, я думаю скорее о мелких деталях — или о том, на каких принципах это устроено, каким правилам и подходам подчинено?</li>
+    <li>Задумываюсь ли я, как мои действия влияют на процесс ученика — помогают они ему или мешают?</li>
+    <li>Что то или иное моё решение делает с общей рамкой движения по курсу: что я вывожу за скобки, что оставляю внутри, на чём фокусируюсь, от чего отказываюсь и где провожу границы? Забочусь ли я о том, чтобы дать побольше контента, — или о том, чтобы сделать путь ученика управляемым и предсказуемым?</li>
+  </ol>
+  <div class="calm">Пока вот так, для начала. А у нас остаётся ещё один очень важный разговор — о том, чем обучение взрослых отличается от обучения детей. Поехали.</div>
+</div>
+
+<div class="sheet" id="ch0-u4">
+  <div class="tab"><b>09</b>Взрослые учатся иначе</div>
+  <div class="kicker-line">Раздел 4 · Чем взрослые отличаются от детей</div>
+  <h2>Куда уходит дофамин</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">В самом начале я сказал, что мне очень хочется заразить вас идеей: методология обучения взрослых — это не какая-то душная серая заумь, это искусство, как музыка, как живопись, как литература или театр. И я надеюсь, у меня это получается. Мне хочется, чтобы вы прочувствовали вместе со мной, что это очень красивая, сложная система знания. И в этом знании мы уже немного продвинулись: выяснили, кто такой методолог и в чём его функционал, где пролегают границы между методологом, маркетологом и продакт-менеджером, что такое метапозиция. И пока у нас остаётся ещё один очень важный колышек, который нужно вбить: в чём заключается принципиальное отличие обучения взрослых от обучения детей.</p>
+  <p>Дело в том, что огромное количество экспертов на рынке — людей, которые занимаются созданием образовательных курсов, — вообще не подозревают, что взрослые учатся совсем не так, как дети. И более того: те инструменты, те методики, которые мы впитали, учась в школе и университетах, больше не работают — особенно в двадцать первом веке и особенно когда мы имеем дело со взрослыми.</p>
+  <p>Когда мы совсем маленькие, сам процесс познания окружающего мира доставляет нам колоссальное удовольствие. И особенно когда любимая мама, папа или, может быть, первая учительница приходят к нам со словами: «Малыш, давай я расскажу тебе что-нибудь классное и интересное про то, как устроена наша планета», — мы с восторгом в это включаемся. Просто потому, что до определённого момента исследование окружающей реальности — это шикарно, это кайф: наш мозг выделяет колоссальное количество дофамина просто в награду за то, что мы узнаём что-то новое.</p>
+  <p>Но у этого процесса есть границы, он не продолжается вечно. Когда нам исполняется двадцать пять, и чем ближе мы к тридцати, количество дофамина, вознаграждающего нас за получение новой информации, постепенно снижается. И после тридцати мы просыпаемся теми самыми взрослыми, которые начинают очень критично, очень требовательно относиться к любой поступающей информации. Мы начинаем проверять на зуб каждого эксперта, который собирается чему-то нас научить, и задаёмся большим количеством вопросов, прежде чем проникнуться доверием и погрузиться в процесс обучения.</p>
+  <p>Одним словом, наступил тот самый момент, когда нам нужно провести границу: чем отличается обучение детей от обучения взрослых. За обучение взрослых отвечает наука андрагогика. Её основателем был Малкольм Ноулз — спасибо ему за это огромное. И прямо сейчас мы рассмотрим четыре главных, ключевых принципа того, как построить эффективный обучающий процесс для взрослых.</p>
+  <div class="define"><div class="label">Четыре принципа андрагогики</div><p>Первый: взрослые предпочитают сами участвовать в планировании и оценке собственного процесса обучения и собственного прогресса. Второй: взрослым важно иметь возможность для практики — здесь и теперь, а не где-нибудь там и тогда. Третий: взрослым важно понимать, что то, чему они учатся, имеет прямую связь с их актуальными жизненными задачами. Четвёртый: взрослые скорее выберут обучение, заточенное на решение конкретных проблем, нежели фундаментальное, общее и абстрактное — «в целом что-то полезное для себя узнаем».</p></div>
+  <p>Теперь мы эти четыре принципа разберём более подробно и на примерах. Поехали.</p>
+</div>
+
+<div class="sheet" id="ch0-s10">
+  <div class="tab"><b>10</b>Принципы в действии</div>
+  <h2>Участие и практика здесь и сейчас</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Вот что я предлагаю нам с вами сейчас сделать. Представьте, что мы вместе проектируем курс, который называется «Самопрезентация за 60 секунд». И мы прямо на примере этого курса будем прикладывать четыре принципа — и смотреть, что происходит, когда мы их соблюдаем, и что происходит, когда игнорируем.</p>
+  <div class="n-item">
+    <div class="n-tag">Принцип 1</div>
+    <div class="n-title">Участие в планировании и оценке собственного обучения</div>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>Пришли взрослые учиться самопрезентации. Мы даём всем одинаковое задание: готовьте самопрезентацию для какой-нибудь абстрактной конференции. После того как приготовили, только мы как тренер даём обратную связь — и идём дальше. Что будет происходить? Уровень энергии и мотивации сразу пониже, вовлечённость в подготовку так себе: непонятно, что за конференция, какое отношение она имеет ко мне, что я с этого получу. Отношение становится пассивным, и вероятность, что на следующем шаге мы человека или группу потеряем, уже существенно выше.</div>
+      <div class="yes"><span class="tag">Как надо</span>Мы даём каждому участнику возможность самостоятельно выбрать, на какую тему и под какую задачу ему важно подготовить самопрезентацию. А после подготовки просим сначала разобрать себя самостоятельно, а затем дать обратную связь друг другу — и создаём горизонтальные связи между участниками. Прогноз: уровень интереса будет выше, потому что «это про меня» — я сам выбрал задание, сам связал его со своей жизнью и сам поучаствовал в оценивании того, что у меня получилось и что нет.</div>
+    </div>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Принцип 2</div>
+    <div class="n-title">Практика здесь и теперь, а не там и тогда</div>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>Мы говорим группе: «Итак, мы рассказали, как делать самопрезентацию, модель у вас есть. Домашнее задание: приготовьте самопрезентацию и принесите её через неделю». Ну, вы знаете, как бывает с такими домашними заданиями: всё, что предлагается сделать «там и тогда», будет сделано никогда.</div>
+      <div class="yes"><span class="tag">Как надо</span>Мы дали людям необходимый теоретический набор — и предложили попробовать прямо здесь, не отходя от кассы, прямо во время урока: «Вот прямо сейчас вы что-то узнали — давайте это попрактикуем, давайте получим реальный опыт». На выходе — все точно попробовали, и вовлечённости, желания продолжать гораздо больше: мы ведь прямо здесь всё разобрали и прямо здесь получили обратную связь.</div>
+    </div>
+    <p>Таким образом мы видим, как работает принцип практики «здесь и теперь», а не «там и тогда». Это опять-таки помогает нам удерживать людей включёнными в процесс обучения. Про качество обратной связи у нас разговор ещё впереди — не будем забегать вперёд.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch0-s11">
+  <div class="tab"><b>11</b>Связь с жизнью</div>
+  <h2>Про меня и про мою задачу</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Мы продолжаем находиться всё на том же курсе — напоминаю, «Самопрезентация за 60 секунд» — и разбираем оставшиеся два принципа.</p>
+  <div class="n-item">
+    <div class="n-tag">Принцип 3</div>
+    <div class="n-title">Связь с актуальными жизненными задачами</div>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>Мы просим участников подготовить самопрезентацию на абстрактную тему: «Вот вы презентуете некоторый абстрактный стартап». Допустим, у нас даже получится: люди подготовят, выступят, и может быть, даже хорошо. Но с высокой долей вероятности, когда они вернутся в собственную жизнь, к своим реальным задачам, разрыв между тем отвлечённым, что мы попробовали, и моей практикой не позволит применить это в жизни и получить измеримый, конкретный результат.</div>
+      <div class="yes"><span class="tag">Как надо</span>Мы предлагаем каждому разработать задание для себя самому. Что для тебя сейчас актуально? Личный бренд — хорошо, пусть будет про личный бренд. Устроиться на новую работу — пусть будет про новую работу. Защитить проект перед советом директоров — отлично, пусть будет защита проекта. Как только я беру задачу, у которой есть связь и корни в моей личной жизни, я получаю опыт, который переношу непосредственно в свою практику — и могу увидеть: да, вот я не умел, и вот у меня получилось.</div>
+    </div>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Принцип 4</div>
+    <div class="n-title">Конкретность решаемой задачи против склада абстрактных знаний</div>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>Мы рассказываем участникам, что существуют законы риторики, и правил таких — двенадцать, а типов речи — ещё вот столько; а сейчас мы расскажем, как это было в Древнем Риме, а вот Цицерон, а вот Гай Юлий Цезарь, а вот Черчилль, а вот Кеннеди. Люди это послушают и, может быть, даже скажут «спасибо, было интересно». Но уйдут без навыка и без решённой собственной задачи, за которой, возможно, и пришли.</div>
+      <div class="yes"><span class="tag">Как надо</span>Мы сохраняем границы и говорим: на этом курсе мы занимаемся только навыком уложить самопрезентацию в 60 секунд. Нас не интересует ни Цицерон, ни двенадцать, пятнадцать или двадцать закономерностей риторики. Нас интересует прикладная, реальная, конкретная задача: «Уложи самопрезентацию в 60 секунд». Получилось? Молодец, мы достигли успеха — решили ту задачу, для которой был предназначен наш курс.</div>
+    </div>
+  </div>
+  <p>Ну вот, я надеюсь, с этими четырьмя принципами обучения взрослых вам стало более-менее всё понятно, и мы можем поставить здесь запятую. И, наверное, вы догадываетесь, что я попрошу вас сейчас сделать. Конечно.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>12</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Примените четыре принципа</h3>
+  <ol>
+    <li>Откройте тетрадь. Если у вас есть свой собственный продукт, свой курс — прямо напишите четыре строчки, быстро, в течение 40–50 секунд: какие идеи прямо сейчас приходят в голову, как применить в нём четыре принципа обучения взрослых.</li>
+    <li>Если собственного продукта нет — продолжите фантазировать на тему курса «Самопрезентация за 60 секунд». А если тема самопрезентации вам не близка, возьмите тему «Правила эффективной переписки».</li>
+    <li>Набросайте по выбранной теме четыре идеи: по одной на каждый базовый принцип андрагогики.</li>
+    <li>Самопроверка: перечитайте каждую идею и спросите себя — участвует ли здесь ученик в планировании и оценке, практикует ли здесь и сейчас, связано ли это с его реальной жизнью, решает ли конкретную задачу?</li>
+  </ol>
+  <div class="calm">Ну вот, друзья, мы проделали неслабую работу за этот пролог. Мы разобрались, что такое методология, кто такой методолог, что такое метапозиция, и выяснили, чем обучение взрослых отличается от обучения детей — максимально прикладным образом. Этих вбитых колышков вполне достаточно, чтобы заходить на глубину. Со следующей главы мы начнём вдумчиво, последовательно и прикладно разбирать методологическую профессию с самого начала — с первых шагов создания вашего собственного образовательного продукта. До новых встреч!</div>
+</div>
+
+  <a class="sheet next-link" href="#ch1" data-done="0">
+    <div class="orn">✦ ✦ ✦</div>
+    <div class="to">Следующая глава</div>
+    <div class="title">Глава 1 · От чистого листа — к фундаменту вашей программы</div>
+    <span class="go">Читать дальше →</span>
+  </a>
+</section>
+<section class="chapter" id="sec-1">
+<div class="sheet" id="ch1">
+  <div class="kicker">Глава 1</div>
+  <h1>От чистого листа — к фундаменту вашей программы</h1>
+  <div class="h-orn">✦</div>
+  <p>Перед нами чистый лист — и страх белого листа. В этой главе мы спокойненько, пошагово вобьём четыре первых колышка посреди заснеженного поля, чтобы появились координаты и ориентиры: чему мы учим — цель обучения; кого мы учим — портрет студента; что студент реально сделает своими руками — результат; и сколько времени честно нужно, чтобы этот результат состоялся, — сроки. Это самая фундаментальная часть работы: мы устанавливаем себе новую операционную систему мышления.</p>
+</div>
+
+<div class="sheet" id="ch1-u1">
+  <div class="tab"><b>01</b>Чистый лист</div>
+  <div class="kicker-line">Раздел 1 · Чему учим: цель обучения</div>
+  <h2>Первый колышек посреди заснеженного поля</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну что ж, друзья, все вводные слова сказаны: мы поговорили про метапозицию методолога, про то, как учатся взрослые. Пора переходить к сути дела. Представим, что перед нами чистый лист. Мы испытываем этот страх, грызём ноготочки и думаем: с чего же начать? Давайте спокойненько, пошагово вбивать колышки посреди этого заснеженного поля — чтобы появились координаты и ориентиры, чтобы стало понятно, как, шаг за шагом, строится обучающая программа.</p>
+  <p>Первый колышек — <em>цель обучения</em>. Она отвечает на вопрос: чему конкретно мы будем учить людей, которые к нам придут. Кого учить — вопрос следующий, под него есть отдельный раздел. А пока — чему.</p>
+</div>
+
+<div class="sheet" id="ch1-s2">
+  <div class="tab"><b>02</b>Система координат</div>
+  <h2>Договоримся о словах: знание, умение, навык</h2>
+  <div class="h-orn">✦</div>
+  <p>Взрослый человек, выбирая обучение, хочет, чтобы оно было полезно для его ежедневных задач — применимое, прикладное. А значит, обучение для взрослых должно быть <em>навыкоориентированным</em>: мы не просто сообщаем информацию, мы учим что-то делать. Расставим точки над «и».</p>
+  <div class="ladder">
+    <div class="step"><b>Знание</b><span>Я проинформирован. Я прочитал рецепт борща — но это не значит, что я его сварю.</span></div>
+    <div class="step"><b>Умение</b><span>Я делаю по шаблону: есть инструкция — и ровно в её рамках я способен действовать.</span></div>
+    <div class="step"><b>Навык</b><span>Я действую уверенно и стабильно в разных ситуациях, понимая принцип, — уже без шаблона.</span></div>
+  </div>
+  <div class="story">
+    <div class="who">Бытовой пример</div>
+    <p>Когда я впервые готовил кашу, я спросил у мамы: а сколько соли добавлять? Она говорит: ну, на глаз, на вкус. Подожди, что значит «на глаз»? Скажи конкретно — полложки, целую? Тому, кто владеет навыком, — «сориентируйся по вкусу». А тому, кто только формирует умение, нужна чёткая, внятная инструкция: сколько, чего, куда.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s3">
+  <div class="tab"><b>03</b>Первый колышек</div>
+  <h2>Что такое цель обучения</h2>
+  <div class="h-orn">✦</div>
+  <div class="define">
+    <div class="label">Определение</div>
+    <p>Цель обучения — это наш замысел о том, что человек будет уметь по итогам программы, и наш ответ на вопросы: где и как он будет этим пользоваться.</p>
+  </div>
+  <p>Почему начинаем именно с цели? Во-первых, она <em>задаёт маршрут</em>: мы точно понимаем, к чему должны прийти. Во-вторых, все дальнейшие структурные решения — форматы, скорость движения — будут упираться в неё. И в-третьих, мы должны чётко ответить потенциальным студентам, чему именно планируем их учить. Это важно и методологически, и маркетингово.</p>
+</div>
+
+<div class="sheet" id="ch1-s4">
+  <div class="tab"><b>04</b>Проверка формулировки</div>
+  <h2>Три признака хорошей цели</h2>
+  <div class="h-orn">✦</div>
+  <p>В хорошо сформулированной цели точно будет три признака.</p>
+  <div class="n-item">
+    <div class="n-tag">Признак 1</div>
+    <div class="n-title">Глагол, указывающий на умение или навык</div>
+    <p>С глаголами — прямо лингвистическая работа. Нужны глаголы совершенного вида, где слышно совершённое действие:</p>
+    <div class="chips"><i>провести</i><i>отобрать</i><i>сформулировать</i><i>настроить</i><i>презентовать</i><i>приготовить</i><i>смонтировать</i><i>сыграть</i></div>
+    <p>Я умею сварить борщ. Я умею доехать из точки А в точку Б. Я умею смонтировать видео из нескольких кусков. Такие глаголы — хороший маркер, что мы движемся в правильном направлении.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Признак 2</div>
+    <div class="n-title">Содержание</div>
+    <p>Что конкретно человек будет уметь.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Признак 3</div>
+    <div class="n-title">Контекст</div>
+    <p>Где и в каких обстоятельствах он будет этим пользоваться.</p>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>«Я обучаю публичным выступлениям». Каким? Где? Для чего?</div>
+      <div class="yes"><span class="tag">Как надо</span>«Я обучаю навыку защиты своего проекта перед холодной аудиторией, в онлайн-формате, за 10–15 минут».</div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s5">
+  <div class="tab"><b>05</b>Наглядно</div>
+  <h2>Три примера, чтобы было совсем наглядно</h2>
+  <div class="h-orn">✦</div>
+  <div class="example"><div class="field">Музыка</div><p>По итогам года обучения человек способен сыграть двумя руками несложную композицию, сохраняя ритм и устойчивость, и стабильно выступать на школьных мероприятиях и перед близкими.</p></div>
+  <div class="example"><div class="field">Бизнес · переговоры</div><p>Человек, который никогда не вёл переговоров, в состоянии проводить деловые переговоры с тёплыми, доброжелательно настроенными клиентами и стабильно доводить их до сделки — по понятной ему модели.</p></div>
+  <div class="example"><div class="field">Самопрезентация</div><p>Человек в состоянии провести одноминутную самопрезентацию — в лифте, на переговорах, при устройстве на работу: заинтересовать собеседника, создать первичный контакт, попасть в число потенциальных контактов.</p></div>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>06</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Сформулируйте цель вашей программы</h3>
+  <ol>
+    <li>Откройте рабочую тетрадь и сформулируйте цель проекта, который вы создаёте: глагол → содержание → контекст.</li>
+    <li>Затем сформулируйте цель одного урока внутри программы — потренируйтесь фокусироваться от рамки всего обучения до рамки одного урока.</li>
+    <li>Прочитайте формулировку вслух. Теперь представьте, что коллега пересказывает её одним предложением: «Правильно ли я понял — по итогам твоего обучения человек научится…» Совпал бы его пересказ с тем, что вы задумали, слово в слово? Если чувствуете, что понять можно двояко или пришлось бы додумывать от себя, — это сигнал переформулировать и подобрать более точные слова.</li>
+    <li>Отрефлексируйте: что было легко, где случился затык — с глаголом? с контекстом? Это всё очень здорово: сейчас мы устанавливаем себе новую операционную систему мышления.</li>
+  </ol>
+  <div class="calm">Я понимаю: эта часть работы может казаться душной и тоскливой, мозги будут скрипеть — возможно, скрипят прямо сейчас. Ничего страшного, это правда самая сложная и самая важная часть: мы пишем промпт для собственного мышления. Сейчас немножко поскрипят — дальше будет проще.</div>
+</div>
+
+<div class="sheet" id="ch1-u2">
+  <div class="tab"><b>07</b>Второй колышек</div>
+  <div class="kicker-line">Раздел 2 · Кого учим: портрет студента</div>
+  <h2>Кого мы поведём к цели</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну что ж, дорогой мой друг и коллега, мы продолжаем вбивать базовые колышки, чтобы наметить территорию будущего образовательного проекта. Первый колышек — цель обучения — успешно вбит. Ура! Теперь коснёмся вопроса о том, кого мы будем учить, кого мы к этой цели поведём. Это и есть два базовых колышка, между которыми уже можно что-то рисовать и настраивать некоторую образовательную реальность: чему учим — и кого учим.</p>
+  <p>Здесь очень важно понимать: чем точнее, детальнее и подробнее мы опишем портрет потенциального студента, тем легче нам будет дальше работать с программой. Тем больше определённости появится в отношении того, что это будет за программа: какой формат, сколько она будет длиться, какие образовательные технологии внутри этого формата мы будем использовать — а какие не будем.</p>
+  <div class="define">
+    <div class="label">Запомним</div>
+    <p>Маркетинговый портрет целевой аудитории и методологический портрет будущего студента могут не совпадать. Могут совпадать — а могут и нет.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s8">
+  <div class="tab"><b>08</b>Курс «для всех»</div>
+  <h2>Курс «для всех» — курс ни для кого</h2>
+  <div class="h-orn">✦</div>
+  <p>Представим негативную ситуацию: мы наплевали на портрет студента, ничего о нём не знаем и сделали курс по самопрезентации «для всех и каждого». Заметим на полях: программа, где не определён портрет студента, скорее всего, и продаваться будет с трудом. Но допустим оптимистичный случай — программа продалась, и вот в одной группе собрались 35-летний руководитель отдела IT-компании, чиновник 49 лет, домохозяйка 22 лет и 17-летний школьник. Всех учим по одной программе, всем приводим одни и те же примеры. Что мы будем иметь? Очень неравномерное движение группы: одним скучно, другим сложно; один не догоняет, а другой стонет: «Господи, когда же это закончится, всё уже понятно, можно дальше?»</p>
+  <p>Что с этим делать? Очерчивать рамки — выстраивать более строгий коридор того, для кого мы эту программу всё-таки создаём. Посмотрите, как меняется картина, когда портрет описан точно.</p>
+  <div class="example"><div class="field">IT · руководитель отдела</div><p>Программа по самопрезентации для руководителей отделов IT-компаний. Что мы про этого человека понимаем? Ему, вероятнее всего, от 29 до 38 лет, он хорошо владеет английским, он очень занят и не готов изучать тяжеловесные материалы — ему нужны эффективные шаблоны из серии «взял и применил». И ему будут заходить примеры и упражнения из его сферы: планёрка, выступление перед советом директоров. В итоге мы имеем заинтересованного, вовлечённого человека, который на каждом этапе понимает, что он здесь делает, — а сами получаем внятную картину форматов и инструментов.</p></div>
+  <div class="example"><div class="field">Психология · соцсети</div><p>Наша будущая студентка — женщина-психолог 40+, которая боится или с трудом пользуется социальными сетями, но понимает: для развития практики и личного бренда это необходимо. Значит, сначала нужно уделить время тому, чтобы она расслабилась и почувствовала внутреннее разрешение пользоваться соцсетями. Мы предложим шаблоны именно для сторис, рилз и прямых эфиров — и учтём это в темпоритме: больше внимания её состоянию и переживаниям.</p></div>
+  <p>Обратите внимание, насколько меняются структура и наполнение программы в зависимости от того, для кого мы её делаем.</p>
+</div>
+
+<div class="sheet" id="ch1-s9">
+  <div class="tab"><b>09</b>Восемь параметров</div>
+  <h2>Карточка портрета: восемь параметров</h2>
+  <div class="h-orn">✦</div>
+  <p>Вы спросите: господи, а что же в этом портрете должно быть, по каким критериям его составлять? Не переживайте — вот они, ровно восемь параметров.</p>
+  <div class="n-item">
+    <div class="n-tag">Параметр 1</div>
+    <div class="n-title">Натуральная роль</div>
+    <p>Кто этот человек в своей жизни в контексте того, чему мы собираемся его учить: руководитель, предприниматель, преподаватель, школьник, студент?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 2</div>
+    <div class="n-title">Исходный уровень</div>
+    <p>Начинающий или продолжающий? Учим с нуля, с азов — или он уже продвинутый, а может, и опытный? Согласитесь, для проектирования программы это играет роль.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 3</div>
+    <div class="n-title">Задачи</div>
+    <p>Какие задачи он решает в своей жизни и в решении каких мы будем ему помогать — что конкретно у него должно начать получаться? У женщины-психолога это аутентичные, комфортные сторис; у руководителя IT-отдела — тайминг, эффективность, готовые шаблоны. Задачи студента, разумеется, а не наши.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 4</div>
+    <div class="n-title">Ограничения</div>
+    <p>По времени, по форматам: в какое время суток ему комфортно учиться, сможет ли он приходить на групповые сессии, готов ли уделять обучению больше нескольких часов в день?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 5</div>
+    <div class="n-title">Мотивация и риски</div>
+    <p>Мотивация — натуральный ответ на вопрос, зачем ему то, что мы предлагаем: какие изменения произойдут в его жизни. И связанный параметр — риски: что может помешать, где мотивация начнёт падать, на каком моменте он может начать отваливаться?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 6</div>
+    <div class="n-title">Язык и примеры</div>
+    <p>Каким языком мы будем с ним общаться? Психологу — метафоры из психологии, руководителю департамента — примеры, которые ближе ему.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 7</div>
+    <div class="n-title">Формат</div>
+    <p>Какие форматы обучения этому человеку подойдут, а какие — нет?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Параметр 8</div>
+    <div class="n-title">Этика</div>
+    <p>Что для него допустимо, что недопустимо — и на какую глубину мы вообще можем его заводить? С менеджерами среднего звена мы вряд ли будем касаться вопросов идентичности и глубинных ценностей. А с первыми лицами, для которых глубинное влияние на большие аудитории — вопрос стратегический, глубина работы может быть совсем другой.</p>
+  </div>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>10</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Нарисуйте портрет вашего студента</h3>
+  <ol>
+    <li>Прямо сейчас, не откладывая, заведите в рабочей тетради карточку портрета и набросайте характеристики по восьми параметрам. Отнеситесь к задаче максимально легко. Если вы никогда не делали собственных программ и каждый параметр ставит в тупик — включите воображение и позвольте себе пофантазировать: какого человека я хотел бы увидеть на месте своего студента? Потом проверите, существуют ли такие люди в природе и заинтересуются ли они продуктом, — я за то, чтобы тестировать гипотезы. А если опыт уже есть — опишите подробно того студента, с которым вам комфортнее всего, которого вы прямо любите встречать на своих программах. Пусть именно этот образ притягивает в программу таких людей.</li>
+    <li>Проживите день из головы потенциального студента. Посмотрите на экране внутреннего кинотеатра: как он просыпается, как завтракает, едет на работу трамваем, на такси — или никуда не идёт, потому что фрилансер? Какая у него занятость, что ему тяжело, что легко? Ответы по восьми параметрам всплывут на поверхность сами собой. Это очень творческое исследование.</li>
+    <li>Самопроверка: отложите карточку на день, затем перечитайте её глазами постороннего человека. Рисуется ли за строчками живой, реалистичный человек — или пока абстракция? Первое приближение часто получается абстрактным. Найдите два-три места, где можно заузить и уточнить, и задайте себе наводящие вопросы: «А всё-таки — какого он возраста? Какой роли? С какими задачами?»</li>
+    <li>Теперь сведите вместе цель обучения и портрет студента и понаблюдайте, что происходит на пересечении этих двух описаний. Уже здесь начнут появляться идеи про структуру и формат — пока не забегайте вперёд, про это разговор впереди. Главное: на доске теперь чётко и ясно описаны цель обучения и портрет будущего ученика.</li>
+  </ol>
+</div>
+
+<div class="sheet" id="ch1-u3">
+  <div class="tab"><b>11</b>Цель и результат</div>
+  <div class="kicker-line">Раздел 3 · Результат обучения</div>
+  <h2>Урок, после которого вы меня возненавидите</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">И вот наступил раздел, после которого, я думаю, вы меня возненавидите. Потому что здесь концентрация душноты достигнет своего предела, и мозги заскрипят совсем — мы будем слышать этот скрип. Почему? Потому что тема — результаты обучения. Вы наверняка готовы спросить: так, секундочку, мы же только что говорили о целях! Чем результат отличается от цели? Это же синонимы, очевидно же. Так вот, оказывается, нет. Давайте разбираться.</p>
+  <p><em>Цель</em> — это то, что человек будет делать за пределами программы: как он будет пользоваться полученными навыками в своей собственной жизни. Выступать перед советом директоров, участвовать в конкурсе поваров. Это то, что происходит после того, как программа завершена. А <em>результат</em> — это то, что наш студент прямо руками, головой, самим собой реально сделает по итогам программы. То, опираясь на что мы сможем сказать: да, это именно те результаты, которые мы обещали.</p>
+  <div class="define">
+    <div class="label">Ключевая мысль</div>
+    <p>Результат — это то материальное, конкретное, измеримое, благодаря чему цели обучения вообще становятся возможными. И результат мы не просто описываем — мы его проектируем.</p>
+  </div>
+  <p>Зачем нужны критерии проектирования результата? Во-первых, чтобы чётко согласоваться с будущими студентами и заказчиками — говорить с ними на одном языке. Во-вторых, чтобы обучение было честным: не поле догадок, надежд и туманных соображений, а прописанный план. И в-третьих, если мы решим проводить сертификацию или выставлять оценки, нам нужно на что-то опираться: почему этому человеку сертификат выдаём, а этому нет.</p>
+</div>
+
+<div class="sheet" id="ch1-s12">
+  <div class="tab"><b>12</b>Критерии 1–4</div>
+  <h2>Восемь критериев результата: первая четвёрка</h2>
+  <div class="h-orn">✦</div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 1</div>
+    <div class="n-title">Утвердительная формулировка</div>
+    <p>Человек «сварил борщ на скорость» — не «справился», не «избежал затруднений», а прямо сварил. Мы чётко понимаем: вот он сделал, и у него получилось.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 2</div>
+    <div class="n-title">Конкретное действие</div>
+    <p>Не абстрактное «научился бережно и безопасно общаться», а: «поговорил с человеком, с которым случился конфликт, так, что они нашли точки соприкосновения, услышали друг друга и снизили уровень напряжения». Вот оно, конкретное действие.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 3</div>
+    <div class="n-title">Контекст</div>
+    <p>Где именно, как именно, при каких обстоятельствах? Самопрезентация — в условиях лифта: одна минута, я должен успеть за 60 секунд. Или представление продукта на шумной конференции, в рамках большого выставочного форума. Из конкретных обстоятельств сразу понятно, какие элементы должны быть внутри обучения, чтобы результат стал возможным.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 4</div>
+    <div class="n-title">Личная ответственность</div>
+    <p>Результат находится в зоне контроля учащегося — на 100%. Мы не можем обещать результат, который касается нескольких человек, причём один из них в программе участия не принимает.</p>
+    <div class="pair">
+      <div class="no"><span class="tag">Как не надо</span>«Благодаря нашему курсу вы точно счастливо выйдете замуж». Там воля другого человека, его выбор, его чувства — это либо неточная формулировка, либо недобросовестность автора.</div>
+      <div class="yes"><span class="tag">Как надо</span>«По итогам обучения вы будете чувствовать себя достаточно уверенно, чтобы познакомиться с мужчиной на вечеринке, на сайте знакомств или на нетворкинг-сессии».</div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s13">
+  <div class="tab"><b>13</b>Критерии 5–8</div>
+  <h2>Вторая четвёрка: качество, сенсорность, этика, масштаб</h2>
+  <div class="h-orn">✦</div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 5</div>
+    <div class="n-title">Порог качества</div>
+    <p>При каких условиях результат будет удовлетворительным? Если вы обучаете чему-то измеримому: человек исполнит композицию до 10 минут, сыграет двумя руками, чётко в ритм, и помарок в технике будет не больше трёх. Вот он, порог, по которому мы понимаем: да, это то, что мы хотели.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 6</div>
+    <div class="n-title">Сенсорность</div>
+    <p>Как мы увидим, услышим и прочувствуем обещанный результат? Это то, что связывает результат с реальностью: есть некое мероприятие, некий формат, где мы можем наглядно засвидетельствовать, что человек демонстрирует на уровне поведения — как он приготовит яичницу, сыграет произведение, проведёт переговоры.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 7</div>
+    <div class="n-title">Экология и этика</div>
+    <p>Какой ценой всё это будет устроено? Как процесс обучения отразится на здоровье студента, на его отношениях с близкими, на его репутации? И вопрос совести: если я закладываю в курс манипулятивную составляющую, учу манипулировать другими — какие последствия я создаю в жизни моих выпускников и тех, с кем они будут взаимодействовать? Далеко не все авторы курсов вообще удерживают этот параметр в голове.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 8</div>
+    <div class="n-title">Масштаб</div>
+    <p>Насколько обещание соразмерно тому, что реально возможно сделать? Программа длится три месяца, работаем онлайн — можем ли мы обещать, что человек будет выступать на многотысячные офлайн-стадионы? Честнее сказать: в рамках нашей онлайн-программы вы точно освоите навык онлайн-презентации своего продукта. А если важен офлайн — продумать внутри самой программы презентации на 10–20 человек и убедиться, что студент демонстрирует навык. Тогда масштаб указан честно и точно.</p>
+  </div>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Когда я обучаю тренеров, в критериях сертификации указано: человек удерживает внимание аудитории во время демо-тренинга. И внутри прописано, что является показателем: люди смотрят на тренера, слушают его, телесно и невербально сообщают, что им интересно, вовлечены, участвуют в дискуссии, поднимают руки. А вот обратный пример по части этики: бывали ведущие тренеры, которые давали первым лицам компаний задание выйти в неглиже на улицу и прочитать стихотворение. Насколько это экологично? Что будет с репутацией человека, с его отношениями с семьёй и бизнес-партнёрами, от которых зависит успех его компании?</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s14">
+  <div class="tab"><b>14</b>Мягкие навыки</div>
+  <h2>А как же мягкие навыки?</h2>
+  <div class="h-orn">✦</div>
+  <p>В этом месте вы можете меня спросить: хорошо, эти восемь критериев понятны и подходят для строгих, жёстких бизнесовых программ, где всё можно померить линейкой. А что делать с мягкими навыками — неужели там всё то же самое? Я вам скажу, дорогие мои: да. В мягких нишах, в так называемых soft skills, — всё то же самое. Мы точно совершенно можем устроить по итогам программы процедуру, мероприятие, где пронаблюдаем, что конкретно наши студенты делают, используя те инструменты, которым мы обучали.</p>
+  <div class="example"><div class="field">Бережная коммуникация</div><p>Человек написал несколько писем, в которых использовал конкретные техники — благодарности, обратной связи по критериям, я-сообщений. Выразил близким людям благодарность за то, как они повлияли на его жизнь, — и получил ответы, из которых видно: отношения стали более близкими, доверительными, тёплыми. По тому, как люди отвечают, понятно, насколько качественно он применил то, чему учился.</p></div>
+  <div class="example"><div class="field">Эмоциональный интеллект</div><p>Человек провёл несколько разговоров и зафиксировал по критериям, какие изменения эмоций он наблюдал в себе и в собеседниках, — и представил это в виде оформленного документа, где видно, как он замечает телесные сигналы, изменения дыхания, невербальные мимические сигналы, как умеет это интерпретировать и менять своё поведение, влияя на своё состояние и состояние партнёра.</p></div>
+  <p>Одним словом, даже в самых мягких нишах восемь критериев помогают создать максимально ясную, честную и эффективную программу, пройдя которую студент действительно сверит точку А и точку Б, увидит разницу — и мы порадуемся вместе с ним. А ещё, если чуть-чуть закидывать удочку в сторону маркетинга: результаты в виде конкретных действий студентов — отличное основание, чтобы оформить их потом в кейс.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>15</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Спроектируйте результат вашей программы</h3>
+  <ol>
+    <li>Откройте тетрадь на той самой странице, где уже описаны цель обучения и портрет студента: мы знаем, чему учим и кого учим. Теперь коротко, быстро сформулируйте результат — так, как он сам сформулируется.</li>
+    <li>Затем откройте восемь критериев и прямо проставьте галочки напротив каждого: утвердительная форма, конкретное действие, контекст, личная ответственность, порог качества, сенсорность, экология и этика, масштаб.</li>
+    <li>Самопроверка: прочитайте формулировку вслух и спросите себя — смог бы посторонний человек, наблюдая финальную работу студента, однозначно сказать: «Да, вот он, обещанный результат»? Если нет — внесите больше конкретики, детализации и точности.</li>
+    <li>И важный момент для рефлексии: какой из критериев находится у вас в слепой зоне? Где вы начинаете тупить и спотыкаться? Зафиксируйте это место и вернитесь к нему через день со свежей головой — как правило, точное слово находится.</li>
+  </ol>
+  <div class="calm">Спасибо за терпение и внимание. Да, это самая душная часть первой главы — и самая фундаментальная: именно прописанный результат делает обучение честным.</div>
+</div>
+
+<div class="sheet" id="ch1-u4">
+  <div class="tab"><b>16</b>Честные сроки</div>
+  <div class="kicker-line">Раздел 4 · Сроки: обещания и время</div>
+  <h2>Новый пиджак: сколько времени занимает навык</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">И ещё один важный разговор для этой главы — он очень про честность, про адекватность и про добросовестность. Я, честно говоря, даже не слышал, чтобы где-то всерьёз поднималась эта тема: соотнесение того, что мы обещаем, с тем, за какое время мы это обещаем. Опираясь на что я вообще принимаю решение — моя программа будет длиться месяц, три месяца, пять или год? Вот эти опоры мы сейчас и настроим.</p>
+  <div class="define">
+    <div class="label">Формула</div>
+    <p>Чем более сложный результат мы обещаем, тем больше попыток попробовать нужно давать студентам внутри программы, тем больше нужно обратной связи на эти попытки — и тем больше времени нужно, чтобы освоиться и обвыкнуться.</p>
+  </div>
+  <div class="story">
+    <div class="who">Бытовой пример</div>
+    <p>Знаете, это как когда человек покупает новый пиджак: нужно к нему примериться, нужно, чтобы он сел, принял форму тела. С навыками примерно такая же история: мы как бы надеваем на себя новые задачи, новые способности — и нам нужно найти в этом свой новый комфорт.</p>
+  </div>
+  <p>И давайте прямо помнить: взрослому человеку нужно много повторений. Если я попробовал один раз и получилось — это ещё не навык, это что-то совершенно сырое, черновик. Прочный навык создаётся количеством повторений.</p>
+</div>
+
+<div class="sheet" id="ch1-s17">
+  <div class="tab"><b>17</b>Форматы и сроки</div>
+  <h2>Что честно обещать за час, за день, за месяц</h2>
+  <div class="h-orn">✦</div>
+  <p>Давайте примерим типовые длительности к типовым результатам — прямо нарисуем это соотношение.</p>
+  <div class="n-item">
+    <div class="n-tag">Формат 1</div>
+    <div class="n-title">Воркшоп · 1–3 часа</div>
+    <p>Один шаблон, одна модель, один алгоритм — и черновой опыт «я сделал, у меня получилось». Например, знакомим людей с моделью самопрезентации, они её пробуют и получают обратную связь. Не очень прочный, но вполне очерченный маленький микронавык. И это будет честно.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 2</div>
+    <div class="n-title">Тренинг · 1–2 дня</div>
+    <p>Несколько простых умений. В контексте публичных выступлений: набор упражнений по технике речи с первым видимым результатом, плюс модель одноминутной самопрезентации для нетворкинга, плюс формат профессиональной обратной связи коллегам. Три умения, которые дальше закрепляются в самостоятельной ежедневной работе.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 3</div>
+    <div class="n-title">Спринт · 1–2 недели</div>
+    <p>Одну модель довести до совершенства, до блеска: несколько раз снять себя на камеру, получить обратную связь, переделать с учётом замечаний — докрутить. На выходе — записанная чистовая самопрезентация, которую можно, что называется, и в пир, и в мир.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 4</div>
+    <div class="n-title">Программа · 4–6 недель</div>
+    <p>В размеренном режиме, без паники и спешки, собираем несколько микронавыков в один комплексный. Переговоры: управление своим состоянием, подстройка, работа по протоколу, завершение и переход к сделке. Появляется свобода: человек уже не просто пользуется одной моделью — он импровизирует, переключается, добавляет от себя. Пиджак уже не «только надел» — он стал частью меня.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 5</div>
+    <div class="n-title">Долгосрочная программа · 8–12 недель</div>
+    <p>Здесь мы действительно можем создать комплексный навык, определённые степени свободы и разные контексты применения. Такая сложная задача, как самостоятельное проектирование обучающей программы, за 10–12 недель действительно может быть качественно решена.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s18">
+  <div class="tab"><b>18</b>Красные флаги</div>
+  <h2>Красные флаги: как понять, что нам врут</h2>
+  <div class="h-orn">✦</div>
+  <p>По каким признакам, глядя на рекламу чужого курса, понять, что здесь что-то не так — что нам, скажем вежливо, недостаточно добросовестно обещают?</p>
+  <div class="n-item">
+    <div class="n-tag">Флаг 1</div>
+    <div class="n-title">Обещания-существительные</div>
+    <p>«У вас будет личный бренд, вы получите продажи». Абстрактно и неточно: кто будет продавать, кому, в каких контекстах, посредством чего, в каком количестве? Существительные вместо глаголов — первый маркер некорректных обещаний. Особенно за очень короткий промежуток времени.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Флаг 2</div>
+    <div class="n-title">Внешние факторы в обещании</div>
+    <p>«Вы измените рынок», «вы точно выйдете счастливо замуж». Мы не знаем, как отреагирует рынок, и не распоряжаемся волей другого человека. Можно обещать: научим захватывать внимание аудитории — и проверять эту гипотезу внутри продукта. Нельзя обещать то, чем мы не управляем. Маркетинг иногда учит обещать золотые горы — и здесь стоит поговорить с собственной совестью: готов ли я формулировать обещания, за которые не могу нести ответственность?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Флаг 3</div>
+    <div class="n-title">Программу нельзя посмотреть до покупки</div>
+    <p>«Это авторская методика, всё узнаете после оплаты» — прямой признак шарлатанства. Ни один трезвый, добросовестный профессионал не будет скрывать свою программу. Напротив: программа, созданная профессиональными руками, — это гордость её автора, он готов её показывать и рассказывать о ней бесконечно.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Флаг 4</div>
+    <div class="n-title">Нет пространства для практики и повторений</div>
+    <p>Тогда навыка вы не получите. Получите обещание, осведомлённость, информированность — но сформированного навыка без повторений быть, конечно же, не может.</p>
+  </div>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Попалась мне как-то реклама: «двухдневный тренинг онлайн» — причём на вебинарной платформе. Уже смешно: на вебинарной платформе единственный канал связи со спикером — чат; он вас не видит, не слышит, не может пригласить на демонстрацию. Значит, никакой это не тренинг. И дальше — просто дурдом: за два дня вы построите личный бренд, настроите продажи, перепишете шапку профиля, привлечёте первых клиентов… Таких обещаний там было ещё штук семь-восемь, на страницу. Испанский стыд: человек, который это писал, даже не задумывался о соотношении обещаний и сроков. Так делать не надо — призываю вас в своей карьере так не делать никогда.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch1-s19">
+  <div class="tab"><b>19</b>Калибратор</div>
+  <h2>Калибратор: четыре вопроса «да или нет»</h2>
+  <div class="h-orn">✦</div>
+  <p>Чтобы подойти к соотношению результата и сроков совсем прикладно, используем ещё один инструмент — калибратор. Достаточно честно поговорить с собой и пройтись по четырём вопросам.</p>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 1</div>
+    <div class="n-title">Несколько контекстов применения?</div>
+    <p>Самопрезентация только «лифтовая» — или ещё формат для нетворкинга, для светских ужинов, для вечеров благотворительности? Готовим только в домашних условиях — или в походных тоже? Переговоры только с доброжелательными клиентами — или включая конфликтные, «боевые»?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 2</div>
+    <div class="n-title">Нужны ли хотя бы три попытки?</div>
+    <p>Первая попытка — обратная связь, вторая — обратная связь, третья — обратная связь. Да или нет?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 3</div>
+    <div class="n-title">Есть ли зависимые друг от друга шаги?</div>
+    <p>Чтобы освоить переговоры, сначала нужен навык подстройки и доверительного контакта, потом — умение держать в голове структуру переговорного процесса, потом — работа с возражениями. Выстраивается ли такая цепочка навыков, цепляющихся друг за друга?</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 4</div>
+    <div class="n-title">Требуется ли смена поведения и новая привычка?</div>
+    <p>Разовая акция «попробовал один раз на воркшопе» вымывается из сознания за сутки. Или нам нужно, чтобы человек по окончании программы уже не мог по-другому — действовал свободно, в разных контекстах, может быть, даже бессознательно?</p>
+  </div>
+  <p>Теперь считаем количество «да». Одно-два «да» — это формат от короткого воркшопа до недельного спринта. Больше двух — скорее программа 4–6 недель. Три «да» — шесть недель точно. Четыре «да» — от восьми недель и выше: можем сразу отдать себе отчёт, что впереди построение длительной обучающей программы.</p>
+  <p>И деликатный момент — тренды. Маркетологи любят говорить: был тренд на длинные программы, теперь на короткие, длинные больше не покупают. Здесь важно понять, от чего я отталкиваюсь. Если для меня первоочередное — быть в тренде и делать короткие программы, отлично; но тогда мой внутренний методолог должен сказать: значит, в трендовой короткой программе мы обещаем только то, что реально в состоянии за это время сделать. Это вопрос профессиональной этики. Или другой вариант — как делает ваш покорный слуга всю сознательную жизнь: я ничего не знаю о том, что думают маркетологи о трендах. Я знаю, какие программы считаю важным и полезным делать, и опираюсь на свои ценности и своё чутьё — поэтому мои программы в основном долгосрочные, комплексные, крупные. И я здесь тоже честен с собой. Вся эта работа проделывается до того, как начинаются какие-то обещания и продажи.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>20</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Откалибруйте сроки вашей программы</h3>
+  <ol>
+    <li>Пройдитесь по четырём вопросам калибратора применительно к вашей программе и честно посчитайте количество «да»: контексты, три попытки с обратной связью, зависимые шаги, смена поведения.</li>
+    <li>Сопоставьте результат с типовыми форматами: соответствует ли длительность, которую вы задумали, сложности результата, который вы обещаете? Если нет — что честнее скорректировать: сроки или обещание?</li>
+    <li>Самопроверка: произнесите вслух фразу «Я обещаю, что за [срок] человек сможет [результат]» — и посмотрите на свою программу глазами придирчивого покупателя, по списку красных флагов. Есть ли внутри время на повторения? Нет ли обещаний-существительных и внешних факторов, которыми вы не управляете?</li>
+    <li>Настройте таким образом линзу своего восприятия: как я делаю чисто, как я делаю честно соотношение между результатами, которые обещаю, и сроками, которые предлагаю.</li>
+  </ol>
+  <div class="calm">Вот мы и подошли к финалу первой главы. Мы поняли, что такое цель обучения и чему мы учим; что такое портрет студента и кого мы учим; каким должен быть результат — и как соотнести его со сроками. Я надеюсь, всё это уже записано в вашей рабочей тетради. Если нет — непременно сделайте: это самые фундаментальные основы, с которых начинается наша работа. Пробуйте — пусть появятся вопросы и всякое непонимание: чтобы получились содержательные вопросы, нужно первый раз попробовать. С деталями будем разбираться в следующих главах.</div>
+</div>
+
+  <a class="sheet next-link" href="#ch2" data-done="1">
+    <div class="orn">✦ ✦ ✦</div>
+    <div class="to">Следующая глава</div>
+    <div class="title">Глава 2 · Концепт программы: путь героя</div>
+    <span class="go">Читать дальше →</span>
+  </a>
+</section>
+<section class="chapter" id="sec-2">
+<!-- ГЛАВА 2 — титульный лист -->
+<div class="sheet chapter-head" id="ch2">
+  <div class="kicker">Глава 2</div>
+  <h1>Концепт программы: путь героя</h1>
+  <div class="orn">✦ ✦ ✦</div>
+  <p class="lede">Мы натянули холст на гвозди — теперь прочертим на нём путь героя: из точки А в точку Б.</p>
+</div>
+
+<!-- РАЗДЕЛ 1. Концепт — это история -->
+<div class="sheet" id="ch2-u1">
+  <div class="tab"><b>01</b>Концепт-история</div>
+  <div class="kicker-line">Раздел 1 · Концепт — это история</div>
+  <h2>Какую историю мы рассказываем студенту?</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну что ж, друзья, мы с вами добрались до темы, которая вызывает больше всего сложностей у методологов, экспертов и тренеров. Не буду вас пугать, скажу иначе: мыслительная операция, которую мы сегодня проделаем, — это то самое, что будет отличать вас в профессиональную сторону. Тема нашего разговора — концепт программы.</p>
+  <p>Давайте вспомним, что мы уже сделали. Мы определили цель, портрет студента и ожидаемый результат — по сути, вбили гвозди и натянули на них холст. И вот теперь, когда холст натянут, мы можем прочертить на нём путь: из точки А, где студент находится сейчас, в точку Б, куда мы его ведём.</p>
+  <p>Предупреждаю честно: эта идея «ломает мозг». Особенно тем из нас, кто привык мыслить категориями «что я хочу дать?» или «каким инструментом научить?». Концепт заставляет перестроить мышление — с технологического («какие темы я дам») на совсем другое: как будет устроен путь студента из его точки А в его точку Б. Не наш путь. Его путь.</p>
+  <div class="define">
+    <div class="label">Определение</div>
+    <p>Концепт программы — это история изменений студента. История о том, как он, преодолевая трудности и барьеры, обретает новые навыки, умения и меняет свою картину мира.</p>
+  </div>
+  <p>Заметьте: не список тем, не перечень инструментов, не «программа в двенадцати уроках». История. И как у всякой хорошей истории, у неё есть главный герой. Кто он — давайте разбираться на следующем листе.</p>
+</div>
+
+<div class="sheet" id="ch2-s3">
+  <div class="tab"><b>02</b>Герой и рубежи</div>
+  <h2>Студент — главный герой</h2>
+  <div class="h-orn">✦</div>
+  <p>Смотрите, я предложу вам неожиданный ориентир. Вспомните оглавление книги про Винни-Пуха.</p>
+  <div class="example">
+    <div class="field">Ориентир из детской книжки</div>
+    <p>«Глава первая, в которой Винни-Пух идёт в гости…» «Глава, в которой Ослик теряет хвост…»</p>
+  </div>
+  <p>Что объединяет эти главы? Присмотритесь — в каждой из них есть три обязательных элемента.</p>
+  <div class="ladder">
+    <div class="step"><b>Герой</b><span>Тот, кто действует, — в нашем случае студент, а не мы.</span></div>
+    <div class="step"><b>Действие</b><span>То, что герой совершает: знакомится, пробует, получает обратную связь.</span></div>
+    <div class="step"><b>Рубеж</b><span>То, что герой преодолевает: сопротивление, страх, саботаж.</span></div>
+  </div>
+  <p>Мы с вами переносим эту структуру на обучение. В каждой главе, на каждом этапе программы наш студент будет тем самым героем, который совершает действия и преодолевает рубежи. Так — и только так — он набирает навык.</p>
+  <div class="define">
+    <div class="label">Ключевая мысль</div>
+    <p>Главный герой программы — не мы (кто учит), а он (кто учится).</p>
+  </div>
+  <h3>Синопсис программы</h3>
+  <p>Движение из точки А в точку Б имеет этапы. Нам нужно спуститься от макроструктуры (цели, аудитории) к мезоструктуре — к пути героя. И здесь мне нравится такая метафора: думайте о концепте как о синопсисе фильма. Сценарист на одной странице описывает, как герой проходит через события, — и у продюсера складывается ясная картина всего пути.</p>
+  <p>Мы должны создать такой же синопсис для нашей программы, чтобы студент в любой момент понимал: «Где я? Чему я здесь учусь? Каково моё путешествие?» Взрослым, друзья, крайне важно понимать, что происходит и какое это имеет отношение к их жизни. Без этого понимания взрослый человек из обучения тихо уходит.</p>
+</div>
+
+<!-- РАЗДЕЛ 2. Модель TOTE -->
+<div class="sheet" id="ch2-u2">
+  <div class="tab"><b>03</b>Модель TOTE</div>
+  <div class="kicker-line">Раздел 2 · Модель TOTE</div>
+  <h2>Строительный блок любого изменения</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Хорошо, скажете вы, история — это красиво. Но как превратить историю из пересказа в образовательный процесс? Для этого нам нужен инструмент. И такой инструмент есть — модель TOTE. Название складывается из четырёх шагов, давайте договоримся сразу их запомнить.</p>
+  <div class="define">
+    <div class="label">Формула</div>
+    <p>TOTE = Test 1 (Тест 1) → Operation (Операция) → Test 2 (Тест 2) → Exit (Выход). Модель TOTE описывает любые изменения в жизни — и мы накладываем её на каждую главу нашего концепта.</p>
+  </div>
+  <p>Начнём с крупного плана. Весь процесс обучения — это один большой TOTE. Смотрите, как это работает на примере курса по самопрезентации.</p>
+  <div class="n-item">
+    <div class="n-tag">Этап 1</div>
+    <div class="n-title">Test 1 (Тест 1) — вход</div>
+    <p>Студент приходит, не умея делать самопрезентацию.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Этап 2</div>
+    <div class="n-title">Operation (Операция)</div>
+    <p>Он проходит все этапы обучения.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Этап 3</div>
+    <div class="n-title">Test 2 (Тест 2)</div>
+    <p>У него получается — он делает самопрезентацию.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Этап 4</div>
+    <div class="n-title">Exit (Выход)</div>
+    <p>Мы сверяем результат с обещанным, празднуем, выдаём диплом.</p>
+  </div>
+  <p>А теперь наведём резкость и посмотрим на одну отдельную главу того же курса. Внутри неё живёт свой, малый TOTE — точно такой же по устройству.</p>
+  <div class="example">
+    <div class="field">Глава 1 · Формулировка мысли</div>
+    <p>Тест 1: студент не знает, с чего начать. Операция: формулирует главную мысль и три тезиса, записывает их (15–20 слов). Тест 2: текст написан. Exit: сверка — «да, получилось, можно идти дальше».</p>
+  </div>
+  <p>Вот она, наша матрёшка: весь курс — большой TOTE, и каждый отдельный этап — малый TOTE. Из этих блоков, как из кирпичей, мы и будем складывать здание программы.</p>
+</div>
+
+<div class="sheet" id="ch2-s5">
+  <div class="tab"><b>04</b>Сила выхода</div>
+  <h2>Exit: почему нельзя оставлять цикл открытым</h2>
+  <div class="h-orn">✦</div>
+  <p>Теперь — о шаге, который чаще всего теряют. TOTE не закрыт без «Exit», без подведения итогов и анализа Теста 2. Смотрите: если студент просто написал текст (это Тест 2) и оставил его в столе — «Exit» не произошёл. Психологически важно поставить галочку: этап завершён. Проговорить, сверить, отпраздновать маленькую победу.</p>
+  <div class="define">
+    <div class="label">Запомним</div>
+    <p>Отсутствие «Exit» на длинных дистанциях ведёт к выгоранию. А закрытый «Exit» из TOTE №1 становится «Тестом 1» для TOTE №2 — так этапы сцепляются в единую историю.</p>
+  </div>
+  <p>Давайте проследим эту сцепку на нашем курсе самопрезентации. Глава 2 — адаптация к устной речи. Тест 1: у меня есть письменный текст — это и есть результат Exit из Главы 1. Операция: превращаю письменный текст в устный — проговариваю, меняю слова. Тест 2: произношу речь вслух без листочка. Exit: готово к видеозаписи.</p>
+  <p>И дальше по цепочке: Глава 3 — видеозапись. Тест 1: у меня есть устный текст, результат Exit из Главы 2. И так далее, шаг за шагом.</p>
+  <p>Это последовательная, алгоритмическая логика. И здесь я позволю себе твёрдое утверждение: доказано, что именно такое движение способствует максимально эффективному обучению. Ни одна ступень не висит в воздухе — каждая опирается на предыдущую и подаёт руку следующей.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>05</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Соберите свой первый концепт из TOTE-ов</h3>
+  <ol>
+    <li>Возьмите простую, понятную вам тему — например, приготовление яичницы или завязывание шнурков. Опишите концепт обучения этому навыку в 2–3 «главах».</li>
+    <li>Для каждой «главы» опишите: Героя (студента), Действие, которое он совершает, и Рубеж, который он преодолевает.</li>
+    <li>Встройте в каждую «главу» модель TOTE: Тест 1 — Операция — Тест 2 — Exit.</li>
+    <li>Теперь примените ту же логику к вашему собственному проекту: опишите первые 1–2 «главы» (TOTE-а) вашего курса.</li>
+    <li>Отложите запись на день, затем перечитайте свежим взглядом и проведите самопроверку: насколько логична и последовательна ваша история? Нет ли «дыр» и логических скачков между шагами? Насколько понятен путь студента?</li>
+  </ol>
+  <div class="calm">Не гонитесь за красотой формулировок — сейчас важно, чтобы цепочка сцепилась. Красоту наведём позже.</div>
+</div>
+
+<!-- РАЗДЕЛ 3. Три позиции описания -->
+<div class="sheet" id="ch2-u3">
+  <div class="tab"><b>06</b>Три позиции</div>
+  <div class="kicker-line">Раздел 3 · Три позиции описания</div>
+  <h2>Как не учить «второго себя»</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Мы с вами уже знаем, что концепт — это история со студентом во главе. Но вот вопрос на миллион: как сделать так, чтобы это был концепт про студента, а не про «второго себя»? Признаемся честно: авторы курсов сплошь и рядом строят программу для человека, подозрительно похожего на них самих — с их бэкграундом, их любовью к теме, их выносливостью. Как научиться не учить «себя»?</p>
+  <p>Для этого существует инструмент — трёхпозиционная система описания. Мы будем смотреть на свой образовательный продукт с трёх разных позиций, по очереди переключаясь между ними.</p>
+  <div class="n-item">
+    <div class="n-tag">Позиция 1</div>
+    <div class="n-title">«Я — Автор»</div>
+    <p>Моя любимая позиция: «мой продукт», всё, что я хочу передать, что люблю, что считаю важным. Из этой позиции мы не выходим годами — она тёплая и уютная.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Позиция 2</div>
+    <div class="n-title">«Мой Студент»</div>
+    <p>Усилие переключения: посмотреть глазами студента, прожить «из его шкуры», каково это — проходить мою программу. Обратите внимание: эта позиция требует настоящего усилия. «Переключиться» в восприятие студента, почувствовать его усталость, его страхи, его график — это работа.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Позиция 3</div>
+    <div class="n-title">«Эксперт-Наблюдатель»</div>
+    <p>Отстранённый методолог, которому «наплевать» на мои любимые темы. Холодный взгляд: как система работает и что докрутить. И эта позиция не легче: эксперту-наблюдателю действительно должно быть всё равно, какие упражнения нам милы. Его интересует только одно — какие результаты приносит система.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch2-s8">
+  <div class="tab"><b>07</b>Разбор проекта</div>
+  <h2>Три позиции в деле: клуб «Fusion»</h2>
+  <div class="h-orn">✦</div>
+  <p>Чтобы инструмент перестал быть абстракцией, давайте пройдём все три позиции на живом проекте — женском онлайн-клубе тренера Элен, который на момент разбора находился на стадии теста.</p>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Позиция 1, Автор: клуб для женщин до 12 человек, длится месяц. Три онлайн-встречи в неделю, короткие тренировки 3–4 раза в неделю, два подкаста. Неделя 1 — мягкие коррекционные техники, неделя 2 — более активный режим, недели 3–4 — бодрый функциональный тренинг, работа со своим весом.</p>
+  </div>
+  <p>А теперь — усилие переключения. Позиция 2, Студент: женщина 30+, гибкий график. Устала «терять мотивацию и начинать сначала», был перерыв в спорте из-за напряжения в теле. Ей нужен деликатный, бережный подход на старте. Нужно «личное касание» — обратная связь, но чтобы это не отнимало много времени. Точно не нужны домашние задания. Нужно разнообразие — не одни и те же приседания. И нужны объяснения, почему мы это делаем: «Так я лучше понимаю и охотнее выполняю».</p>
+  <p>Чувствуете разрыв между двумя картинками? Вот его и приходит измерять третья позиция. Эксперт-наблюдатель, послушав обе стороны, даёт Автору две рекомендации.</p>
+  <div class="n-item">
+    <div class="n-tag">Рекомендация 1</div>
+    <div class="n-title">Добавить трекер</div>
+    <p>Простой, чтобы не отнимал время. Например, два вопроса после тренировки: состояние на входе и на выходе по шкале 1–10 (покажет динамику энергии) и «что получилось?» (фокус на успехе, а не на неудаче).</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Рекомендация 2</div>
+    <div class="n-title">Смягчить старт</div>
+    <p>Учесть страх «бросить в десятый раз». Первые две недели должны быть очень мягкими и постепенными. Их цель — не рекорды, а помочь человеку встроить рутину в жизнь и увидеть: «у меня получается приходить». Функциональный тренинг пока убрать.</p>
+  </div>
+  <p>И самое интересное — возвращение в первую позицию. Вот вывод Автора: «Моё внутреннее желание дать всё, что я хотела, за четыре недели поменялось». Пришло понимание: двигаться нужно медленнее, максимум два направления за две недели — иначе не отследить динамику. Трекер улучшит контакт и облегчит сбор обратной связи. А контент подкастов можно адаптировать под живые запросы группы — например, если через две недели участницы попросят про питание. Проект станет «про непосредственно этих участников».</p>
+  <div class="define">
+    <div class="label">Ключевая мысль</div>
+    <p>Навык переключаться между тремя позициями даёт объёмный взгляд на проект и позволяет сместить фокус с «себя как автора» на студента и его опыт.</p>
+  </div>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>08</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Пройдите три позиции на своём проекте</h3>
+  <ol>
+    <li>Возьмите свой собственный образовательный проект или его идею. Выполнять практику можно, физически перемещаясь в пространстве — три стула, три угла комнаты — или мысленно.</li>
+    <li>Шаг 1 (Позиция 1): опишите свой продукт с позиции «Я — Автор». Какова его структура, длительность, какие темы и форматы вы считаете важными?</li>
+    <li>Шаг 2 (Позиция 2): вживитесь в роль вашего студента. Опишите его бэкграунд, страхи, потребности, график. Что ему важно получить от курса? Что его точно оттолкнёт?</li>
+    <li>Шаг 3 (Позиция 3): займите позицию «Эксперта-Наблюдателя». Проанализируйте Позиции 1 и 2. Какие рекомендации по изменению или усилению программы вы можете дать Автору, чтобы она лучше отвечала запросам Студента?</li>
+    <li>Вернитесь в Позицию 1 и зафиксируйте в рабочей тетради инсайты, которые вы получили.</li>
+  </ol>
+  <div class="calm">Если в третьей позиции вам стало немного неловко за первую — вы всё сделали правильно. Именно так и рождается программа про студента.</div>
+</div>
+
+<!-- РАЗДЕЛ 4. Простые и комплексные навыки -->
+<div class="sheet" id="ch2-u4">
+  <div class="tab"><b>09</b>Два вида навыков</div>
+  <div class="kicker-line">Раздел 4 · Простые и комплексные навыки</div>
+  <h2>Из чего сделан навык, которому мы учим</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Мы уже разобрались с концептом, моделью TOTE и трёхпозиционным описанием — у нас с вами собран почти весь «чемоданчик» для прикладной работы. Осталось докрутить одну деталь: сами навыки. Если мы строим навыко-ориентированную программу, надо честно ответить на вопрос: а какими вообще бывают навыки?</p>
+  <p>Давайте сравним: навык писать маслом и навык завязывать шнурки — это одно и то же? Очевидно, нет. И разница здесь не в «престижности», а в устройстве.</p>
+  <div class="define">
+    <div class="label">Определение</div>
+    <p>Простой навык состоит фактически из одного TOTE: завязывание шнурков, мытьё посуды — одна операция. Комплексный навык — это «гирлянда» из нескольких простых навыков (TOTE-ов): ведение переговоров, приготовление сложного блюда, вождение автомобиля.</p>
+  </div>
+  <p>В большинстве случаев наши программы обучают именно комплексным навыкам. И отсюда вырастает задача методолога: научиться представлять комплексный навык, которому мы учим, как цепочку простых TOTE-ов. Это и называется декомпозицией.</p>
+  <h3>Самая частая ошибка</h3>
+  <p>А теперь — про грабли, на которые наступают почти все. Авторы курсов формулируют программу как список тем, а потом удивляются, почему студент «прошёл всё», но ничего не умеет.</p>
+  <div class="pair">
+    <div class="no"><span class="tag">Как не надо</span>Тема 1: Чикагская школа переговоров. Тема 2: Кремлёвская школа переговоров. Тема 3: Типология переговоров. А потом: «А теперь идите и отработайте модель кремлёвских переговоров».</div>
+    <div class="yes"><span class="tag">Как надо</span>Разделить комплексный навык «Ведение переговоров» на «слонят»: TOTE 1 — анализ аудитории (сбор информации) перед переговорами; TOTE 2 — формулирование целей переговоров, своих и оппонента; TOTE 3 — и так далее, шаг за шагом.</div>
+  </div>
+  <p>Понимаете, в чём беда первого варианта? Студент изучает контент, но с точки зрения навыков не продвигается. Модель переговоров — это комплексный навык, его нельзя просто «взять и отработать». Слона едят по кусочкам — и наша с вами забота и ответственность построить программу так, чтобы у студента в конце получилось.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>10</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Разложите комплексный навык на простые</h3>
+  <ol>
+    <li>Возьмите любой комплексный навык, которым вы уже владеете: езда на велосипеде, приготовление кофе, отжимания от пола.</li>
+    <li>Разложите его на цепочку простых навыков (TOTE-ов). Для ориентира: отжимания — комплексный навык, и внутри него живут TOTE-ы — положение поясницы, ширина рук, постановка локтей, переход с колен на вытянутые ноги и так далее.</li>
+    <li>Запишите цепочку в рабочую тетрадь и проверьте её сами, как строгий редактор: насколько логична последовательность? Нет ли «дыр» — шагов, которые вы делаете автоматически и потому забыли записать?</li>
+  </ol>
+  <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
+</div>
+
+<!-- РАЗДЕЛ 5. Лестница навыков -->
+<div class="sheet" id="ch2-u5">
+  <div class="tab"><b>11</b>Лестница навыка</div>
+  <div class="kicker-line">Раздел 5 · Лестница навыков</div>
+  <h2>Как формируются навыки: поступенчатость</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Этот разговор я хочу начать с двух историй. Обе — про одно и то же, но с разных концов света.</p>
+  <div class="story">
+    <div class="who">История про гончара</div>
+    <p>В гончарной мастерской ученик торопится: скорее-скорее обжечь партию чашек — чем быстрее обожжём, тем быстрее продадим. А мастеру приходится его останавливать, замедлять и напоминать о технологическом цикле: сначала вылепить, потом высушить, потом первый обжиг, потом нанести глазурь, затем второй обжиг — и только после этого чаша готова. И что же? Чаши, сделанные по этой последовательной логике, жили дольше и реже трескались. А те, что делались наспех, довольно рано покрывались трещинами.</p>
+  </div>
+  <div class="story">
+    <div class="who">История про скрипку</div>
+    <p>В Японии после Второй мировой войны в одной частной школе ввели особую систему обучения детей игре на скрипке. Первым шагом ученик учился правильно держать смычок. Вторым — издавать чистый ровный звук на одной струне. Третьим — исполнять простую ритмическую композицию на одной открытой струне. Только после этого добавлялись короткие фразы, затем гаммы, затем обороты — и так, постепенно, дело доходило до готовых произведений. Именно эта система — маленькие шаги и непрерывная обратная связь после каждого шага — снижала уровень напряжения и давала постоянно наблюдаемый прогресс.</p>
+  </div>
+  <p>Вот эта поступенчатость, дотошность и последовательность — и есть тема нашего разговора. Мы начинаем отвечать на вопрос: «Как формируется навык?» Забегая вперёд, скажу: разговор этот состоит из двух частей, и вторая — про микро-уровень — ждёт нас в следующей главе. А пока — крупный план: поступенчатость формирует «Лестницу навыка».</p>
+</div>
+
+<div class="sheet" id="ch2-s13">
+  <div class="tab"><b>12</b>Калибровка ступеней</div>
+  <h2>Лестница, по которой студент правда поднимется</h2>
+  <div class="h-orn">✦</div>
+  <p>Давайте соберём устройство лестницы воедино — здесь всё, что мы наработали в этой главе, встаёт на свои места.</p>
+  <ul>
+    <li><b>Лестница = концепт курса.</b> Это и есть та «история», которую проходит наш студент-герой.</li>
+    <li><b>Каждая ступень = один TOTE.</b> На каждой ступени студент совершает действие и преодолевает барьер.</li>
+    <li><b>Exit = Test 1.</b> «Выход» с предыдущей ступени становится «Тестом 1» — входом — для следующей.</li>
+    <li><b>Лестница = один большой TOTE.</b> Весь путь по ступеням — это тоже один глобальный цикл.</li>
+  </ul>
+  <p>Лестница наглядно показывает, как мы собираем комплексный навык из простых. Шаг за шагом складывается навык вождения автомобиля, приготовления стейка или ведения переговоров. Вот как это выглядит на живой теме.</p>
+  <div class="example">
+    <div class="field">Лестница: техника приседания со штангой</div>
+    <p>Глава 1, в которой герой знакомится со своим телом и учится «чувствовать» нейтральное положение спины и таза на подготовительных упражнениях. Глава 2, в которой он осваивает базовый паттерн приседания без веса, не отрывая пяток от пола. Глава 3, в которой впервые берёт гриф, учится располагать его на спине и приседать, сохраняя технику. Глава 4, в которой записывает выполнение на видео и разбирает его по критериям. Глава 5, в которой уверенно выполняет три подхода по восемь повторений с пустым грифом.</p>
+  </div>
+  <p>Узнаёте оглавление «Винни-Пуха»? Герой, действие, рубеж — глава за главой. И заметьте: та же логика работает и на «тонких материях» — скажем, навык осознавания эмоций раскладывается так же ступенчато: заметить ситуацию-триггер, распознать телесный сигнал, назвать эмоцию, поймать автоматическую мысль, собрать всю цепочку в дневнике.</p>
+  <h3>Калибровка ступеней</h3>
+  <p>И вот здесь нам снова пригодится трёхпозиционная система. Мы «встаём на позицию» ученика и проверяем: насколько ступеньки для него подходящей высоты? Насколько его предыдущий опыт помогает преодолеть ступень? «Вывозима» ли эта лестница для него вообще?</p>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Девушка после нескольких лет декрета приходит на курс по отношениям. У неё высокий уровень неуверенности, она «забыла, как учиться». Для неё мы должны построить лестницу с очень плавными, постепенными ступенями — чтобы она не потеряла мотивацию на втором шаге, а чувствовала постоянные малые победы.</p>
+  </div>
+  <p>Одна и та же вершина — но лестницы к ней для разных людей будут разными. Калибровка высоты ступеней под возможности студента — самая важная задача этого этапа.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>13</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Нарисуйте лестницу навыка для своего курса</h3>
+  <ol>
+    <li>Хватит тренироваться на «осликах и ёжиках» — на яичнице и шнурках. Возьмите тему вашего курса: у вас уже должны быть тема, цель, портрет студента и результат.</li>
+    <li>Возьмите рабочую тетрадь и нарисуйте Лестницу навыка для вашего проекта. Сделайте первый подход: распишите 4–6 ступеней.</li>
+    <li>Затем устройте себе самопроверку — пройдитесь по лестнице с тремя вопросами: насколько логична связка между ступенями? Насколько понятно, что конкретно должно произойти внутри ступени? Какое физическое действие студент совершает на этой ступени — чтобы TOTE мог открыться и закрыться?</li>
+  </ol>
+  <div class="calm">Вы наверняка увидите свои «слепые пятна» — места, где вместо действия у вас просто лекция, «груда материала». Это нормально, это цена победы. Спросите себя честно: «Зачем я читаю эту лекцию? Она действительно нужна для перехода на следующую ступень?»</div>
+</div>
+
+<div class="sheet" id="ch2-s15">
+  <div class="tab"><b>14</b>Итоги главы</div>
+  <h2>Чемоданчик собран</h2>
+  <div class="h-orn">✦</div>
+  <p>Ну что ж, друзья, давайте подведём итог. Навык превращать «груду материала» в пошаговую, последовательную цепочку действий — в лестницу — это залог нашей добросовестности, репутации и профессионализма. В рамках этой главы мы с вами выяснили четыре вещи.</p>
+  <div class="chips"><i>концепт как история</i><i>студент-герой</i><i>модель TOTE</i><i>три позиции</i><i>простые и комплексные навыки</i><i>декомпозиция</i><i>лестница навыков</i></div>
+  <p>Что такое концепт — история, которую мы рассказываем студенту. Что такое модель TOTE — строительный блок любого изменения. Какими бывают навыки — простыми и комплексными. И что такое лестница навыков — концепт, нарисованный ступень за ступенью.</p>
+  <p>Дальше — самостоятельная практика: применяйте эти инструменты к своему проекту, возвращайтесь к рабочей тетради, перерисовывайте лестницу столько раз, сколько потребуется. А в следующей главе мы спустимся на микро-уровень и посмотрим, что происходит внутри одной ступени — как навык формируется в самой мелкой своей механике. Лестница у вас уже есть — осталось научиться строить каждую ступеньку.</p>
+</div>
+
+  <a class="sheet next-link" href="#ch3" data-done="2">
+    <div class="orn">✦ ✦ ✦</div>
+    <div class="to">Следующая глава</div>
+    <div class="title">Глава 3 · Матрёшка: как рождается навык</div>
+    <span class="go">Читать дальше →</span>
+  </a>
+</section>
+<section class="chapter" id="sec-3">
+<!-- ГЛАВА 3 -->
+<div class="sheet chapter-head" id="ch3">
+  <div class="kicker">Глава 3</div>
+  <h1>Матрёшка: как рождается навык</h1>
+  <div class="orn">✦ ✦ ✦</div>
+  <p class="lede">Пять элементов, вложенных друг в друга, — и весь контент, который лежит у вас в голове, превращается в капсулу навыка.</p>
+</div>
+
+<!-- ======================= РАЗДЕЛ 1 ======================= -->
+<div class="sheet" id="ch3-u1">
+  <div class="tab"><b>01</b>Модель-бриллиант</div>
+  <div class="kicker-line">Раздел 1 · Формирование навыка: матрёшка</div>
+  <h2>Знакомьтесь: матрёшка</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Ну что ж, добро пожаловать, друг мой, в третью главу. Мы продолжаем разбираться с вопросами структурирования обучающего процесса. Если ты помнишь, мы начали от общего: разобрались с базовыми вопросами — кого учим, чему учим, что такое цели и результаты. Дальше выяснили, что есть цепочка, которая должна быть связана и логично выстроена, — концепт. Познакомились с лестницей навыков и с моделью ТОТЕ. И вот пора сделать ещё один конкретизирующий шаг, который позволит нам увеличить зум и ответить на вопрос: а навык-то — вот прямо единица навыка — как формируется? Можем ли мы на это влиять? Можем ли мы сами спроектировать очень мелко нарезанный процесс взаимодействия со студентом так, чтобы он получал навыки управляемо и предсказуемо? Я напоминаю: мы учимся здесь строить управляемый, предсказуемый процесс.</p>
+  <p>Ну и — долой интриги. Я хочу познакомить тебя с моделью, которая, мне кажется, является квинтэссенцией того образовательного подхода, частью которого я являюсь. Краеугольный камень прямо-таки. Модель-бриллиант, которая, что называется, меняет игру до неузнаваемости и делает обучение взрослых людей очень управляемым, очень прогнозируемым и очень искусным процессом. Знакомься: модель под названием «Матрёшка».</p>
+  <p>Вспомни, как выглядит знаменитая русская кукла в разрезе: одна фигурка, внутри неё вторая, внутри — третья… В нашей матрёшке пять элементов, и я сразу назову их по именам: <b>концепт</b>, <b>инструкция</b>, <b>опыт</b>, <b>шеринг</b> и <b>рефлексия</b>.</p>
+  <div class="define">
+    <div class="label">Определение</div>
+    <p>Матрёшка — это микромодель обучения, которая позволяет каждый шаг концепта превратить в единицу навыка. Ровно эта модель отвечает за то, чтобы весь контент, который лежит у нас, экспертов, в головах, превратился в капсулу навыка.</p>
+  </div>
+  <div class="chips"><i>концепт</i><i>инструкция</i><i>опыт</i><i>шеринг</i><i>рефлексия</i></div>
+</div>
+
+<div class="sheet" id="ch3-s2">
+  <div class="tab"><b>02</b>Шнурки</div>
+  <h2>Матрёшка на простом навыке</h2>
+  <div class="h-orn">✦</div>
+  <p>Давай возьмём простой навык и на его примере разберём, как устроена матрёшка. Например, такой важный навык современного взрослого человека, как завязывание шнурков.</p>
+  <div class="story">
+    <div class="who">Бытовой пример</div>
+    <p><b>Концепт.</b> Дорогой мой друг, уметь завязывать шнурки самостоятельно — очень классный и важный навык. Почему это для нас важно? Потому что так мы становимся более независимыми: сами распоряжаемся своим гардеробом, сами выбираем, что и когда наденем, и в конце концов чувствуем себя самостоятельными людьми, которые могут себе позволить завязать шнурки без посторонней помощи.</p>
+    <p><b>Инструкция.</b> Возьми любой элемент обуви — правый или левый, ботинок или кроссовок, какой больше нравится. Главный критерий качества — чтобы там были шнурки. Вставь ногу, возьми один шнурок, возьми второй, соедини их вот так, продень один сюда, второй сюда, завяжи бантик. Проделай это прямо сейчас.</p>
+    <p><b>Опыт.</b> Студент по заданной инструкции совершает все перечисленные действия — и получает узелок. Если он прошёл по всем шагам, узелок получается.</p>
+    <p><b>Шеринг.</b> Я спрашиваю: «Ну расскажи, как у тебя проходил этот процесс? Было ли сложно?» Человек говорит: «Слушай, вначале я прямо напрягся, даже страшно стало — а вдруг не справлюсь? Но потом решил идти по инструкции, просто повторил всё, что ты рассказал, — и получилось. И мне сейчас очень радостно, что получилось с первого раза».</p>
+    <p><b>Рефлексия.</b> «А скажи, полезен ли тебе этот навык? Сможешь ли ты им пользоваться в своей жизни?» — «Ну конечно, ещё бы. Раньше жена помогала мне шнурки завязывать, а теперь я чувствую себя более самодостаточным и независимым человеком». Точка.</p>
+  </div>
+  <p>Вот мы и разложили простой навык на элементы матрёшки. И если мы построили её корректно, то в момент рефлексии человек говорит: «Да, мне это пригодится, я буду этим пользоваться, я чувствую себя независимым» — и мы можем быть уверены: капсула навыка закрылась, навык сформировался на базовом уровне.</p>
+  <p>Надо ли его закреплять? Конечно. Чтобы навык стал прочным — чтобы человек с завязанными глазами, сонный, только проснувшийся, в любом состоянии мог это делать, — понадобится какое-то количество повторений и практики в его собственной жизни: не только кроссовки, но и кеды, не только кеды, но и ботинки, и разные шнурки, и разные обстоятельства. Но базово мы можем быть уверены: если мы так организовали обучающий процесс, дальше человек в состоянии пользоваться полученным умением и укреплять его уже самостоятельно, без нашей помощи.</p>
+</div>
+
+<div class="sheet" id="ch3-s3">
+  <div class="tab"><b>03</b>Хрупкий опыт</div>
+  <h2>Почему опыт сам по себе выветривается</h2>
+  <div class="h-orn">✦</div>
+  <p>Теперь давай назовём все вещи своими именами: какой элемент за что отвечает.</p>
+  <div class="n-item">
+    <div class="n-tag">Элемент 1</div>
+    <div class="n-title">Концептуальная часть</div>
+    <p>Это ровно та ступень концепта, тот этап истории, которую мы рассказываем нашим студентам. Это может быть тема конкретного урока. Здесь находится теоретическое обоснование и смысловое наполнение того, чем мы будем дальше заниматься: что это такое, какой в этом смысл, о чём мы говорим.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Элемент 2</div>
+    <div class="n-title">Инструкция</div>
+    <p>Дальше нам важно, чтобы человек попробовал и убедился: работает то, что мы предлагаем, или не работает, и как работает. То есть нужно, чтобы он получил практический опыт. А для этого его нужно проинструктировать. За это отвечает инструкция: ты делаешь вот это, вот так, в течение такого-то времени.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Элемент 3</div>
+    <div class="n-title">Опыт</div>
+    <p>Вот она, сердцевина: здесь человек пробует сам.</p>
+    <p>И дальше наступает очень важный момент. Казалось бы, можно сказать человеку: «Друг мой, плавать — классный навык, вот тебе инструкция, как плавать брассом, иди получай опыт». Или: «Хочешь научиться играть на скрипке? Вот смычок, вот так его надо взять, попробуй извлечь звук, потренируйся». Можем ли мы на этом остановиться? Нет. Потому что без двух следующих элементов обучение не целостное, не полноценное, не завершённое — и мы не можем гарантировать, что навык сформируется.</p>
+  </div>
+  <div class="define">
+    <div class="label">Ключевая мысль</div>
+    <p>Опыт сам по себе — штука непрочная: он быстро выветривается из сознания и памяти. Чтобы опыт закрепился, после него обязательно нужны шеринг и рефлексия.</p>
+  </div>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Ты наверняка можешь вспомнить тренинги или семинары, где тебе давали что-то попробовать, — телесные, чувственные, актёрские практики. Ты пробуешь, с тобой в процессе происходит нечто, ты переживаешь особенное, уникальное состояние. Но дальше ты идёшь домой жить свою жизнь. Проходит день, другой, пятый — и ты абсолютно забываешь, что был какой-то опыт. С трудом помнишь, что там было, зачем и про что. Всё прошло, как с белых яблонь дым.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Элемент 4</div>
+    <div class="n-title">Шеринг</div>
+    <p>Поэтому после опыта обязательно идёт шеринг — от английского share, «делиться». Это когда ученик вербализует, проговаривает, каким этот опыт для него был, что он в процессе почувствовал.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Элемент 5</div>
+    <div class="n-title">Рефлексия</div>
+    <p>И затем финальный этап, очень важный и для детей, и особенно для взрослых, — рефлексия, осмысление. Весь полученный и проговорённый опыт важно отрефлексировать: сделать для себя выводы — что это для меня значит, как я буду этим пользоваться, куда применю.</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch3-s4">
+  <div class="tab"><b>04</b>Матрёшка и ТОТЕ</div>
+  <h2>Две модели, которые не заменяют друг друга</h2>
+  <div class="h-orn">✦</div>
+  <p>Есть у меня предположение, что ты уже начинаешь сопоставлять то, что мы обсуждаем, с инструментами, которые были до этого. И, наверное, тебе хочется спросить: секундочку, а как матрёшка стыкуется с лестницей навыков? Мы же помним: внутри каждой ступени лестницы у нас ТОТЕ. И вот здесь может немножко ум за ум зайти: подождите, а как связаны матрёшка и ТОТЕ? Они помогают друг другу, мешают, дополняют? Это вообще не то же самое? Давай разберёмся.</p>
+  <p>Напомню, что означают эти четыре славные буквы: T — test 1, O — operation, T — test 2, E — exit. ТОТЕ — это модель, которая описывает, как у человека устроено мышление в процессе научения. Когда я учусь чему-то новому, мне нужно сначала осознать, в какой точке я нахожусь, потом совершить действие, потом сравнить то, что получилось, с тем, что было в начале, подвести итоги — и перейти или не перейти на следующий цикл. ТОТЕ описывает, как работают мозги. Но он не отвечает инструментально, технологически на вопрос: как именно нам, авторам и методологам, эту капсулу навыка создать? Какие шаги совершить, чтобы ТОТЕ в голове у нашего студента «сросся», чтобы мы могли провести человека по нему и перевести на следующую ступеньку?</p>
+  <p>Мы концептуально понимаем, что в рамках каждой ступени лесенки этот ТОТЕ должен как-то закрыться. Но мы не можем отдать это на самотёк. Мы предполагаем, что там, наверное, должна быть практика. А как мы к этой практике подведём? Что это будет за практика? Что будет после неё? Как мы переведём человека на следующую ступень? Вот на все эти вопросы — как именно открыть и закрыть ТОТЕ каждой отдельно взятой ступени концептуальной лестницы — отвечает ровно матрёшка.</p>
+  <div class="example">
+    <div class="field">ТОТЕ</div>
+    <p>Описание мыслительных процессов в голове у человека. Предельно абстрактная модель внутреннего ментального процесса, который разворачивается в психике, когда человек учится.</p>
+  </div>
+  <div class="example">
+    <div class="field">Матрёшка</div>
+    <p>Дидактический дизайн: конкретное решение, которое помогает организовать этапы взаимодействия со студентом — в рамках урока, тренинговой сессии, воркшопа, мастер-класса. Когда напротив меня сидит человек, матрёшка отвечает на вопрос, как именно я сейчас для него собираю капсулу навыка на той ступени, где мы находимся.</p>
+  </div>
+  <p>Это просто разные уровни взгляда на процесс. Сначала мы можем думать ТОТЕ-ами, чтобы выстроилась ясная лесенка навыков. А когда конкретизируемся до вопроса «как именно в рамках этого урока у человека получится то, что должно получиться» — вот здесь нам и пригодится матрёшка.</p>
+  <p>И я предположу, что у тебя уже пооткрывалось множество вопросов — или, говоря нашими словами, ТОТЕ-ов, которые моя задача теперь у тебя в голове позакрывать. Почему всё-таки модель называется матрёшкой? Как соотносится концепт с рефлексией, а инструкция — с шерингом? Как собрать матрёшку в рамках своего проекта? Не волнуйся: следующие три раздела посвящены именно этому. Спокойно, не торопясь, с толком, с чувством, с расстановкой.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>05</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Пофантазируйте о своей первой матрёшке</h3>
+  <ol>
+    <li>Откройте рабочую тетрадь и нарисуйте матрёшку в разрезе: пять вложенных элементов — концепт, инструкция, опыт, шеринг, рефлексия.</li>
+    <li>Посмотрите на свою лестницу навыков и в режиме брейнсторма поразмышляйте: какой ТОТЕ внутри вашей лестницы вы могли бы разложить на элементы матрёшки?</li>
+    <li>Запишите первые идеи, которые начнут появляться, — пока без требований к качеству, просто наброски.</li>
+  </ol>
+  <div class="calm">Отпустите ум в лёгкое творческое парение и просто понаблюдайте, как это начнёт укладываться в голове. Если пока не укладывается — ничего страшного: сейчас уложим, последовательно и спокойно, и всё у нас обязательно будет хорошо.</div>
+</div>
+
+<!-- ======================= РАЗДЕЛ 2 ======================= -->
+<div class="sheet" id="ch3-u2">
+  <div class="tab"><b>06</b>Две принцессы</div>
+  <div class="kicker-line">Раздел 2 · Концептуальная часть матрёшки</div>
+  <h2>Легенда о мудром императоре</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Продолжаем разговор про матрёшку. Как я и обещал, сейчас будем разбираться с её верхней частью и выяснять, что такое концепт. И прежде чем серьёзно и качественно с этим разобраться, я расскажу тебе одну древнюю и очень поучительную легенду.</p>
+  <div class="story">
+    <div class="who">Древняя легенда</div>
+    <p>Легенда эта — о мудрейшем и величайшем китайском императоре, при дворе которого служил не менее мудрый и очень верный визирь. Много лет каждое утро визирь являлся к владыке на доклад: сообщал, как идут дела в его бескрайней империи, и предлагал решения — как сделать так, чтобы народ процветал и всем было максимально хорошо, императору, естественно, в том числе.</p>
+    <p>И когда визирь был доходчив и убедителен, когда он ясно, чётко и последовательно объяснял, для чего те или иные решения, какую службу они сослужат великому императору и всей империи, — император внимал благосклонно и очень часто к советам прислушивался.</p>
+    <p>Но бывали дни, когда что-то шло не так. Когда визирь не находил верных слов и не удавалось ему ответить, зачем всё-таки нужны его предложения, почему они так важны именно сейчас и какой в них толк. И в такие дни из дальних зал дворца выбегали две прекрасные дочери императора — китайские принцессы Нахуа и Схуали. Они начинали танцевать перед лицом своего батюшки и увлекали его внимание своим удивительным танцем настолько, что мудрый император совершенно переставал слышать своего не менее мудрого визиря.</p>
+  </div>
+  <p>Эта древняя притча учит нас, что нашим будущим студентам, дорогой мой друг, очень важно в процессе обучения получать ответы на вопросы: «На (ч)то?» — зачем нам это, — и «С (ч)его ли?» — почему это и почему именно сейчас. Принцессы — августейшие особы и требуют к себе особо уважительного отношения. Так что запиши их имена рядом со своей матрёшкой — чтобы всегда помнить и держать в голове.</p>
+  <div class="define">
+    <div class="label">Запомним</div>
+    <p>В концептуальной части матрёшки обязательно должны содержаться ответы на два вопроса: «Зачем нам это?» и «Почему это и почему именно сейчас?»</p>
+  </div>
+</div>
+
+<div class="sheet" id="ch3-s7">
+  <div class="tab"><b>07</b>Цена молчания</div>
+  <h2>Что бывает, когда «зачем» остаётся без ответа</h2>
+  <div class="h-orn">✦</div>
+  <p>Теперь — уже серьёзно, без ёрничания. Вне зависимости от того, хотим мы этого или нет, отдаёт себе в этом отчёт наш студент или нет, вопросы «зачем?» и «почему?» возникают в голове взрослого человека абсолютно всегда, когда он чему-то учится. И я не могу тебе передать, какое безгранично огромное количество курсов вообще не отвечает студентам на эти вопросы. Как будто студент сам должен догадаться, зачем ему выложили эту лекцию. Почему здесь такой список литературы именно сейчас? Мне правда жизненно необходимо прочесть все эти шесть книг — а зачем? Что я из них почерпну? Как это повлияет на мои навыки, задачи, потребности?</p>
+  <p>Мне кажется, восемь из десяти курсов на современном онлайн-рынке никак не обрабатывают эти безмолвные, непроговариваемые вопросы. Дескать, мы посчитали необходимым выложить материал, а твоё дело, дорогой человек, — изучать. Можно и так — традиционная модель обучения ровно так себя и ведёт. Но у этого есть цена, и ты прекрасно знаешь какая. Когда мы не отвечаем студенту, зачем и почему мы здесь вот это делаем и вот это предлагаем, мы получаем варианты поведения:</p>
+  <div class="ladder">
+    <div class="step"><b>Теряет интерес</b><span>Человек просто перестаёт реагировать на курс — закрывает его и забывает про него.</span></div>
+    <div class="step"><b>Копит напряжение</b><span>Начинает спорить, противоречить, сопротивляться.</span></div>
+    <div class="step"><b>Впадает в беспомощность</b><span>Начинает ныть и выдавать другие формы сопротивления.</span></div>
+  </div>
+  <p>Когда мы дойдём до разговора о формах сопротивления, о так называемом сложном поведении, станет особенно очевидно: в огромном количестве случаев мы это сложное поведение создаём сами — потому что не отвечаем на два важнейших вопроса.</p>
+  <p>Посмотри ещё раз на нашу лесенку: каждая ступенька — это ТОТЕ, и в каждой ступени обязательно живёт матрёшка. Переходя на каждую очередную ступень концепта, рассказывая студентам историю с ними в главной роли — откуда мы движемся и куда идём, — мы обязаны на каждом этапе отвечать: зачем мы будем делать то, что собираемся? Зачем разбираем эту тему, проводим это исследование, отрабатываем эту технологию, читаем эту книгу? И почему именно сейчас, почему именно это?</p>
+  <p>Это, знаешь, прямо задача для своего речевого аппарата. Нужно настроить своё мышление, дать себе труд и приучить свою голову именно таким образом строить логику повествования, когда ты будешь общаться со своими студентами.</p>
+</div>
+
+<div class="sheet" id="ch3-s8">
+  <div class="tab"><b>08</b>Бусы</div>
+  <h2>Концепт как история — и модель бус</h2>
+  <div class="h-orn">✦</div>
+  <p>Мы же помним: концепт — это история, которую мы рассказываем студенту с ним в главной роли, где он на каждом этапе совершает какое-то действие. Теперь к этому добавляется ещё один параметр: мало того что герой, мало того что история, — так ещё и «зачем герою это и почему именно сейчас».</p>
+  <div class="story">
+    <div class="who">Пример из практики</div>
+    <p>Возьмём наш многострадальный курс по самопрезентации. Мы дошли до момента, который может вызывать сопротивление: мы хотим предложить людям записать свою самопрезентацию на видео. И мы говорим: друзья, мы перевели текст самопрезентации из письменного в устный, мы уже лучше представляем, что скажем. Теперь очень важный шаг — записать себя на видео. Зачем? Затем, что, когда мы смотрим на себя со стороны, мы видим огромное количество нюансов, которым можем теперь уделить внимание; мы начинаем понимать, с чем нам ещё полезно поработать. А почему именно сейчас? А потому, что мы уже подготовили материал — у нас действительно готово всё, чтобы получить именно этот опыт именно в данный момент. И тогда следующим шагом мы сможем изучить то, что получилось, дать себе обратную связь и увидеть, как прогрессировать дальше.</p>
+  </div>
+  <p>Вот, собственно, я только что сформулировал концепт: зачем и почему мы предлагаем людям записать видео в рамках курса по самопрезентации.</p>
+  <p>И прежде чем отпустить тебя практиковаться, докину ещё одну модель для наглядности — как ещё можно визуально отобразить концепт. У нас есть модель лестницы, но пусть будет ещё модель бус. Представь себе бусы или чётки: вот застёжка, а дальше — бусины: М1, М2, М3, М4… Каждая бусина — это матрёшка. А внутри, под матрёшками, — те же самые наши любимые ТОТЕ.</p>
+  <p>Ты можешь даже взять настоящие бусы или чётки и начать рассказывать историю своего курса, перебирая бусины. Это отличное упражнение, которое помогает убедиться, что концепт собран действительно качественно: что в нём нет логических нестыковок, что получается единое связанное повествование, что одна матрёшка перетекает в следующую, вторая — в третью, третья — в четвёртую. Если важно отработать навык рассказывания концепта как истории — рассказывать её, перебирая чётки в руках, отличная практика.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>09</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Сформулируйте концепт одной ступени</h3>
+  <ol>
+    <li>Возьмите любую ступеньку из своей лестницы навыков — совершенно любой микронавык.</li>
+    <li>Письменно сформулируйте концептуальную часть так, чтобы из текста было ясно: зачем это нужно и почему именно здесь, именно сейчас. Помните: герой истории — ваш студент.</li>
+    <li>Прочитайте написанное вслух. Представьте, что вы объясняете это коллеге или будущему студенту: звучат ли «зачем» и «почему» убедительно? Возникает ли после этих слов желание пойти и попробовать?</li>
+    <li>Если чувствуете, что не хватает убедительности, — спросите себя: чего недостаёт в ответах, что нужно добавить, чтобы действительно захотелось попробовать? Допишите.</li>
+    <li>Отметьте в тетради, насколько легко речевой аппарат встал на эти рельсы, насколько легко ум включил этот фокус внимания.</li>
+  </ol>
+  <div class="calm">Если мозги немножко кряхтят — в этом нет совершенно ничего страшного, это абсолютно нормальный этап работы.</div>
+</div>
+
+<!-- ======================= РАЗДЕЛ 3 ======================= -->
+<div class="sheet" id="ch3-u3">
+  <div class="tab"><b>10</b>Пять вопросов</div>
+  <div class="kicker-line">Раздел 3 · Инструкция и опыт</div>
+  <h2>Инструкция: мост от смысла к действию</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Продолжаем разбираться с тем, как устроена матрёшка. Мы уже поняли, что такое концепт и какие важные фрагменты внутри него обязательно должны быть — я имею в виду наших китайских принцесс. А сейчас сфокусируемся на том, что такое инструкция и опыт.</p>
+  <p>Инструкция — это своеобразный мост от идеи, от смысла, от концептуальной части — к действию. Это ответ на вопрос, что конкретно мы ожидаем от наших студентов, что мы хотим, чтобы они сделали, какое задание мы им непосредственно даём. И знаешь, по опыту: если с концептом все быстро справляются, то у многих коллег плавания начинаются именно на инструкции. Потому что здесь очень важно быть точным. Этот раздел посвящён тому, чтобы научиться давать инструкцию настолько точно, насколько это возможно.</p>
+  <p>Качественно данная инструкция отвечает на пять вопросов:</p>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 1</div>
+    <div class="n-title">Кто?</div>
+    <p>Кто конкретно будет выполнять задание: человек один или группа, вся группа целиком или её часть — двойка, тройка, пятёрка.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 2</div>
+    <div class="n-title">Что именно?</div>
+    <p>Что этот «кто-то» будет делать: завязать шнурок по определённой технологии, записать видео для отработки навыка самопрезентации.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 3</div>
+    <div class="n-title">Как именно?</div>
+    <p>По какому конкретному алгоритму, в какой рамке: видео длиной 60 секунд по заданной структуре, которую мы перед этим обсудили.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 4</div>
+    <div class="n-title">При помощи чего?</div>
+    <p>Если есть реквизит — как его использовать.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Вопрос 5</div>
+    <div class="n-title">В течение какого времени?</div>
+    <p>«У вас на это 15 минут». Или: «Это домашнее задание нужно сделать за сегодняшний вечер».</p>
+  </div>
+  <div class="example">
+    <div class="field">Собираем цельный пример</div>
+    <p>Кто? Студент. Что именно нужно сделать? Записать видео. Как именно? По заранее выстроенной структуре, длиной 60 секунд. При помощи чего? При помощи телефона, который вы поставили на штатив лицом к себе и включили селфи-камеру. В течение какого времени? У вас на это 15 минут. Понятно? Понятно.</p>
+  </div>
+  <p>Я употреблю такую метафору: когда мы переходим к инструкции, мы немножко становимся капралами — немножко превращаем обучение в этом месте в армию. В том смысле, что здесь нужно мобилизоваться самим и мобилизовать наших студентов, чтобы они очень чётко поняли, чего конкретно мы от них ожидаем. Пять вопросов — твой инструмент самопроверки: сформулировал инструкцию — пройдись по ним и убедись, что отвечаешь на все.</p>
+</div>
+
+<div class="sheet" id="ch3-s11">
+  <div class="tab"><b>11</b>Точность</div>
+  <h2>Примеры, антипримеры и маркеры неопределённости</h2>
+  <div class="h-orn">✦</div>
+  <p>Вероятно, будет полезно, если я приведу несколько примеров качественно данной инструкции.</p>
+  <div class="example">
+    <div class="field">Курс по эмоциональному интеллекту</div>
+    <p>Мы учимся распознавать негативные переживания. «Дорогой студент, возьми, пожалуйста, дневник и шаблон, который мы изучили в концептуальной части. Вспомни ситуацию, когда ты последний раз испытывал раздражение, и опиши её по заданному шаблону. У тебя на это три минуты. Обязательно укажи, какие ощущения присутствовали в теле, какие мысли приходили в голову, какие действия ты под влиянием этой эмоции совершал». Кристально ясно: кому, что нужно сделать, при помощи чего, в течение какого времени.</p>
+  </div>
+  <div class="example">
+    <div class="field">Курс по коммуникации</div>
+    <p>Изучаем навыки обратной связи. Мы предлагаем людям объединиться в пары и в течение 15 минут сыграть в игру: один рассказывает другому смешную историю из своей жизни, второй даёт на неё обратную связь по изученной модели. Потом они меняются ролями. Понятно, кто, понятно, что делают, понятно, что история должна быть смешная и какую конкретно модель используют.</p>
+  </div>
+  <p>А что происходит, когда мы с инструкциями неточны? Начинается брожение, и мы теряем управление. Когда человек попадает в зону неопределённости — а мы сами создаём её неточными инструкциями, — мы поднимаем напряжение, способствуем падению мотивации, формируем неподходящее эмоциональное состояние у студентов. Любая неточность, любая неопределённость — в концепте ли, в инструкции ли — это всегда потенциальная мина замедленного действия.</p>
+  <div class="pair">
+    <div class="no"><span class="tag">Как не надо</span>«Давайте подумаем об этом», «порассуждаем», «пообсуждайте в группах», «поделайте что-нибудь». Нет рамки рассуждения, нет цели, непонятно, что делать с результатами, с кем и зачем говорить. Такие задания создают только раздражение — и в голове студента снова танцуют китайские принцессы.</div>
+    <div class="yes"><span class="tag">Как надо</span>Точная рамка: кто, что именно, по какому алгоритму, при помощи чего и за какое время. Чем точнее мы формулируем, тем более управляемый результат получаем.</div>
+  </div>
+  <div class="chips"><i>что-нибудь</i><i>как-нибудь</i><i>где-нибудь</i><i>какой-нибудь</i><i>что-то</i></div>
+  <p>Все эти слова — потенциальные маркеры неопределённости и неуправляемых процессов внутри обучения. Важная оговорка: иногда мы можем создавать неопределённость целенаправленно. Если сознательно — что ж, вольному воля: вы, вероятно, знаете, как будете взаимодействовать с результатами, которые создадите. Но если неопределённость вам не нужна — избегайте этих лингвистических ключей. Точная инструкция — залог того, чтобы не создавать себе квадратные колёса на пустом месте.</p>
+</div>
+
+<div class="sheet" id="ch3-s12">
+  <div class="tab"><b>12</b>Форматы опыта</div>
+  <h2>Опыт: какие бывают упражнения и где их брать</h2>
+  <div class="h-orn">✦</div>
+  <p>Ну и скажем несколько слов про то, что мы имеем в виду под словом «опыт», — чтобы уж окончательно стало кристально ясно. Говоря «опыт», мы имеем в виду конкретную практику, к которой мы дали инструкцию, — некоторое упражнение. На этом месте часто возникает вопрос: а какие бывают упражнения, какой опыт мы можем предлагать? Задача это довольно творческая, но давай я набросаю тебе форматы:</p>
+  <div class="n-item">
+    <div class="n-tag">Формат 1</div>
+    <div class="n-title">Мини-дискуссия</div>
+    <p>В мини-группах или на всю группу: обмениваемся мнениями по теме, сопоставляем со своим опытом, ищем корреляции.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 2</div>
+    <div class="n-title">Ролевая игра</div>
+    <p>Например, на курсе по переговорам разыгрываем проблемные переговоры: переговорщик, сложный клиент и наблюдатель-эксперт, который даёт потом обратную связь по заранее согласованному шаблону. Роли можно прописывать очень детализированно: менеджер по продажам с десятью годами опыта, который собаку съел и немножко обнаглел, потому что привык щёлкать клиентов как орехи; клиентка 56 лет, собственница бизнеса, которая на дух не выносит продажников и заранее настроена решительно и негативно. Так участники по-настоящему погружаются в персонажей — и мы углубляем качество проживаемого опыта.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 3</div>
+    <div class="n-title">Исследование-наблюдение</div>
+    <p>Очень популярная практика на ретритах и программах духовного развития: поисследуйте свои реакции, понаблюдайте за дыханием, за тем, как эмоции сменяют друг друга. Тренируем внутреннего наблюдателя; можно задавать рамки, тайминг, фокус внимания.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 4</div>
+    <div class="n-title">Самоанализ, дневник</div>
+    <p>Наблюдение за собой в письменном виде; дневник рефлексии широко используется на курсах по психологии.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 5</div>
+    <div class="n-title">Работа в мини-группах</div>
+    <p>Посмотреть фильм и разобрать его, прийти к совместному решению, разработать проект и представить его остальным.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 6</div>
+    <div class="n-title">Практическое упражнение</div>
+    <p>Отработка конкретной технологии. «Прямо сейчас отрабатываем диафрагмальное дыхание: встали, ноги на ширине плеч, колени мягкие, спина ровная, расслабили нижнюю челюсть…»</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 7</div>
+    <div class="n-title">Челлендж</div>
+    <p>Создаём ограничение по времени или по инструментам и смотрим, какой уровень ученики продемонстрируют в ситуации некоторого стресса. Хорош для поднятия боевого духа.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Формат 8</div>
+    <div class="n-title">Разбор кейса</div>
+    <p>Принесли типовую ситуацию и разбираем, как она устроена. Например, на курсе по управлению конфликтами: директор по маркетингу и директор производственного отдела претендуют на бюджет нового проекта; какие варианты примирения мы предложили бы, будь мы сторонними консультантами-конфликтологами?</p>
+  </div>
+  <p>Пусть тебя здесь ничто не ограничивает: предлагать можно совершенно любые форматы. Вопрос не в том, какие лучше, а в том, что они решают разные задачи и бывают полезны на разных этапах программы.</p>
+  <h3>Где брать упражнения</h3>
+  <p>Заранее предполагаю этот вопрос. Во-первых, конечно, есть нейросеть, которой можно задать промт: «У меня программа на такую-то тему, я разбираю такой-то модуль. Концептуально я хочу, чтобы студенты прожили вот такую идею и пришли к вот таким выводам. Предложи мне 5–10 вариантов упражнений и практик, чтобы у меня это получилось». Это, что называется, вариант для ленивых. Есть профессиональные сообщества, где люди обмениваются играми и придумками. Есть поисковик: качественно составленный запрос — «50 вариантов групповых игр для тренинговой программы» — открывает любые двери; есть на эту тему и книжки. И, конечно, упражнения можно придумывать самому и брать из собственного жизненного опыта: «У меня была такая ситуация — давайте её разыграем и на примере этой живой ситуации отработаем навык».</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>13</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Пропишите инструкцию к конкретному упражнению</h3>
+  <ol>
+    <li>Возьмите какой-то микронавык в рамках своей программы и придумайте под него упражнение — формат выберите из списка или изобретите свой.</li>
+    <li>Письменно пропишите инструкцию к этому упражнению.</li>
+    <li>Проверьте себя по чек-листу из пяти вопросов: кто делает? что именно делает? как именно? при помощи чего? в течение какого времени?</li>
+    <li>Ответьте письменно ещё на один важный вопрос: как вы поймёте, что упражнение завершено? Где та точка, чем конкретно оно должно закончиться? Может быть, результатом станет какой-то артефакт — что появится у человека на руках?</li>
+    <li>Прочитайте инструкцию вслух глазами студента: внятно ли, ясно ли, чего от него добиваются? Отметьте места, где остаётся неопределённость, и уточните их.</li>
+  </ol>
+  <div class="calm">Фантазируйте, генерируйте — и возвращайтесь к этой инструкции свежим взглядом: именно взгляд из позиции студента показывает, насколько мы хороши в формулировках.</div>
+</div>
+
+<!-- ======================= РАЗДЕЛ 4 ======================= -->
+<div class="sheet" id="ch3-u4">
+  <div class="tab"><b>14</b>Шеринг</div>
+  <div class="kicker-line">Раздел 4 · Шеринг и рефлексия</div>
+  <h2>Шеринг: выгрузить пережитое</h2>
+  <div class="h-orn">✦</div>
+  <p class="drop">Продолжаем знакомиться с конструкцией матрёшки. У нас остались два элемента, которые следуют после опыта: шеринг и рефлексия. Давай представим участников тренинга: вот мы сделали упражнение — записали видео, отжались двенадцать раз, выполнили дыхательную практику или сыграли в эмоциональную игру про переговоры, где и покричали, и пошумели, и много чего с нами внутри произошло. После того как мы из этого опыта вышли, очень важно этим опытом поделиться — выгрузить из себя то, что с нами там происходило.</p>
+  <div class="define">
+    <div class="label">Запомним</div>
+    <p>Шеринг — это всегда про эмоции и переживания, которые были внутри опыта. Человек вербализует, каким этот опыт для него был: было сложно или легко, получилось с первого раза или нет, что он внутри думал и чувствовал, где преодолевал сопротивление.</p>
+  </div>
+  <p>Почему он так важен? Я знаю огромное количество экспертов, курсов и программ, где шеринг отсутствует как класс. И это очень плохо с точки зрения обучения взрослых людей. Потому что невыраженный, непроговорённый, невыгруженный опыт реально давит изнутри. И чем больше он давит, тем хуже человек соображает и тем хуже учится. Для эффективного обучения недостаточно просто получить качественно новый опыт — очень важно этот опыт потом проговорить. В процессе выгрузки я укладываю его внутри себя, делаю частью своего жизненного опыта, присваиваю его и объясняю сам себе, что там со мной происходило.</p>
+  <p>И вот здесь, именно с точки зрения обучения, очень важно, чтобы инструкция и шеринг совпадали. Если в инструкции мы сказали: «Сейчас в течение 60 секунд ты записываешь на видео свою самопрезентацию по подготовленной модели», — то на шеринге мы должны спросить ровно об этом. Удалось ли сделать это за 60 секунд, с одного раза или нет? Что происходило с тобой внутри процесса? Каково было проговаривать на камеру именно тот текст, который ты подготовил? Чем проговаривание на камеру отличается от проговаривания без камеры? Я задаю в шеринге вопросы, которые касаются строго той инструкции, которую я дал. Я не спрашиваю: «А думал ли ты о том, что скажет твоя мама, когда ты эту самопрезентацию опубликуешь?» Почему? Потому что это не имеет никакого отношения к инструкции.</p>
+  <p>И ещё один важный пункт: на шеринге не нужно доставать вообще всё. После упражнения про переговоры нам не нужно вытаскивать все переживания о том, кто кого в детстве обидел и у кого какие вскрылись травмы. В шеринге мы извлекаем только то, что имеет отношение к матрёшке, которую мы конструируем: к этапу концепта, на котором находимся, и к инструкции, которую задали. Здесь должна быть полная, чёткая, последовательная связь — именно так матрёшка начинает закрываться. Понимаю, может показаться: господи, как сложно. Ничего страшного — это сложно только на первый взгляд. Потихонечку, по мере практики, со всем разберёмся, не переживай.</p>
+</div>
+
+<div class="sheet" id="ch3-s15">
+  <div class="tab"><b>15</b>Рефлексия</div>
+  <h2>Рефлексия: выводы и мостик в будущее</h2>
+  <div class="h-orn">✦</div>
+  <p>После того как мы выгрузили эмоции и переживания, можно переходить к следующей очень важной части матрёшки — рефлексии. Рефлексия — это выводы, это уже рациональная история. Если шеринг касается того, что с нами происходило внутри опыта, то в рефлексии я отвечаю себе на вопросы: что это для меня теперь означает, какие выводы я делаю — и заодно как я дальше буду этим пользоваться, как применю в своей жизни. Это связка, мостик, подстройка к будущему. И одновременно — связка к следующей матрёшке: вспомни наши бусы. Выводы из рефлексии одной бусины — это всегда переход к следующей бусине, к следующему элементу концепта. Или, если тебе удобнее лесенка, — рефлексия и есть процесс перехода на следующую ступеньку.</p>
+  <div class="define">
+    <div class="label">Ключевая мысль</div>
+    <p>Рефлексия закрепляет полученный опыт, помогает разложить его по полочкам, осмыслить и рационализировать. Если мы дали концепт, инструкцию, прошли опыт, но не отрефлексировали — матрёшка остаётся незакрытой: в лучшем случае человек просто забудет, что здесь происходило, в худшем — начнётся брожение и раздражение: «а что это вообще было и зачем?»</p>
+  </div>
+  <p>Очень частая проблема большого количества курсов, ещё раз повторю, — отсутствие шеринга и рефлексии как класса. И потом эти люди ещё удивляются, почему у студентов не встраиваются навыки. Да ровно потому, что эти важнейшие элементы необходимы, чтобы мы действительно чему-то учились.</p>
+  <div class="story">
+    <div class="who">История из жизни</div>
+    <p>Думаю, у каждого из нас была ситуация, когда мы помогали другу или подруге прожить боль расставания. Представь: друг приходит к тебе посреди ночи, весь в растрёпанных чувствах, вы сидите на кухне, ты наливаешь чайку — и он в течение долгого времени, от сорока минут до нескольких часов, обливаясь слезами, выгружает всё, что произошло: «Да ты не понимаешь! Да я ей!.. Да она мне!.. Да как она могла! Да им вообще доверять нельзя!»</p>
+    <p>А теперь проверочный вопрос. Представь, что человек только начал всё это изливать, а ты ему скажешь: «Ну хорошо, давай же мы с тобой порефлексируем — какие выводы мы должны здесь сделать?» Я думаю, в этой точке твой друг тебя пошлёт. И будет прав: «Да какие выводы?! Ты что, не видишь, что со мной происходит? Ты меня выслушай сначала!»</p>
+    <p>Если мы хорошие друзья, мы будем сначала долго слушать, гладить по ручке, кивать, подливать чаю — или чего покрепче, это уж как пойдёт, — и ждать, когда он выгрузит всё. И вот он выгрузил, выдохнул — и после этого можно сказать: «Да, я понял. Очень тебе сочувствую. Ну и что будем делать дальше? Есть ли мысли, как ты будешь строить свою жизнь?» И вот тут могут начаться крайне полезные для жизни выводы: «Пожалуй, надо сделать перерыв… может быть, к психотерапевту сходить — а то, кажется, я в какую-то свою травму залип».</p>
+  </div>
+  <p>Человек в состоянии отрефлексировать даже очень болезненный опыт — при условии, что до этого у него было пространство для шеринга. Наоборот — нет. Шеринг и рефлексию ни в коем случае нельзя менять местами. Шеринг работает на то, чтобы я выгрузил накопленное, освободился от эмоций — и у меня в голове возникло свободное место, на которое уже можно укладывать рациональные выводы. Только когда градус напряжения снизился, когда закипающая вода осела и я начал ровнее дышать, — я способен к осмыслению и связкам на будущее: что я в связи с этим буду делать дальше, какие новые модели поведения мне будут нужны. Вот что такое шеринг и рефлексия на уровне нашей ежедневной бытовой жизни. И в обучении всё устроено ровно так и ровно в этой последовательности: сначала шеринг, потом рефлексия.</p>
+</div>
+
+<div class="sheet" id="ch3-s16">
+  <div class="tab"><b>16</b>Закрытие</div>
+  <h2>Вопросы, «свинодевочка» и закрытая матрёшка</h2>
+  <div class="h-orn">✦</div>
+  <p>Теперь давай совсем наглядно: какие вопросы задавать студентам на шеринге, а какие — на рефлексии.</p>
+  <div class="example">
+    <div class="field">Вопросы для шеринга</div>
+    <p>Что с тобой происходило внутри? Поделись. Насколько сложным показалось задание? Что далось легко, что вызвало затруднения? Какие чувства ты испытывал в процессе? Как ты себя чувствуешь сейчас? Хватило ли отведённого времени? Удобно ли было пользоваться инструментом? Чем это отличается от того, как ты делал это раньше?</p>
+  </div>
+  <div class="example">
+    <div class="field">Вопросы для рефлексии</div>
+    <p>К каким выводам этот опыт тебя приводит? Какие мысли в связи с этим у тебя теперь возникают? Можем ли мы подтвердить идею, которую заявили в концепте? Если в концепте мы предложили проверить гипотезу, что выступление перед камерой — нечто совсем другое, чем перед живой аудиторией, то на рефлексии мы имеем полное право спросить: есть ли разница? Если есть — в чём она заключается? Давай её сформулируем. И человек, формулируя, создаёт ровно тот вывод, который нужен, чтобы перейти на следующую ступень концепта.</p>
+  </div>
+  <p>Вопросы шеринга связаны с тем, как проходил опыт, — и, напоминаю, помогают закрыть инструкцию. На эту тему ты ещё будешь практиковаться не раз и замечать, где тебя начинает вести не туда. Это всё абсолютно нормально — переживём и всему научимся, как в той песне.</p>
+  <p>Теперь — важный момент про то, почему модель называется матрёшкой и что значит «она закрывается». Представим, что концепт не сошёлся с рефлексией, а инструкция — с шерингом. В нашем тренерском методологическом ремесле есть такой феномен — «свинодевочка»: когда одна часть тела от чего-то одного, а другая — от чего-то другого.</p>
+  <div class="pair">
+    <div class="no"><span class="tag">Как не надо</span>В концепте сказали: «Проверим, насколько выступление перед камерой отличается от выступления перед аудиторией». В инструкции: «Вот тебе 60 секунд, камера и модель — запиши самопрезентацию». А на шеринге вдруг: «Как ты считаешь, если бы твой папа сейчас был здесь, он бы одобрил то, что ты наговорил?» У студента в голове: при чём здесь мой папа, мы же занимались чем-то другим?! Или на рефлексии: «Теперь ты понимаешь, что без видео у тебя нет личного бренда, правда же?» — «Откуда мы сейчас взяли этот вывод?»</div>
+    <div class="yes"><span class="tag">Как надо</span>Концепт чётко соответствует рефлексии, инструкция чётко соответствует шерингу, а опыт внутри помогает получить ровно те выводы, которые нужны на этом этапе программы. Верхняя половинка матрёшки точно сходится с нижней — матрёшка закрывается.</div>
+  </div>
+  <p>Как только мы создаём такую «свинодевочку», матрёшка не закрывается. У студентов возникает когнитивный диссонанс и куча вопросов: где они находятся, что с ними происходит и, в-третьих, что с умственными способностями у человека, который им преподаёт. И это вопрос не «если», а «когда» они придут к нам с этими вопросами — иногда в самой нелицеприятной форме. И вот снова тот случай, когда это не студенты плохие и не они нам сложности создают — это мы своей неряшливостью допускаем ситуацию, когда люди перестают понимать, что происходит на программе. Процесс теряет управление и предсказуемость, а люди не учатся тому, чему хотели. Поэтому здесь нужно быть очень дотошным и ювелирно аккуратным.</p>
+  <p>Когда ты с этим разберёшься, ты начнёшь думать матрёшками — и видеть, что происходит в окружающем мире, когда матрёшки открываются и не закрываются. Ты будешь смотреть сериалы и видеть: мощные фильмы отличаются тем, что если какую-то матрёшку открыли в начале, то она обязательно где-нибудь закроется. Ты будешь читать книги, смотреть спектакли, слушать качественную музыку — в хороших симфониях тоже слышен этот принцип: если тему открыли, её обязаны зафиналить, чтобы у слушателя возникло ощущение гармонии: «О! Разрешилось! Сцепилось — и всё стало на свои места». Вот тот самый эффект, который создают закрытые матрёшки в обучении. Именно грамотное владение искусством построения матрёшек позволяет достигать предсказуемых, управляемых эффектов — и делать так, что люди потом рассказывают: господи, как это всё было последовательно, как внятно, как всё разложилось по полочкам.</p>
+</div>
+
+<div class="sheet sky-sheet">
+  <div class="tab"><b>17</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Соберите свою первую матрёшку целиком</h3>
+  <ol>
+    <li>Возьмите инструкцию и упражнение, которые вы прописали в прошлом разделе, и поместите их в матрёшку.</li>
+    <li>Пропишите концепт со связкой-входом: как мы здесь оказались, откуда пришли — «мы рассматриваем вот эту тему и дошли до вопроса…» И проверьте, что внутри есть ответы для китайских принцесс: зачем это и почему именно сейчас.</li>
+    <li>Проверьте инструкцию по пяти вопросам: кто делает, что делает, как именно, при помощи чего, в течение какого времени.</li>
+    <li>Письменно — это важно сделать именно письменно — распишите вопросы для шеринга, которые подходят именно к этому упражнению и закрывают именно эту инструкцию: какие вопросы о полученном опыте и чувствах нужно задать, чтобы у человека возникла связь между тем, что он делал, и тем, что получил.</li>
+    <li>Затем пропишите вопросы для рефлексии: на какие полочки раскладывается полученный опыт, чему мы научились, какие гипотезы из концепта подтвердили, какую технологию отработали, что наисследовали.</li>
+    <li>Самопроверка. Прочитайте свои вопросы к шерингу и мысленно ответьте на них из позиции студента: получается ли рассказ о том, «как это со мной было»? Теперь прочитайте вопросы к рефлексии: появляется ли внутри чувство «да, я понял, про что это было, мне понятно, какое это имеет ко мне отношение, я понимаю, что с этим делать»?</li>
+    <li>Пройдитесь по собранной конструкции ещё раз и отметьте, где всё слажено, а где возникает опасность «свинодевочки» — на какие части матрёшки нужно обратить особое внимание.</li>
+  </ol>
+  <div class="calm">Собирайте спокойненько, плавненько, без истерик и без попытки сделать идеально с первого раза. Мы разобрались, наверное, с самым сложным элементом, который в нашем методологическом деле существует, — мозг сильнее всего закипает именно на матрёшках. Очень важный критерий того, что матрёшка закрылась: «я готов двигаться дальше». Так что можно промокнуть лоб, выдохнуть — и идти играть в этот конструктор. Необходимый минимум, чтобы идти и делать, у вас точно уже есть.</div>
+</div>
+
+  <a class="sheet next-link" href="#letter" data-done="3">
+    <div class="orn">✦ ✦ ✦</div>
+    <div class="to">Продолжение готовится</div>
+    <div class="title">Глава 4 · Задачи, отношения, атмосфера</div>
+    <div class="note" style="font-style:italic; color:var(--ink-soft); margin-top:14px; font-size:17px">Вы прошли все опубликованные главы — самое время выполнить задания из рабочей тетради. Нажмите, чтобы вернуться к началу книги.</div>
+    <span class="go">Завершить главу ✓</span>
+  </a>
+</section>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>Методология. Fundamentum · интерактивная книга · Пролог — Глава 3</footer>
+
+<script>
+(function(){
+  var drawer=document.getElementById('drawer'),
+      overlay=document.getElementById('overlay'),
+      btn=document.getElementById('menuBtn'),
+      close=document.getElementById('closeBtn'),
+      toast=document.getElementById('toast');
+  var NAMES={ '0':'Пролог пройден ✓', '1':'Глава 1 пройдена ✓', '2':'Глава 2 пройдена ✓', '3':'Глава 3 пройдена ✓' };
+
+  function openDrawer(){drawer.classList.add('open');overlay.classList.add('show');}
+  function shutDrawer(){drawer.classList.remove('open');overlay.classList.remove('show');}
+  btn.addEventListener('click',function(){drawer.classList.contains('open')?shutDrawer():openDrawer();});
+  close.addEventListener('click',shutDrawer);
+  overlay.addEventListener('click',shutDrawer);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')shutDrawer();});
+
+  /* ── прогресс чтения ── */
+  function loadRead(){
+    try{return JSON.parse(localStorage.getItem('fundamentum-read')||'[]');}catch(e){return [];}
+  }
+  function saveRead(arr){
+    try{localStorage.setItem('fundamentum-read',JSON.stringify(arr));}catch(e){}
+  }
+  var readList=loadRead();
+
+  /* галочки в меню */
+  document.querySelectorAll('.nav-group[data-ch]').forEach(function(g){
+    var s=document.createElement('span'); s.className='check'; s.textContent='✓ пройдено'; g.appendChild(s);
+  });
+  function refreshMenu(){
+    document.querySelectorAll('.nav-group[data-ch]').forEach(function(g){
+      g.classList.toggle('read', readList.indexOf(g.getAttribute('data-ch'))!==-1);
+    });
+  }
+  refreshMenu();
+
+  var toastTimer=null;
+  function showToast(msg){
+    toast.textContent=msg; toast.classList.add('show');
+    if(toastTimer)clearTimeout(toastTimer);
+    toastTimer=setTimeout(function(){toast.classList.remove('show');},2600);
+  }
+  function markRead(ch){
+    if(readList.indexOf(ch)===-1){
+      readList.push(ch); saveRead(readList); refreshMenu();
+      if(NAMES[ch])showToast(NAMES[ch]);
+    }
+  }
+
+  /* ── показ по одной главе ── */
+  function activateSection(sec){
+    document.querySelectorAll('section.chapter').forEach(function(x){x.classList.remove('active');});
+    sec.classList.add('active');
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a[href^="#"]'); if(!a)return;
+    var id=a.getAttribute('href').slice(1);
+    var el=document.getElementById(id); if(!el)return;
+    var sec=el.closest('section.chapter'); if(!sec)return;
+    e.preventDefault();
+    var done=a.getAttribute('data-done'); if(done)markRead(done);
+    activateSection(sec);
+    shutDrawer();
+    if(/^(ch[0-9]+|letter)$/.test(id)){ window.scrollTo(0,0); }
+    else { el.scrollIntoView(); window.scrollBy(0,-20); }
+  });
+
+  /* при открытии: продолжить с первой непройденной главы */
+  (function(){
+    var order=['0','1','2','3'];
+    var started=readList.length>0;
+    if(!started)return; /* новичок начинает с письма автора */
+    for(var i=0;i<order.length;i++){
+      if(readList.indexOf(order[i])===-1){
+        var sec=document.getElementById('sec-'+order[i]);
+        if(sec)activateSection(sec);
+        return;
+      }
+    }
+    var last=document.getElementById('sec-3'); if(last)activateSection(last);
+  })();
+})();
+</script>
