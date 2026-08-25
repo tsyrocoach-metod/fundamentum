@@ -399,3 +399,128 @@
     .topbar .crumbs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .chap-line{font-size:10.5px;letter-spacing:.18em;padding-top:20px}
   }
+
+  /* ═══ v2: вступление ═══ */
+  .accent-block{margin:38px 0; padding:30px 34px; border:1px solid rgba(200,169,107,.5);
+    border-left:4px solid var(--gold); border-radius:12px;
+    background:linear-gradient(180deg, rgba(200,169,107,.08), rgba(200,169,107,.02))}
+  .accent-block .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:16px}
+  .accent-block p{font-size:18px}
+  .key-line{text-align:center; padding:6px 24px; margin:26px 0 30px}
+  .key-line em{font-size:20.5px; line-height:1.7; color:var(--sea-deep)}
+  sup.fn{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; color:var(--gold); font-weight:700}
+  .fnotes{margin-top:40px; padding-top:18px; border-top:1px solid var(--line)}
+  .fnotes p{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.6;
+    color:var(--ink-soft); margin:0 0 10px}
+  .fnotes p b{color:var(--gold); margin-right:8px; font-weight:700}
+
+  /* ═══ v2: карточки частей ═══ */
+  .part-card{padding:28px 34px; text-align:left}
+  .part-card .pn{margin-bottom:12px}
+  .part-card h2{margin:0 0 10px; text-align:left; font-size:25px}
+  .part-card .meta{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12.5px;
+    color:var(--ink-soft); margin-top:12px; letter-spacing:.02em}
+
+  /* ═══ v2: закладка на обложке ═══ */
+  .bookmark-box{margin:26px auto 0; max-width:820px; padding:0 16px}
+  .bookmark-in{background:rgba(251,248,241,.12); border:1px solid rgba(240,232,213,.35);
+    border-radius:12px; padding:18px 22px; color:var(--cream);
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.6; text-align:center}
+  .bookmark-in b{font-weight:700}
+  .bookmark-in .warn{display:block; margin-top:8px; font-size:12.5px; color:rgba(240,232,213,.75)}
+  .bookmark-actions{margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
+  .bookmark-actions a,.bookmark-actions button{font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
+    border-radius:999px; padding:10px 22px; border:1px solid rgba(240,232,213,.5);
+    background:transparent; color:var(--cream); text-decoration:none}
+  .bookmark-actions a.primary{background:var(--cream); color:var(--sea-deep); border-color:var(--cream)}
+  .bookmark-actions a:hover,.bookmark-actions button:hover{background:rgba(240,232,213,.18)}
+  .bookmark-actions a.primary:hover{background:#fff}
+
+  /* ═══ v2: главы раздела на странице главы ═══ */
+  .sec-chips{max-width:780px; margin:14px auto 0; padding:0 12px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center}
+  .sec-chips a{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12.5px; text-decoration:none;
+    color:rgba(240,232,213,.85); border:1px solid rgba(240,232,213,.35); border-radius:999px; padding:6px 14px}
+  .sec-chips a:hover{background:rgba(240,232,213,.15); color:#fff}
+  .sec-chips a.cur{background:var(--cream); color:var(--sea-deep); border-color:var(--cream); font-weight:700}
+  .sec-chips a.read:not(.cur){border-color:rgba(159,205,171,.6)}
+  .sec-chips a.read:not(.cur)::after{content:" ✓"; color:#9FCDAB}
+
+  /* ═══ v2: меню-дерево ═══ */
+  .nav-sec{margin:18px 0 4px}
+  .nav-sec>button{display:flex; align-items:center; gap:8px; width:100%; text-align:left; background:none; border:none;
+    cursor:pointer; font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--gold); padding:6px 0; font-weight:700}
+  .nav-sec>button .arr{margin-left:auto; transition:transform .2s; font-size:12px}
+  .nav-sec.open>button .arr{transform:rotate(90deg)}
+  .nav-sec .items{display:none}
+  .nav-sec.open .items{display:block}
+  .nav-item .num{color:var(--gold); margin-right:8px}
+  .nav-item.cur{color:#fff; border-left-color:var(--gold); font-weight:600}
+  .nav-item.read::after{content:" ✓"; color:#9FCDAB; font-size:12px}
+  .drawer .foot{margin-top:26px; padding-top:16px; border-top:1px solid rgba(240,232,213,.25);
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.65); line-height:1.6}
+
+  /* ═══ v2: практика — кнопка тетради ═══ */
+  .wb-note{background:rgba(251,248,241,.12); border:1px solid rgba(240,232,213,.3); border-radius:10px;
+    padding:14px 18px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6;
+    color:rgba(240,232,213,.95); margin-bottom:18px}
+  .practice-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+  .wb-btn{display:inline-block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; font-weight:600;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--sea-deep); text-decoration:none;
+    background:var(--gold); border-radius:999px; padding:13px 30px; box-shadow:0 4px 14px rgba(20,40,45,.25)}
+  .wb-btn:hover{background:#CBA96B}
+
+  /* ═══ v2: рабочая тетрадь ═══ */
+  .wb-wrap{max-width:860px; margin:0 auto 72px; padding:0 12px; display:flex; flex-direction:column; gap:30px}
+  .wb-page{background:var(--page); border-radius:14px; padding:46px 58px 50px; position:relative;
+    box-shadow:0 22px 60px rgba(20,40,45,.32), 0 3px 12px rgba(20,40,45,.18)}
+  .wb-page .wb-kicker{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.26em;
+    text-transform:uppercase; color:var(--gold); font-weight:700}
+  .wb-page h2{text-align:left; font-size:25px; margin:8px 0 4px}
+  .wb-page .wb-src{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--ink-soft); margin-bottom:20px}
+  .wb-q{margin:22px 0 10px; font-size:17.5px; line-height:1.65}
+  .wb-q b{color:var(--gold); margin-right:6px}
+  .wb-ans{border:1px solid var(--line); border-radius:8px; background:#fff; min-height:96px;
+    padding:12px 16px; font-family:Georgia,'Times New Roman',serif; font-size:16px; line-height:28px;
+    color:var(--ink); background-image:repeating-linear-gradient(transparent, transparent 27px, var(--line) 27px, var(--line) 28px);
+    background-origin:content-box}
+  .wb-ans:focus{outline:2px solid var(--gold); outline-offset:1px}
+  .wb-ans:empty::before{content:attr(data-ph); color:#A9A18D; font-style:italic}
+  .wb-head{color:var(--cream); text-align:center; padding:48px 24px 8px}
+  .wb-head .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.35em;
+    text-transform:lowercase; color:rgba(240,232,213,.75)}
+  .wb-head h1{font-weight:400; font-size:clamp(26px,4.6vw,38px); margin:10px 0 0; letter-spacing:.06em; text-transform:uppercase}
+  .wb-toolbar{position:sticky; top:0; z-index:40; background:rgba(52,82,88,.94);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}
+  .wb-toolbar-in{max-width:860px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--cream)}
+  .wb-toolbar a{color:var(--cream); text-decoration:none; opacity:.9; white-space:nowrap}
+  .wb-toolbar a:hover{opacity:1}
+  .wb-toolbar .sp{margin-left:auto}
+  .wb-toolbar button{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:9px 20px;
+    border:none; background:var(--cream); color:var(--sea-deep)}
+  .wb-toolbar button:hover{background:#fff}
+  .wb-saved{font-size:11.5px; color:rgba(240,232,213,.7)}
+  .wb-intro p{margin-bottom:16px}
+
+  /* ═══ v2: печать ═══ */
+  .print-stub{display:none}
+  @media print{
+    body.wb{background:#fff !important}
+    @page{size:A4; margin:0}
+    body.wb .wb-toolbar, body.wb .menu-btn, body.wb .drawer, body.wb .overlay, body.wb .wb-head{display:none !important}
+    body.wb .wb-wrap{max-width:none; margin:0; padding:0; gap:0; display:block}
+    body.wb .wb-page{box-shadow:none; border-radius:0; padding:18mm 16mm; margin:0;
+      page-break-after:always; break-after:page; background:#fff}
+    body.wb .wb-page:last-child{page-break-after:auto; break-after:auto}
+    body.wb .wb-ans{background-color:#fff; border-color:#bbb}
+    body.wb .wb-ans:empty{min-height:34mm}
+  }
+  @media (max-width:840px){
+    .wb-page{padding:32px 22px 36px}
+    .accent-block{padding:22px 20px}
+    .bookmark-actions{flex-direction:column; align-items:center}
+  }

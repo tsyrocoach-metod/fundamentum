@@ -6,42 +6,173 @@
 <title>Управляемо и предсказуемо — книга Андрея Ланда</title>
 <link rel="stylesheet" href="book.css">
 </head>
-<body>
-<div class="sky-head" style="padding:44px 24px 30px">
+<body class="book-page">
+<button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
+<svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1h18M1 8h18M1 15h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="overlay" id="overlay"></div>
+<nav class="drawer" id="drawer" aria-label="Оглавление книги">
+<button class="close" type="button" id="drawerClose">×</button>
+<div class="brand">Управляемо и предсказуемо</div>
+<div class="sub">Андрей Ланд · часть 1</div>
+<a class="nav-group" href="index.html">Обложка и вступление</a><div class="nav-sec"><button type="button">Раздел 1 · Поговорим по понятиям<span class="arr">›</span></button><div class="items"><a class="nav-item" data-k="g1r1" href="g1r1.html"><span class="num">1</span>Методология и методолог</a><a class="nav-item" data-k="g1r2" href="g1r2.html"><span class="num">2</span>Методолог, продакт-менеджер, маркетолог: проведём границы</a><a class="nav-item" data-k="g1r3" href="g1r3.html"><span class="num">3</span>Метапозиция методолога</a><a class="nav-item" data-k="g1r4" href="g1r4.html"><span class="num">4</span>Чем обучение взрослых отличается от обучения детей</a></div></div><div class="nav-sec"><button type="button">Раздел 2 · От чистого листа — к фундаменту твоей программы<span class="arr">›</span></button><div class="items"><a class="nav-item" data-k="g2r1" href="g2r1.html"><span class="num">5</span>Чему учим: цель обучения</a><a class="nav-item" data-k="g2r2" href="g2r2.html"><span class="num">6</span>Кого учим: портрет студента</a><a class="nav-item" data-k="g2r3" href="g2r3.html"><span class="num">7</span>Результат обучения</a><a class="nav-item" data-k="g2r4" href="g2r4.html"><span class="num">8</span>Сроки обучения: как соотнести обещания со временем</a></div></div><div class="nav-sec"><button type="button">Раздел 3 · Макро-структура: концепт и лестница навыков<span class="arr">›</span></button><div class="items"><a class="nav-item" data-k="g3r1" href="g3r1.html"><span class="num">9</span>Концепт программы: какую историю мы рассказываем студенту?</a><a class="nav-item" data-k="g3r2" href="g3r2.html"><span class="num">10</span>Модель TOTE: строительный блок для создания изменений</a><a class="nav-item" data-k="g3r3" href="g3r3.html"><span class="num">11</span>Три позиции описания</a><a class="nav-item" data-k="g3r4" href="g3r4.html"><span class="num">12</span>Простые и комплексные навыки</a><a class="nav-item" data-k="g3r5" href="g3r5.html"><span class="num">13</span>Лестница навыков</a></div></div><div class="nav-sec"><button type="button">Раздел 4 · Микро-структура: как рождается навык<span class="arr">›</span></button><div class="items"><a class="nav-item" data-k="g4r1" href="g4r1.html"><span class="num">14</span>Формирование навыка: «матрёшка»</a><a class="nav-item" data-k="g4r2" href="g4r2.html"><span class="num">15</span>Концептуальная часть матрёшки</a><a class="nav-item" data-k="g4r3" href="g4r3.html"><span class="num">16</span>Инструкция и опыт</a><a class="nav-item" data-k="g4r4" href="g4r4.html"><span class="num">17</span>Шеринг и рефлексия</a></div></div><a class="nav-group" href="chast-1.html">Оглавление части 1</a><a class="nav-group" href="tetrad.html">Рабочая тетрадь</a><span class="nav-group" style="color:rgba(240,232,213,.45)">Части 2–4 — скоро</span>
+<div class="foot" id="drawerFoot"></div>
+</nav>
+<div class="sky-head" style="padding:52px 24px 34px">
   <div class="over">методология обучения взрослых</div>
+  <div class="brand">Управляемо и предсказуемо</div>
+  <div class="crumbs">Андрей Ланд · практическое руководство по созданию обучающих программ для взрослых</div>
+</div>
+<div class="sheets">
+<div class="sheet letter" id="letter">
+    <div class="tab"><b>✦</b>От автора</div>
+    <div class="kicker-line">Вместо предисловия</div>
+    <h2>Добро пожаловать в книгу</h2>
+    <div class="h-orn">✦</div>
+    <p class="drop">Привет, дорогой друг и коллега! Я рад приветствовать тебя на страницах книги «Управляемо и предсказуемо». Из подзаголовка, вероятно, ты уже понял, что речь пойдёт о том, <b>как создавать современные, эффективные, классные образовательные продукты</b>, однако я должен прокомментировать и само название. Впервые про управляемость и предсказуемость как важнейшие характеристики образовательного процесса я услышал от Татьяны Мужицкой<sup class="fn">1</sup>, которую счастлив называть своим Наставником, Другом и вообще одним из важнейших людей в своей жизни.</p>
+    <p>На протяжении 3 лет мне повезло обучаться у Тани тренерскому ремеслу<sup class="fn">2</sup>, и она не упускала возможности снова и снова напоминать о том, что всяческие разнообразные подходы, инструменты и механики работы с группой нужны по большому счёту именно затем, чтобы процесс продолжал быть именно таким: <b>управляемым и предсказуемым</b>.</p>
+    <p>Теперь этими двумя словами я проедаю плешь уже своим студентам на Тренинге Тренеров и курсе «Методология Fundamentum», и когда дело дошло до поиска названия для книги, я понял — лучшего варианта мне не найти. В словах «управляемо и предсказуемо» действительно заключена <b>квинтэссенция подхода к обучению взрослых</b>, которым я владею и который намерен передать тебе на этих страницах.</p>
+
+    <h3>Что тебя здесь ждёт?</h3>
+    <p>Десять глав глубокого и вдумчивого исследования, суть которого сводится к тому, чтобы мы с тобой <b>научились думать и действовать как архитекторы образовательных продуктов</b>. Я знаю, что для многих людей слово «обучение» ассоциируется с чем-то серым, скучным и тяжёлым, как бетонная плита. Мне очень хочется показать тебе, что современное образование может и должно быть другим: вдохновляющим, увлекательным, глубоким, радостным, — и мы будем вместе разбираться, что позволяет делать его таким.</p>
+    <p>Как видишь, я обращаюсь к тебе на «ты» (следовательно, ко мне можно так же ;), и вообще стремлюсь сразу же задать максимально неформальный, простой, доброжелательный тон общения — ровно такой же, как на любых моих программах. Периодически буду травить анекдоты и байки, иллюстрировать метафорами сложные идеи и концепции — всё это тоже неслучайно, и в какой-то момент мы обязательно обсудим, для чего я всё это делаю.</p>
+    <p>Пока же отделаюсь вот таким кратким объяснением: опыт работы в сфере обучения многократно убедил меня, что —</p>
+    <p class="key-line"><em>чем более лёгкая, доброжелательная и открытая среда взаимодействия формируется внутри курса / учебной группы, тем эффективнее протекает образовательный процесс как таковой.</em></p>
+
+    <div class="accent-block">
+      <div class="label">Как устроена книга</div>
+      <p>Главы выстроены в той же логике, в которой строится программа «Методология Fundamentum»: мы будем двигаться шаг за шагом, <b>от общего к частному, сначала принципы, потом методы</b>. Сначала самые базовые вопросы и поиск ответов на них (например, в чём цель обучения или каков портрет нашего будущего студента?), а затем детализация и конкретизация (скажем, механики управления вниманием внутри каждого урока и т.д.).</p>
+      <p>В первую очередь мы рассмотрим вопросы конструирования программы с нуля — этому будет посвящена первая часть под названием <b>«Структура программы»</b>.</p>
+      <p>Далее поговорим о том, как строить отношения и взаимодействие с учениками — об этом будет вторая часть книги <b>«Коммуникация со студентами»</b>.</p>
+      <p>Третью часть посвятим роли ведущего (так она и будет называться — <b>«Ведущий курса»</b>) — в ней речь пойдёт о том, как удерживать внимание студентов, как структурировать свои мысли и речь во время записи уроков и проведения вебинаров, какими коммуникативными навыками необходимо обладать, чтобы способствовать наиболее эффективному обучению тех, кто пришёл на курс.</p>
+      <p>Ну, и четвёртая часть <b>«Управление прогрессом и оценка результатов»</b> будет выполнять роль эдакой «докрутки»: в ней мы будем добавлять некоторые нюансы и технологические детали о том, как ещё можно управлять восприятием и прогрессом студентов, как может быть устроена система оценки результатов, сертификация и т.д.</p>
+      <p>Моё намерение заключается в том, чтобы весь процесс создания собственного обучающего продукта стал для тебя предельно ясным и прозрачным. Именно поэтому в книге не будет длинного, тяжеловесного, наукообразного изложения концепций, методик и их авторов — пусть этим занимается фундаментальная наука. А мы с тобой практики, наша задача — освоить профессиональный методологический язык и как можно скорее начать его применять.</p>
+      <p>Для максимальной эффективности рекомендую тебе двигаться последовательно: всякая следующая глава будет опираться на предыдущую. Внутри каждой главы тебя будут ждать задания для самостоятельного выполнения: тёмные листы — это твоя «рабочая тетрадь». Если ты хочешь, чтобы книга помогла тебе не только теоретически, но и практически, — задания имеет смысл выполнять (внезапно, да?). При таком подходе у тебя есть все условия и возможности <b>к концу книги собрать с нуля или пересобрать заново свою авторскую программу</b>.</p>
+    </div>
+
+    <h3>В каком темпе читать</h3>
+    <p>Выбери комфортный для себя темп: кому-то комфортна глава в неделю, с паузой на практику и её осмысление. Кто-то будет двигаться быстрее. Торопиться некуда и незачем: в конечном итоге идея <b>не в том, чтобы книгу просто прочитать, а в том, чтобы её «присвоить»</b> (в театре это слово означает — интегрировать текст роли, сделать так, чтобы он звучал органично, как будто бы родился из тебя самого). В нашем случае критерием такого «присвоения» будет <b>появление твоего собственного образовательного продукта у тебя в руках к концу чтения книги</b>.</p>
+    <p>И наконец: на страницах этой книги я постараюсь сделать всё от меня зависящее, чтобы твой способ думать об организации обучающего процесса вышел на качественно иной уровень, и чтобы твои будущие студенты вспоминали именно твои курсы и программы как лучшее, что было с ними в жизни.</p>
+    <p>Вот, кажется, и все вводные. И прежде чем начнём погружение — вот твоё первое задание.</p>
+    <div class="sig">С уважением,<b>Андрей Ланд</b></div>
+    <div class="fnotes">
+      <p><b>1</b> Татьяна Мужицкая — психолог, бизнес-тренер, автор книг-бестселлеров.</p>
+      <p><b>2</b> Кстати, я всерьёз считаю годы этой учёбы своим третьим высшим образованием — настолько они были глубокими, плотными и трансформационными в профессиональном и личностном плане.</p>
+    </div>
+  </div>
+
+  <div class="sheet sky-sheet">
+    <div class="tab"><b>✦</b>Практика</div>
+    <div class="label">Рабочая тетрадь</div>
+    <h3>Твоё первое задание</h3>
+    <div class="wb-note">У этой книги есть рабочая тетрадь — отдельные листы для заданий. Заполняй их прямо на сайте: ответы сохраняются в твоём браузере, а всю тетрадь можно в любой момент сохранить в PDF или распечатать и работать от руки.</div>
+    <div class="task">
+      <div class="q"><b>1.</b> Прямо сейчас, не откладывая, запиши ответ на вопрос: какой высший смысл привёл тебя к изучению методологии? Ради чего ты открыл эту книгу?</div>
+      <textarea rows="4" data-wb="letter-1" placeholder="Твой высший смысл: ради чего ты здесь…"></textarea>
+    </div>
+    <div class="task">
+      <div class="q"><b>2.</b> Сделай закладку на этой записи. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляни в эту запись и возьми оттуда ресурс, чтобы сделать ещё один шаг навстречу своей цели, навстречу своему методологическому мастерству.</div>
+    </div>
+    <div class="practice-actions"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать вопросы и ответы</button></div>
+    <div class="practice-hint">Тетрадь откроется в соседней вкладке — удобно заполнять её параллельно с чтением.</div>
+  </div>
+
 </div>
 <div class="cover-wrap">
-  <div class="cover-sheet">
-    <div class="over">Андрей Ланд</div>
-    <h1>УПРАВЛЯЕМО И ПРЕДСКАЗУЕМО</h1>
-    <div class="rule"></div>
-    <p class="sub">Практическое руководство по созданию обучающих программ для взрослых</p>
-    <div class="cover-intro">
-      <p>Я знаю, что для многих людей слово «обучение» ассоциируется с чем-то серым, скучным и тяжёлым, как бетонная плита. Мне очень хочется показать тебе, что современное образование может и должно быть другим: вдохновляющим, увлекательным, глубоким, радостным, — и мы будем вместе разбираться, что позволяет делать его таким.</p>
-      <p>Десять глав, четыре части. К последней странице у тебя на руках будет собственная программа — собранная с нуля или пересобранная заново. Внутри каждой главы ждут задания для самостоятельной работы: тёмные листы — это твоя рабочая тетрадь.</p>
-    </div>
-    <div class="author"><a href="ot-avtora.html" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px">Читать вступление автора</a></div>
-  </div>
   <div class="parts-label">Четыре части книги</div>
   <div class="parts"><a class="part-card" href="chast-1.html">
-  <div class="pn">Часть 1 · Главы 1–4<span class="done" id="pdone"></span></div>
+  <div class="pn">Часть 1<span class="done" id="pdone"></span></div>
   <h2>Структура программы</h2><p>Как собрать программу с нуля: от цели и портрета студента до концепта, лестницы навыков и матрёшки одного урока.</p>
+  <div class="meta">Разделы 1–4 · Главы 1–17</div>
   <span class="go">Читать →</span></a><div class="part-card locked">
-  <div class="pn">Часть 2 · Главы 5–6</div>
+  <div class="pn">Часть 2</div>
   <h2>Коммуникация со студентами</h2><p>Как строить отношения и взаимодействие с учениками: три оси, контракт, атмосфера, мотивация и групповая динамика.</p>
   <span class="soon">🔒 Скоро — опубликуем здесь</span></div><div class="part-card locked">
-  <div class="pn">Часть 3 · Глава 7</div>
+  <div class="pn">Часть 3</div>
   <h2>Ведущий курса</h2><p>Как удерживать внимание, структурировать речь и сохранять ресурсное состояние.</p>
   <span class="soon">🔒 Скоро — опубликуем здесь</span></div><div class="part-card locked">
-  <div class="pn">Часть 4 · Главы 8–10</div>
+  <div class="pn">Часть 4</div>
   <h2>Управление прогрессом и оценка результатов</h2><p>Визуальная дидактика, оценка результата, сертификация и манифест методолога.</p>
   <span class="soon">🔒 Скоро — опубликуем здесь</span></div></div>
 </div>
+<div class="bookmark-box"><div class="bookmark-in" id="bmBox">
+  <span id="bmText">Начни со вступления автора — или сразу с первой главы.</span>
+  <div class="bookmark-actions" id="bmActions"><a class="primary" id="bmGo" href="g1r1.html">Начать читать</a>
+  <button type="button" id="bmCopy" hidden>Скопировать ссылку-закладку</button></div>
+  <span class="warn">Закладка и ответы в тетради хранятся в этом браузере. Читаешь с другого устройства — скопируй ссылку-закладку и открой её там, либо вернись к своей главе через оглавление.</span>
+</div></div>
+
 <script>
 (function(){var K='up-read';
  window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
  window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script><script>window.upOrder=[["g1r1", "g1r1.html", "Раздел 1 · Глава 1", "Методология и методолог"], ["g1r2", "g1r2.html", "Раздел 1 · Глава 2", "Методолог, продакт-менеджер, маркетолог: проведём границы"], ["g1r3", "g1r3.html", "Раздел 1 · Глава 3", "Метапозиция методолога"], ["g1r4", "g1r4.html", "Раздел 1 · Глава 4", "Чем обучение взрослых отличается от обучения детей"], ["g2r1", "g2r1.html", "Раздел 2 · Глава 5", "Чему учим: цель обучения"], ["g2r2", "g2r2.html", "Раздел 2 · Глава 6", "Кого учим: портрет студента"], ["g2r3", "g2r3.html", "Раздел 2 · Глава 7", "Результат обучения"], ["g2r4", "g2r4.html", "Раздел 2 · Глава 8", "Сроки обучения: как соотнести обещания со временем"], ["g3r1", "g3r1.html", "Раздел 3 · Глава 9", "Концепт программы: какую историю мы рассказываем студенту?"], ["g3r2", "g3r2.html", "Раздел 3 · Глава 10", "Модель TOTE: строительный блок для создания изменений"], ["g3r3", "g3r3.html", "Раздел 3 · Глава 11", "Три позиции описания"], ["g3r4", "g3r4.html", "Раздел 3 · Глава 12", "Простые и комплексные навыки"], ["g3r5", "g3r5.html", "Раздел 3 · Глава 13", "Лестница навыков"], ["g4r1", "g4r1.html", "Раздел 4 · Глава 14", "Формирование навыка: «матрёшка»"], ["g4r2", "g4r2.html", "Раздел 4 · Глава 15", "Концептуальная часть матрёшки"], ["g4r3", "g4r3.html", "Раздел 4 · Глава 16", "Инструкция и опыт"], ["g4r4", "g4r4.html", "Раздел 4 · Глава 17", "Шеринг и рефлексия"]];</script><script>
+(function(){
+ var d=document.getElementById('drawer'),o=document.getElementById('overlay');
+ function open(){d.classList.add('open');o.classList.add('show')}
+ function close(){d.classList.remove('open');o.classList.remove('show')}
+ var mb=document.getElementById('menuBtn');if(mb)mb.addEventListener('click',open);
+ var db=document.getElementById('drawerClose');if(db)db.addEventListener('click',close);
+ if(o)o.addEventListener('click',close);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+ document.querySelectorAll('.nav-sec>button').forEach(function(b){
+   b.addEventListener('click',function(){b.parentNode.classList.toggle('open')})});
+ var tb=document.querySelector('.topbar a[data-menu]');
+ if(tb)tb.addEventListener('click',function(e){e.preventDefault();open()});
+ var r=window.upRead();
+ document.querySelectorAll('.drawer .nav-item').forEach(function(a){
+   if(r.indexOf(a.dataset.k)>=0)a.classList.add('read')});
+ var f=document.getElementById('drawerFoot');
+ if(f&&window.upOrder){var nxt=null;
+   for(var i=0;i<upOrder.length;i++){if(r.indexOf(upOrder[i][0])<0){nxt=upOrder[i];break}}
+   f.innerHTML='Прочитано глав: <b>'+r.length+' из '+upOrder.length+'</b>'+
+     (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть прочитана целиком ✓');
+ }
+})();</script><script>
+(function(){var K='up-wb';
+ function load(){try{return JSON.parse(localStorage.getItem(K)||'{}')}catch(e){return {}}}
+ function save(m){try{localStorage.setItem(K,JSON.stringify(m))}catch(e){}}
+ var m=load();
+ document.querySelectorAll('textarea[data-wb]').forEach(function(t){
+   if(m[t.dataset.wb])t.value=m[t.dataset.wb];
+   t.addEventListener('input',function(){m[t.dataset.wb]=t.value;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+ document.querySelectorAll('.wb-ans[data-wb]').forEach(function(d){
+   if(m[d.dataset.wb])d.innerText=m[d.dataset.wb];
+   d.addEventListener('input',function(){m[d.dataset.wb]=d.innerText;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+})();</script><script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.copy-btn'); if(!b)return;
+  var sh=b.closest('.sky-sheet'); if(!sh)return;
+  var t=sh.querySelector('h3');
+  var L=['Рабочая тетрадь · '+(t?t.textContent.trim():'Практика'),''];
+  sh.querySelectorAll('.task').forEach(function(x){
+    var q=x.querySelector('.q'),a=x.querySelector('textarea');
+    if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
+    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
+  });
+  var txt=L.join('\n');
+  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
+  function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+});</script>
+<script>(function(){
+  var r=window.upRead();
+  if(r.length>0){var d=document.getElementById('pdone');if(d)d.textContent=' · прочитано '+r.length+' из 17 глав'}
+  var nxt=null;for(var i=0;i<upOrder.length;i++){if(r.indexOf(upOrder[i][0])<0){nxt=upOrder[i];break}}
+  var t=document.getElementById('bmText'),go=document.getElementById('bmGo'),cp=document.getElementById('bmCopy');
+  if(r.length>0&&nxt){
+    t.innerHTML='Твоя закладка: <b>'+nxt[2]+'</b> — '+nxt[3];
+    go.textContent='Продолжить чтение';go.href=nxt[1];cp.hidden=false;
+    cp.addEventListener('click',function(){
+      var u=new URL(nxt[1],location.href).href;
+      function ok(){cp.textContent='Ссылка скопирована ✓';setTimeout(function(){cp.textContent='Скопировать ссылку-закладку'},2200)}
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok);else{prompt('Ссылка-закладка:',u);}
+    });
+  } else if(r.length>=17){t.innerHTML='Часть 1 прочитана целиком ✓';go.textContent='Перечитать';}
 })();</script>
-<script>(function(){var n=window.upRead().length;if(n>0){var d=document.getElementById('pdone');if(d)d.textContent=' · прочитано '+n+' из 17'}})();</script>
 </body>
 </html>
