@@ -602,3 +602,13 @@
   .toc-note{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px;
     color:var(--ink-soft); max-width:52ch; margin:14px auto 0; text-wrap:balance}
   @media (max-width:600px){.sec-tiles{grid-template-columns:1fr}}
+
+  /* ═══ v2.5: иллюстрации в тексте, обтекание ═══ */
+  .ill{float:right; width:32%; max-width:250px; margin:6px 0 14px 22px;
+    border:1px solid var(--line); border-radius:10px; background:var(--page-edge)}
+  .ill-wide{width:38%; max-width:310px}
+  .sheet::after, .story::after{content:""; display:block; clear:both}
+  @media (max-width:600px){
+    .ill{width:45%; margin:4px 0 10px 14px}
+    .ill-wide{width:52%}
+  }
