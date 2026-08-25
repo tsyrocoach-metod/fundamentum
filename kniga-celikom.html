@@ -552,6 +552,46 @@
   .fig-cap{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13.5px;
     color:var(--ink-soft); margin-top:12px}
   .fig-cap b{color:var(--gold); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:11.5px; margin-right:6px}
+
+  /* ═══ v2.3: обложка-титул ═══ */
+  .cover-hero{min-height:86vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; color:var(--cream); padding:80px 24px 48px}
+  .cover-hero .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; font-weight:700;
+    letter-spacing:.4em; text-transform:uppercase; color:#E8CF9E}
+  .cover-title{font-weight:400; font-size:clamp(36px,7.5vw,78px); line-height:1.16; letter-spacing:.1em;
+    text-transform:uppercase; margin:26px 0 0; text-wrap:balance}
+  .cover-rule{width:64px; height:1px; background:var(--gold); margin:30px auto 0; opacity:.9}
+  .cover-sub{font-size:19px; line-height:1.6; color:rgba(240,232,213,.85); max-width:460px; margin:24px auto 0; text-wrap:balance}
+  .cover-cta{display:inline-block; margin-top:40px; font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:14px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; text-decoration:none;
+    color:var(--sea-deep); background:var(--cream); border-radius:999px; padding:17px 44px;
+    box-shadow:0 10px 30px rgba(20,40,45,.35); transition:transform .2s, box-shadow .2s}
+  .cover-cta:hover{transform:translateY(-2px); box-shadow:0 16px 40px rgba(20,40,45,.45); background:#fff}
+  .cover-more{display:inline-block; margin-top:22px; font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:13px; letter-spacing:.06em; color:rgba(240,232,213,.75); text-decoration:none}
+  .cover-more:hover{color:#fff}
+
+  /* ═══ v2.3: заставка раздела ═══ */
+  .sec-art{display:block; width:100%; max-width:520px; margin:0 auto 22px;
+    border:1px solid rgba(240,232,213,.4); border-radius:14px; box-shadow:0 18px 46px rgba(20,40,45,.3)}
+  .sec-thumb{width:46px; height:46px; object-fit:cover; border-radius:50%;
+    border:1px solid rgba(200,169,107,.6); flex:none; align-self:center}
+
+  /* ═══ v2.3: мини-карта пути в меню ═══ */
+  .nav-map-label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.24em;
+    text-transform:uppercase; color:rgba(240,232,213,.6); margin:26px 0 8px}
+  .nav-map{display:flex; align-items:flex-end; gap:7px}
+  .nav-map .step{flex:1; position:relative; border:1px solid rgba(240,232,213,.35); border-radius:6px 6px 3px 3px;
+    overflow:hidden; background:rgba(251,248,241,.06)}
+  .nav-map .step i{position:absolute; left:0; right:0; bottom:0; background:rgba(200,169,107,.55); transition:height .4s}
+  .nav-map .step.done i{background:var(--gold)}
+  .nav-map .step.cur{border-color:var(--gold)}
+  .nav-map .step b{position:absolute; left:0; right:0; bottom:3px; text-align:center;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; font-weight:700; color:var(--cream)}
+  @media (max-width:840px){
+    .cover-hero{min-height:78vh; padding-top:96px}
+    .cover-sub{font-size:17px}
+  }
 </style>
 </head>
 <body>
