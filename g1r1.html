@@ -3,18 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Глава 1. Методология и методолог — Управляемо и предсказуемо</title>
+<title>Методология и методолог — Управляемо и предсказуемо</title>
 <link rel="stylesheet" href="book.css">
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
-  <a href="chast-1.html">☰ Оглавление</a>
-  <span class="crumbs">Часть 1 · Раздел 1 · Глава 1 из 17</span>
+  <a href="chast-1.html">☰ Оглавление</a><span class="crumbs">Часть 1 · Глава 1 · Раздел 1 из 4</span>
 </div><div class="pbar"><i style="width:6%"></i></div></div>
-
+<div class="chap-line">Глава 1. Отправные точки</div>
 <div class="sheets">
 <div class="sheet chapter-head" id="ch1">
-  <div class="kicker">Глава 1</div>
+  <div class="kicker">Раздел 1</div>
   <h1>Методология и методолог</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -57,22 +56,14 @@
   </ol>
 </div>
 </div>
-
-<nav class="cnav"><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="glava-02.html" data-done="1"><span class="lb">Следующая →</span><span class="tt">Методолог, продуктолог, маркетолог: проведём границы</span></a></nav>
-
+<nav class="cnav"><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="g1r2.html" data-done="g1r1"><span class="lb">Дальше →</span><span class="tt">Методолог, продуктолог, маркетолог: проведём границы</span></a></nav>
 <script>
-(function(){
-  var KEY='up-read';
-  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
-  function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-  window.upRead=read; window.upSave=save;
-  window.upMark=function(n){var a=read();if(a.indexOf(n)<0){a.push(n);save(a)}};
-})();
-</script>
+(function(){var K='up-read';
+ window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
+ window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script>
+<script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-done]');if(a)window.upMark(a.getAttribute('data-done'))});</script>
 <script>
-document.addEventListener('click',function(e){
-  var a=e.target.closest('a[data-done]'); if(a) window.upMark(parseInt(a.getAttribute('data-done'),10));
-});
 document.addEventListener('click',function(e){
   var b=e.target.closest('.copy-btn'); if(!b)return;
   var sh=b.closest('.sky-sheet'); if(!sh)return;
@@ -81,15 +72,13 @@ document.addEventListener('click',function(e){
   sh.querySelectorAll('.task').forEach(function(x){
     var q=x.querySelector('.q'),a=x.querySelector('textarea');
     if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
-    if(a)L.push('Мой ответ: '+a.value.trim());
-    L.push('');
+    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
   });
   var txt=L.join('\n');
-  function ok(){b.textContent='Скопировано ✓';setTimeout(function(){b.textContent='Скопировать в рабочую тетрадь'},2200)}
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
   function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){};document.body.removeChild(ta)}
-});
-</script>
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+});</script>
 </body>
 </html>

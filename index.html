@@ -18,43 +18,30 @@
     <p class="sub">Практическое руководство по созданию обучающих программ для взрослых</p>
     <div class="cover-intro">
       <p>Я знаю, что для многих людей слово «обучение» ассоциируется с чем-то серым, скучным и тяжёлым, как бетонная плита. Мне очень хочется показать тебе, что современное образование может и должно быть другим: вдохновляющим, увлекательным, глубоким, радостным, — и мы будем вместе разбираться, что позволяет делать его таким.</p>
-      <p>Книга устроена так, чтобы к последней странице у тебя на руках была собственная программа — собранная с нуля или пересобранная заново. Внутри каждой главы ждут задания для самостоятельной работы: тёмные листы — это твоя рабочая тетрадь.</p>
+      <p>Десять глав, четыре части. К последней странице у тебя на руках будет собственная программа — собранная с нуля или пересобранная заново. Внутри каждой главы ждут задания для самостоятельной работы: тёмные листы — это твоя рабочая тетрадь.</p>
     </div>
     <div class="author"><a href="ot-avtora.html" style="color:inherit;text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px">Читать вступление автора</a></div>
   </div>
-
   <div class="parts-label">Четыре части книги</div>
-  <div class="parts">
-    <a class="part-card" href="chast-1.html">
-  <div class="pn">Часть 1<span class="done" id="pdone"></span></div>
+  <div class="parts"><a class="part-card" href="chast-1.html">
+  <div class="pn">Часть 1 · Главы 1–4<span class="done" id="pdone"></span></div>
   <h2>Структура программы</h2><p>Как собрать программу с нуля: от цели и портрета студента до концепта, лестницы навыков и матрёшки одного урока.</p>
   <span class="go">Читать →</span></a><div class="part-card locked">
-  <div class="pn">Часть 2</div>
-  <h2>Коммуникация со студентами</h2><p>Как строить отношения и взаимодействие с учениками.</p>
+  <div class="pn">Часть 2 · Главы 5–6</div>
+  <h2>Коммуникация со студентами</h2><p>Как строить отношения и взаимодействие с учениками: три оси, контракт, атмосфера, мотивация и групповая динамика.</p>
   <span class="soon">🔒 Скоро — опубликуем здесь</span></div><div class="part-card locked">
-  <div class="pn">Часть 3</div>
-  <h2>Ведущий курса</h2><p>Как удерживать внимание, структурировать речь и какими коммуникативными навыками владеть.</p>
+  <div class="pn">Часть 3 · Глава 7</div>
+  <h2>Ведущий курса</h2><p>Как удерживать внимание, структурировать речь и сохранять ресурсное состояние.</p>
   <span class="soon">🔒 Скоро — опубликуем здесь</span></div><div class="part-card locked">
-  <div class="pn">Часть 4</div>
-  <h2>Управление прогрессом и оценка результатов</h2><p>Управление восприятием, система оценки результатов, сертификация.</p>
-  <span class="soon">🔒 Скоро — опубликуем здесь</span></div>
-  </div>
+  <div class="pn">Часть 4 · Главы 8–10</div>
+  <h2>Управление прогрессом и оценка результатов</h2><p>Визуальная дидактика, оценка результата, сертификация и манифест методолога.</p>
+  <span class="soon">🔒 Скоро — опубликуем здесь</span></div></div>
 </div>
-
 <script>
-(function(){
-  var KEY='up-read';
-  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
-  function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-  window.upRead=read; window.upSave=save;
-  window.upMark=function(n){var a=read();if(a.indexOf(n)<0){a.push(n);save(a)}};
-})();
-</script>
-<script>
-(function(){
-  var n=window.upRead().length;
-  if(n>0){var d=document.getElementById('pdone'); if(d) d.textContent=' · прочитано '+n+' из 17';}
-})();
-</script>
+(function(){var K='up-read';
+ window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
+ window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script>
+<script>(function(){var n=window.upRead().length;if(n>0){var d=document.getElementById('pdone');if(d)d.textContent=' · прочитано '+n+' из 17'}})();</script>
 </body>
 </html>

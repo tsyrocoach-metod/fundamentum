@@ -365,7 +365,7 @@
     background:var(--sea-deep);border-radius:999px;padding:13px 30px;text-decoration:none}
   .toc-start a:hover{background:var(--sea)}
 
-  /* ═══ Шапка и навигация главы ═══ */
+  /* ═══ Шапка и навигация раздела ═══ */
   .topbar{position:sticky;top:0;z-index:40;background:rgba(52,82,88,.94);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--cream)}
   .topbar-in{max-width:820px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;gap:14px;
@@ -375,6 +375,9 @@
   .topbar .crumbs{margin-left:auto;text-align:right;color:rgba(240,232,213,.75);letter-spacing:.04em;min-width:0}
   .pbar{height:3px;background:rgba(240,232,213,.2)}
   .pbar i{display:block;height:100%;background:var(--gold)}
+  .chap-line{max-width:780px;margin:0 auto;padding:26px 20px 0;text-align:center;
+    font-family:-apple-system,'Segoe UI',sans-serif;font-size:11.5px;font-weight:700;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(240,232,213,.72)}
 
   .cnav{max-width:780px;margin:0 auto;padding:0 12px 64px;display:flex;gap:12px;align-items:stretch}
   .cnav a{flex:1;text-decoration:none;background:var(--page);border-radius:12px;padding:18px 20px;
@@ -385,7 +388,6 @@
   .cnav .tt{color:var(--sea-deep);font-size:16px;line-height:1.35}
   .cnav a.mid{flex:0 0 auto;align-items:center;text-align:center}
   .cnav a.nxt{text-align:right}
-  .cnav a.nxt .tt{color:var(--sea-deep)}
 
   @media (max-width:840px){
     .cover-sheet{padding:36px 22px 32px}
@@ -395,4 +397,5 @@
     .cnav a.nxt{text-align:left}
     .topbar-in{font-size:11px;gap:10px}
     .topbar .crumbs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .chap-line{font-size:10.5px;letter-spacing:.18em;padding-top:20px}
   }

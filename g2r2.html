@@ -3,18 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Глава 6. Кого учим: портрет студента — Управляемо и предсказуемо</title>
+<title>Кого учим: портрет студента — Управляемо и предсказуемо</title>
 <link rel="stylesheet" href="book.css">
 </head>
 <body>
 <div class="topbar"><div class="topbar-in">
-  <a href="chast-1.html">☰ Оглавление</a>
-  <span class="crumbs">Часть 1 · Раздел 2 · Глава 6 из 17</span>
+  <a href="chast-1.html">☰ Оглавление</a><span class="crumbs">Часть 1 · Глава 2 · Раздел 2 из 4</span>
 </div><div class="pbar"><i style="width:35%"></i></div></div>
-
+<div class="chap-line">Глава 2. Главные стартовые вопросы</div>
 <div class="sheets">
 <div class="sheet chapter-head" id="ch6">
-  <div class="kicker">Глава 6</div>
+  <div class="kicker">Раздел 2</div>
   <h1>Кого учим: портрет студента</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -117,22 +116,14 @@
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
 </div>
 </div>
-
-<nav class="cnav"><a href="glava-05.html"><span class="lb">← Предыдущая</span><span class="tt">Чему учим: цель обучения</span></a><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="glava-07.html" data-done="6"><span class="lb">Следующая →</span><span class="tt">Результат обучения</span></a></nav>
-
+<nav class="cnav"><a href="g2r1.html"><span class="lb">← Назад</span><span class="tt">Чему учим: цель обучения</span></a><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="g2r3.html" data-done="g2r2"><span class="lb">Дальше →</span><span class="tt">Результат обучения</span></a></nav>
 <script>
-(function(){
-  var KEY='up-read';
-  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
-  function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
-  window.upRead=read; window.upSave=save;
-  window.upMark=function(n){var a=read();if(a.indexOf(n)<0){a.push(n);save(a)}};
-})();
-</script>
+(function(){var K='up-read';
+ window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
+ window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script>
+<script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-done]');if(a)window.upMark(a.getAttribute('data-done'))});</script>
 <script>
-document.addEventListener('click',function(e){
-  var a=e.target.closest('a[data-done]'); if(a) window.upMark(parseInt(a.getAttribute('data-done'),10));
-});
 document.addEventListener('click',function(e){
   var b=e.target.closest('.copy-btn'); if(!b)return;
   var sh=b.closest('.sky-sheet'); if(!sh)return;
@@ -141,15 +132,13 @@ document.addEventListener('click',function(e){
   sh.querySelectorAll('.task').forEach(function(x){
     var q=x.querySelector('.q'),a=x.querySelector('textarea');
     if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
-    if(a)L.push('Мой ответ: '+a.value.trim());
-    L.push('');
+    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
   });
   var txt=L.join('\n');
-  function ok(){b.textContent='Скопировано ✓';setTimeout(function(){b.textContent='Скопировать в рабочую тетрадь'},2200)}
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
   function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){};document.body.removeChild(ta)}
-});
-</script>
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+});</script>
 </body>
 </html>

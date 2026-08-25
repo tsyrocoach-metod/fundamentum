@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Управляемо и предсказуемо — книга целиком</title>
+<title>Управляемо и предсказуемо — часть 1 целиком</title>
 <style>
   :root{
     --sea:#46707C; --sea-deep:#345258; --ink:#2B3E43; --ink-soft:#5C7178;
@@ -371,7 +371,7 @@
     background:var(--sea-deep);border-radius:999px;padding:13px 30px;text-decoration:none}
   .toc-start a:hover{background:var(--sea)}
 
-  /* ═══ Шапка и навигация главы ═══ */
+  /* ═══ Шапка и навигация раздела ═══ */
   .topbar{position:sticky;top:0;z-index:40;background:rgba(52,82,88,.94);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--cream)}
   .topbar-in{max-width:820px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;gap:14px;
@@ -381,6 +381,9 @@
   .topbar .crumbs{margin-left:auto;text-align:right;color:rgba(240,232,213,.75);letter-spacing:.04em;min-width:0}
   .pbar{height:3px;background:rgba(240,232,213,.2)}
   .pbar i{display:block;height:100%;background:var(--gold)}
+  .chap-line{max-width:780px;margin:0 auto;padding:26px 20px 0;text-align:center;
+    font-family:-apple-system,'Segoe UI',sans-serif;font-size:11.5px;font-weight:700;
+    letter-spacing:.24em;text-transform:uppercase;color:rgba(240,232,213,.72)}
 
   .cnav{max-width:780px;margin:0 auto;padding:0 12px 64px;display:flex;gap:12px;align-items:stretch}
   .cnav a{flex:1;text-decoration:none;background:var(--page);border-radius:12px;padding:18px 20px;
@@ -391,7 +394,6 @@
   .cnav .tt{color:var(--sea-deep);font-size:16px;line-height:1.35}
   .cnav a.mid{flex:0 0 auto;align-items:center;text-align:center}
   .cnav a.nxt{text-align:right}
-  .cnav a.nxt .tt{color:var(--sea-deep)}
 
   @media (max-width:840px){
     .cover-sheet{padding:36px 22px 32px}
@@ -401,6 +403,7 @@
     .cnav a.nxt{text-align:left}
     .topbar-in{font-size:11px;gap:10px}
     .topbar .crumbs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .chap-line{font-size:10.5px;letter-spacing:.18em;padding-top:20px}
   }
 </style>
 </head>
@@ -410,8 +413,7 @@
   <div class="brand">Управляемо и предсказуемо</div>
   <div class="crumbs">Часть 1 · Структура программы · Андрей Ланд</div>
 </div>
-<div class="sheets">
-<div class="sheet letter" id="letter">
+<div class="sheets"><div class="sheet letter" id="letter">
     <div class="tab"><b>✦</b>От автора</div>
     <div class="kicker-line">Вместо предисловия</div>
     <h2>Добро пожаловать в книгу</h2>
@@ -450,8 +452,8 @@
     </div>
     <div class="practice-actions"><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
     <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
-  </div><div class="sheet chapter-head" id="ch1">
-  <div class="kicker">Глава 1</div>
+  </div><div class="sheet chapter-head"><div class="kicker">Глава 1</div><h1>Отправные точки</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch1">
+  <div class="kicker">Раздел 1</div>
   <h1>Методология и методолог</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -493,7 +495,7 @@
     <li>И, конечно, очень важный вопрос, – больной для огромного количества онлайн-школ и отдельных экспертов, который мы выделим отдельным пунктом. Как методологу управлять мотивацией студентов? Что делать, когда она падает, когда люди начинают по каким-то причинам «отваливаться», терять интерес, пропускать вебинары, «уходить с радаров»? Как мы будем себя вести в ситуациях, когда, по определённым законам социальной динамики (и это будет очень важная часть нашего разговора) — между участниками курса или программы начнёт накапливаться напряжение, будет повышаться уровень конфликтности?</li>
   </ol>
 </div><div class="sheet chapter-head" id="ch2">
-  <div class="kicker">Глава 2</div>
+  <div class="kicker">Раздел 2</div>
   <h1>Методолог, продуктолог, маркетолог: проведём границы</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -540,7 +542,7 @@
   <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
   <div class="calm">А дальше нас ждёт ещё один очень важный нюанс — очень тонкий, очень глубокий. Не переключайтесь.</div>
 </div><div class="sheet chapter-head" id="ch3">
-  <div class="kicker">Глава 3</div>
+  <div class="kicker">Раздел 3</div>
   <h1>Метапозиция методолога</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -586,7 +588,7 @@
   <div class="practice-actions"><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
 </div><div class="sheet chapter-head" id="ch4">
-  <div class="kicker">Глава 4</div>
+  <div class="kicker">Раздел 4</div>
   <h1>Чем обучение взрослых отличается от обучения детей</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -796,8 +798,8 @@
     <div class="to">Раздел 2</div>
     <div class="title">От чистого листа — к фундаменту твоей программы</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head" id="ch5">
-  <div class="kicker">Глава 5</div>
+  </a><div class="sheet chapter-head"><div class="kicker">Глава 2</div><h1>Главные стартовые вопросы</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch5">
+  <div class="kicker">Раздел 1</div>
   <h1>Чему учим: цель обучения</h1>
   <div class="orn">✦ ✦ ✦</div>
   <p class="lede">От чистого листа — к фундаменту твоей программы</p>
@@ -900,7 +902,7 @@
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
   <div class="calm">Не стоит переживать, если не удается подобрать точные слова с первого раза: мы учимся по-новому думать! Сложности, «скрипение» мозгов – это естественно и ожидаемо! Как я уже говорил – мы устанавливаем себе новую операционную систему мышления. Освоить управление ей – это задача, требующая времени и внимания.</div>
 </div><div class="sheet chapter-head" id="ch6">
-  <div class="kicker">Глава 6</div>
+  <div class="kicker">Раздел 2</div>
   <h1>Кого учим: портрет студента</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1002,7 +1004,7 @@
   <div class="practice-actions"><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
 </div><div class="sheet chapter-head" id="ch7">
-  <div class="kicker">Глава 7</div>
+  <div class="kicker">Раздел 3</div>
   <h1>Результат обучения</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1104,7 +1106,7 @@
   <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
   <div class="calm">Спасибо за терпение и внимание. Да, это самая душная часть первой главы — и самая фундаментальная: именно прописанный результат делает обучение честным.</div>
 </div><div class="sheet chapter-head" id="ch8">
-  <div class="kicker">Глава 8</div>
+  <div class="kicker">Раздел 4</div>
   <h1>Сроки обучения: как соотнести обещания со временем</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1244,8 +1246,8 @@
     <div class="to">Раздел 3</div>
     <div class="title">Макроструктура: концепт и лестница навыков</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head" id="ch9">
-  <div class="kicker">Глава 9</div>
+  </a><div class="sheet chapter-head"><div class="kicker">Глава 3</div><h1>Макро-структура: концепт и лестница навыков</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch9">
+  <div class="kicker">Раздел 1</div>
   <h1>Концепт программы: какую историю мы рассказываем студенту</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1285,7 +1287,7 @@
   <h3>Несколько вариантов правильно собранного концепта программы</h3>
   <div class="chips"><i>самопрезентация</i><i>игра на фортепиано</i><i>приготовление борща</i><i>продажи</i></div>
 </div><div class="sheet chapter-head" id="ch10">
-  <div class="kicker">Глава 10</div>
+  <div class="kicker">Раздел 2</div>
   <h1>Модель TOTE: строительный блок для создания изменений</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1387,7 +1389,7 @@
   <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
   <div class="calm">Не гонитесь за красотой формулировок — сейчас важно, чтобы цепочка сцепилась. Красоту наведём позже.</div>
 </div><div class="sheet chapter-head" id="ch11">
-  <div class="kicker">Глава 11</div>
+  <div class="kicker">Раздел 3</div>
   <h1>Три позиции описания</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1486,7 +1488,7 @@
   <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
   <div class="calm">Если в третьей позиции вам стало немного неловко за первую — вы всё сделали правильно. Именно так и рождается программа про студента.</div>
 </div><div class="sheet chapter-head" id="ch12">
-  <div class="kicker">Глава 12</div>
+  <div class="kicker">Раздел 4</div>
   <h1>Простые и комплексные навыки</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1599,7 +1601,7 @@
   <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
   <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
 </div><div class="sheet chapter-head" id="ch13">
-  <div class="kicker">Глава 13</div>
+  <div class="kicker">Раздел 5</div>
   <h1>Лестница навыков</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1704,8 +1706,8 @@
     <div class="to">Часть</div>
     <div class="title">Матрёшка: как рождается навык</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head" id="ch14">
-  <div class="kicker">Глава 14</div>
+  </a><div class="sheet chapter-head"><div class="kicker">Глава 4</div><h1>Микро-структура: как рождается навык</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch14">
+  <div class="kicker">Раздел 1</div>
   <h1>Формирование навыка: матрёшка</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1870,7 +1872,7 @@
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
   <div class="calm">Отпусти ум в лёгкое творческое парение и просто понаблюдай, как это начнёт укладываться в голове. Если пока не укладывается — ничего страшного: сейчас уложим, последовательно и спокойно, и всё у нас обязательно будет хорошо.</div>
 </div><div class="sheet chapter-head" id="ch15">
-  <div class="kicker">Глава 15</div>
+  <div class="kicker">Раздел 2</div>
   <h1>Концептуальная часть матрёшки</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -1992,7 +1994,7 @@
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
   <div class="calm">Если мозги немножко кряхтят — в этом нет совершенно ничего страшного, это абсолютно нормальный этап работы.</div>
 </div><div class="sheet chapter-head" id="ch16">
-  <div class="kicker">Глава 16</div>
+  <div class="kicker">Раздел 3</div>
   <h1>Инструкция и опыт</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -2176,7 +2178,7 @@
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
   <div class="calm">Фантазируй, генерируй — и возвращайся к этой инструкции свежим взглядом: именно взгляд из позиции студента показывает, насколько мы хороши в формулировках.</div>
 </div><div class="sheet chapter-head" id="ch17">
-  <div class="kicker">Глава 17</div>
+  <div class="kicker">Раздел 4</div>
   <h1>Шеринг и рефлексия</h1>
   <div class="orn">✦ ✦ ✦</div>
 </div>
@@ -2425,8 +2427,7 @@
   <div class="practice-actions"><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
   <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
   <div class="calm">Собирай спокойненько, плавненько, без истерик и без попытки сделать идеально с первого раза. Мы разобрались, наверное, с самым сложным элементом, который в нашем методологическом деле существует — мозг сильнее всего закипает именно на матрёшках. Очень важный критерий того, что матрёшка закрылась: «я готов двигаться дальше». Так что можно промокнуть лоб, выдохнуть — и идти играть в этот конструктор. Необходимый минимум, чтобы идти и делать, у тебя точно уже есть.</div>
-</div>
-</div>
-<footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · 17 глав</footer>
+</div></div>
+<footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · главы 1–4</footer>
 </body>
 </html>
