@@ -538,3 +538,11 @@
     .accent-block{padding:22px 20px}
     .bookmark-actions{flex-direction:column; align-items:center}
   }
+
+  /* ═══ v2.2: готовые схемы ═══ */
+  .fig-img{display:block; width:100%; max-width:560px; margin:0 auto;
+    border:1px solid var(--line); border-radius:12px; background:var(--page-edge)}
+  .fig-tall .fig-img{max-width:420px}
+  .fig-cap{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13.5px;
+    color:var(--ink-soft); margin-top:12px}
+  .fig-cap b{color:var(--gold); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:11.5px; margin-right:6px}
