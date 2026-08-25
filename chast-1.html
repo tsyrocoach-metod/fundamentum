@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Часть 1. Структура программы — Управляемо и предсказуемо</title>
+<link rel="stylesheet" href="book.css">
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a href="index.html">← К обложке</a><span class="crumbs">Часть 1 · Структура программы</span>
+</div></div>
+<div class="sky-head" style="padding-bottom:26px">
+  <div class="over">часть первая</div>
+  <div class="brand">Структура программы</div>
+</div>
+<div class="toc-wrap"><div class="toc-sheet">
+  <div class="over">Оглавление части</div>
+  <h1>17 глав — от чистого листа до готовой программы</h1>
+  <div class="toc-progress" id="prog">Прочитано 0 из 17</div>
+  <div class="sec-group"><div class="sec-name"><span class="sn">Раздел 1</span><b>Поговорим по понятиям</b></div><a class="toc-ch" data-ch="1" href="glava-01.html"><span class="no">1</span><span class="tt">Методология и методолог</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="2" href="glava-02.html"><span class="no">2</span><span class="tt">Методолог, продуктолог, маркетолог: проведём границы</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="3" href="glava-03.html"><span class="no">3</span><span class="tt">Метапозиция методолога</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="4" href="glava-04.html"><span class="no">4</span><span class="tt">Чем обучение взрослых отличается от обучения детей</span><span class="ck">✓</span></a></div><div class="sec-group"><div class="sec-name"><span class="sn">Раздел 2</span><b>От чистого листа — к фундаменту твоей программы</b></div><a class="toc-ch" data-ch="5" href="glava-05.html"><span class="no">5</span><span class="tt">Чему учим: цель обучения</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="6" href="glava-06.html"><span class="no">6</span><span class="tt">Кого учим: портрет студента</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="7" href="glava-07.html"><span class="no">7</span><span class="tt">Результат обучения</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="8" href="glava-08.html"><span class="no">8</span><span class="tt">Сроки обучения: как соотнести обещания со временем</span><span class="ck">✓</span></a></div><div class="sec-group"><div class="sec-name"><span class="sn">Раздел 3</span><b>Макроструктура: концепт и лестница навыков</b></div><a class="toc-ch" data-ch="9" href="glava-09.html"><span class="no">9</span><span class="tt">Концепт программы: какую историю мы рассказываем студенту</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="10" href="glava-10.html"><span class="no">10</span><span class="tt">Модель TOTE: строительный блок для создания изменений</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="11" href="glava-11.html"><span class="no">11</span><span class="tt">Три позиции описания</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="12" href="glava-12.html"><span class="no">12</span><span class="tt">Простые и комплексные навыки</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="13" href="glava-13.html"><span class="no">13</span><span class="tt">Лестница навыков</span><span class="ck">✓</span></a></div><div class="sec-group"><div class="sec-name"><span class="sn">Раздел 4</span><b>Микроструктура: матрёшка</b></div><a class="toc-ch" data-ch="14" href="glava-14.html"><span class="no">14</span><span class="tt">Формирование навыка: матрёшка</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="15" href="glava-15.html"><span class="no">15</span><span class="tt">Концептуальная часть матрёшки</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="16" href="glava-16.html"><span class="no">16</span><span class="tt">Инструкция и опыт</span><span class="ck">✓</span></a><a class="toc-ch" data-ch="17" href="glava-17.html"><span class="no">17</span><span class="tt">Шеринг и рефлексия</span><span class="ck">✓</span></a></div>
+  <div class="toc-start"><a href="glava-01.html" id="startBtn">Начать читать</a></div>
+</div>
+<div style="text-align:center;margin-top:20px">
+  <a href="ot-avtora.html" style="color:rgba(240,232,213,.85);font-family:-apple-system,sans-serif;font-size:14px">От автора — как устроена книга</a>
+</div>
+</div>
+
+<script>
+(function(){
+  var KEY='up-read';
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+  function save(a){try{localStorage.setItem(KEY,JSON.stringify(a))}catch(e){}}
+  window.upRead=read; window.upSave=save;
+  window.upMark=function(n){var a=read();if(a.indexOf(n)<0){a.push(n);save(a)}};
+})();
+</script>
+<script>
+(function(){
+  var r=window.upRead(), n=0;
+  document.querySelectorAll('a.toc-ch').forEach(function(a){
+    if(r.indexOf(parseInt(a.dataset.ch,10))>=0){a.classList.add('read');n++}
+  });
+  document.getElementById('prog').textContent='Прочитано '+n+' из 17';
+  if(n>0&&n<17){
+    for(var i=1;i<=17;i++) if(r.indexOf(i)<0){
+      var b=document.getElementById('startBtn');
+      b.textContent='Продолжить · глава '+i;
+      b.href='glava-'+String(i).padStart(2,'0')+'.html'; break;
+    }
+  } else if(n>=17) {
+    var b=document.getElementById('startBtn'); b.textContent='Перечитать с начала';
+  }
+})();
+</script>
+</body>
+</html>
