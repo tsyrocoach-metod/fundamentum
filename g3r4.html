@@ -3,17 +3,220 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Скоро — Управляемо и предсказуемо</title>
+<title>Раздел 12. Простые и комплексные навыки — Управляемо и предсказуемо</title>
 <link rel="stylesheet" href="book.css">
 </head>
-<body>
-<div class="sky-head" style="padding:120px 24px 40px">
-  <div class="over">глава 12 · пока под замком</div>
-  <div class="brand" style="font-size:26px;letter-spacing:.12em">Простые и комплексные навыки</div>
-  <div class="crumbs" style="margin-top:18px">Эта глава ещё не опубликована — откроем совсем скоро</div>
+<body class="book-page">
+<button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
+<svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1h18M1 8h18M1 15h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="overlay" id="overlay"></div>
+<nav class="drawer" id="drawer" aria-label="Оглавление книги">
+<button class="close" type="button" id="drawerClose">×</button>
+<div class="brand">Управляемо и предсказуемо</div>
+<div class="sub">Андрей Ланд · часть 1</div>
+<a class="nav-group" href="index.html">Обложка и вступление</a><div class="nav-sec"><div class="nav-sec-row"><a href="g1r1.html">Глава 1 · Поговорим по понятиям</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g1r1" href="g1r1.html"><span class="num">1</span>Методология и методолог</a><a class="nav-item" data-k="g1r2" href="g1r2.html"><span class="num">2</span>Методолог, продакт-менеджер, маркетолог: проведём границы</a><a class="nav-item" data-k="g1r3" href="g1r3.html"><span class="num">3</span>Метапозиция методолога</a><a class="nav-item" data-k="g1r4" href="g1r4.html"><span class="num">4</span>Чем обучение взрослых отличается от обучения детей</a></div></div><div class="nav-sec"><div class="nav-sec-row"><a href="g2r1.html">Глава 2 · От чистого листа — к фундаменту твоей программы</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g2r1" href="g2r1.html"><span class="num">5</span>Чему учим: цель обучения</a><a class="nav-item" data-k="g2r2" href="g2r2.html"><span class="num">6</span>Кого учим: портрет студента</a><a class="nav-item" data-k="g2r3" href="g2r3.html"><span class="num">7</span>Результат обучения</a><a class="nav-item" data-k="g2r4" href="g2r4.html"><span class="num">8</span>Сроки обучения: как соотнести обещания со временем</a></div></div><div class="nav-sec open"><div class="nav-sec-row"><a href="g3r1.html">Глава 3 · Макро-структура: концепт и лестница навыков</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g3r1" href="g3r1.html"><span class="num">9</span>Концепт программы: какую историю мы рассказываем студенту?</a><a class="nav-item" data-k="g3r2" href="g3r2.html"><span class="num">10</span>Модель TOTE: строительный блок для создания изменений</a><a class="nav-item" data-k="g3r3" href="g3r3.html"><span class="num">11</span>Три позиции описания</a><a class="nav-item cur" data-k="g3r4" href="g3r4.html"><span class="num">12</span>Простые и комплексные навыки</a><a class="nav-item" data-k="g3r5" href="g3r5.html"><span class="num">13</span>Лестница навыков</a></div></div><div class="nav-sec"><div class="nav-sec-row"><a href="g4r1.html">Глава 4 · Микро-структура: как рождается навык</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g4r1" href="g4r1.html"><span class="num">14</span>Формирование навыка: «матрёшка»</a><a class="nav-item" data-k="g4r2" href="g4r2.html"><span class="num">15</span>Концептуальная часть матрёшки</a><a class="nav-item" data-k="g4r3" href="g4r3.html"><span class="num">16</span>Инструкция и опыт</a><a class="nav-item" data-k="g4r4" href="g4r4.html"><span class="num">17</span>Шеринг и рефлексия</a></div></div><a class="nav-group" href="chast-1.html">Оглавление части 1</a><a class="nav-group" href="tetrad.html">Рабочая тетрадь</a><span class="nav-group" style="color:rgba(240,232,213,.45)">Части 2–4 — скоро</span>
+<div class="nav-map-label">Путь по части 1</div>
+<div class="nav-map" id="navMap" data-cur="3"></div>
+<div class="foot" id="drawerFoot"></div>
+</nav>
+<div class="topbar"><div class="topbar-in">
+  <span class="crumbs">Часть 1 · Глава 3 · Раздел 12 из 17</span>
+</div><div class="pbar"><i style="width:71%"></i></div></div>
+<div class="sheets">
+<div class="sheet chapter-head" id="ch12"><div class="sec-band"><div class="sec-band-k">Глава 3 · Макро-структура: концепт и лестница навыков</div><p class="sec-band-d">Как выстроить логику программы: концепт-история, модель TOTE, три позиции описания и лестница навыков — от простых к комплексным.</p></div>
+  <div class="kicker">Раздел 12</div>
+  <h1>Простые и комплексные навыки</h1>
+  <div class="orn">✦ ✦ ✦</div><div class="sec-tiles"><a class="tile" data-k="g3r1" href="g3r1.html"><span class="tn">Раздел 9</span><span class="tt">Концепт программы: какую историю мы рассказываем студенту?</span></a><a class="tile" data-k="g3r2" href="g3r2.html"><span class="tn">Раздел 10</span><span class="tt">Модель TOTE: строительный блок для создания изменений</span></a><a class="tile" data-k="g3r3" href="g3r3.html"><span class="tn">Раздел 11</span><span class="tt">Три позиции описания</span></a><a class="tile cur" data-k="g3r4" href="g3r4.html"><span class="tn">Раздел 12</span><span class="tt">Простые и комплексные навыки</span></a><a class="tile" data-k="g3r5" href="g3r5.html"><span class="tn">Раздел 13</span><span class="tt">Лестница навыков</span></a></div>
 </div>
-<div style="text-align:center;padding-bottom:80px">
-  <a href="chast-1.html" style="display:inline-block;font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#345258;background:#F0E8D5;border-radius:999px;padding:14px 34px;text-decoration:none">К оглавлению</a>
+
+<div class="sheet" id="ch12-s1">
+  <div class="tab"><b>01</b>Простые и комплексные</div>
+  <p class="drop">Итак, мы уже понимаем с тобой, что такое концепт программы, как он превращается в пошаговое навыковое обучение благодаря модели TOTE; наконец, у нас с тобой есть трёхпозиционная модель описания для самопроверки, насколько наша программа — про студентов, про их потребности, жизненные особенности и реальные возможности. Мы уже почти укомплектовали «чемоданчик с инструментами» для сборки твоего проекта. Чего нам не хватает?</p>
+  <p>Не хватает выяснить — как происходит формирование навыков и какими вообще навыки бывают?</p>
+  <img class="ill" src="images/ill-04-shnurki.jpg" alt="" loading="lazy"><p>Давай я начну с предельно дурацкого вопроса: чем навык писать картины маслом отличается от навыка завязывать шнурки?</p>
+  <p>Если ты решишь ответить: «Наличием художественного таланта», — я буду спорить. Врождённые особенности действительно могут влиять на скорость обучения, лёгкость освоения отдельных действий и уровень мастерства, которого человек в итоге достигнет. Но они не разделяют человечество на две породы: тех, кого можно учить живописи, и тех, кто от природы безнадёжен.</p>
+  <p>Техническим компонентам живописи — работе с цветом, композицией, перспективой, материалами, светом и формой — можно обучать более-менее любого здорового человека. Другой вопрос, какой результат мы будем считать достаточным, сколько времени человек готов потратить и насколько далеко решит зайти.</p>
+  <p>Теперь вернёмся к моему нелепому вопросу: в чём структурное различие между навыком писать картины и навыком завязывать шнурки?</p>
+  <p>Очевидно, они различаются по сложности. Чтобы завязать шнурки, нужно выполнить сравнительно небольшое количество действий в довольно предсказуемой ситуации и получить вполне ясный, чётко измеримый результат: узел крепко держится, шнурки не развязываются, можно ходить без угрозы падения.</p>
+  <p>Живопись требует координации множества поднавыков. Художник должен видеть пропорции, строить композицию, смешивать цвета, владеть кистью, управлять тоном и светом, учитывать свойства материала, замечать возникающий эффект и постоянно принимать самостоятельные неочевидные решения. Причём — единственного правильного результата здесь нет, поскольку критерии качества во многом зависят от замысла автора.</p>
+  <p>Поэтому скажем так: <b>навыки различаются степенью сложности и внутренним устройством</b>. А раз так — давай очень условно <b>разделим навыки на простые и комплексные</b><sup class="fn">1</sup>.</p>
+  <p>Относительно простой навык на выбранном уровне рассмотрения <b>можно представить как одну основную петлю действия</b>: мы сравниваем текущее состояние с желаемым, что-то делаем, снова проверяем результат и завершаем действие, когда цель достигнута. Понимаешь, что я только что сделал? Конечно, я описал навык при помощи уже знакомого нам инструмента под названием TOTE.</p>
+  <p>Например:</p>
+  <ul>
+    <li>пятно на столе осталось — протираем — проверяем — пятно исчезло;</li>
+    <li>вода не дошла до отметки — наливаем — проверяем уровень — останавливаемся;</li>
+    <li>крышка закрыта неплотно — закручиваем — проверяем — банка закрыта;</li>
+    <li>шнурки развязаны — выполняем привычную последовательность — проверяем узел — идём по своим делам.</li>
+  </ul>
+  <p>Разумеется, любой из этих навыков тоже можно разобрать на более мелкие действия. Для маленького ребёнка завязывание шнурков вообще может оказаться полноценной трансформационной образовательной программой с прохождением внутреннего кризиса и т. д. Поэтому «простой» здесь не означает «объективно состоящий ровно из одного TOTE». Это означает: на выбранном уровне анализа нам не требуется отдельно обучать множеству самостоятельных поднавыков.</p>
+  <div class="define"><div class="label">Определение</div><p>Простой навык — это навык, который на выбранном уровне рассмотрения можно описать одной доминирующей петлёй TOTE: у действия есть локальная цель, понятная операция и достаточно ясный критерий завершения.</p><p>Комплексный навык — это система взаимосвязанных поднавыков, каждый из которых можно описать собственной петлёй TOTE. Эти петли могут включаться последовательно, работать параллельно, повторяться, ветвиться и подчиняться более общей цели.</p></div>
+  <p>К комплексным навыкам относятся, например:</p>
+  <ul>
+    <li>ведение переговоров;</li>
+    <li>управление автомобилем или мотоциклом;</li>
+    <li>приготовление сложного блюда;</li>
+    <li>игра на музыкальном инструменте;</li>
+    <li>создание образовательной программы;</li>
+    <li>написание картины;</li>
+    <li>управление командой;</li>
+    <li>проведение публичного выступления.</li>
+  </ul>
+  <div class="fnotes"><p><b>1</b> Это разделение совершенно не претендует на научную строгость, скорее — это рабочая модель, которая может помочь при проектировании программы, но относиться к ней нужно с известным скепсисом.</p></div>
 </div>
+
+<div class="sheet" id="ch12-s2">
+  <div class="tab"><b>02</b>Декомпозиция</div>
+  <h2>Декомпозиция навыка</h2>
+  <div class="h-orn">✦</div>
+  <p>Во время переговоров человек одновременно слушает собеседника, анализирует его позицию, управляет собственным состоянием, формулирует вопросы, проверяет гипотезы, замечает изменения в реакции, предлагает варианты и корректирует стратегию. Весь этот сложный винегрет действий требует от нас, как методологов, способности раскрыть внутреннее устройство такого комплексного навыка: <b>выделить составляющие его поднавыки, определить связи между ними и понять, в какой последовательности их осваивать</b>.</p>
+  <p><b>Этот процесс называется декомпозицией навыка.</b></p>
+  <p>Важно: декомпозиция — это не обязательно превращение сложного навыка в одну длинную линейную цепочку. В реальном действии человек может возвращаться к предыдущим шагам, выполнять несколько процессов одновременно или выбирать следующий ход в зависимости от ситуации.</p>
+  <p>Поэтому результат декомпозиции больше похож не на железнодорожный состав, где один вагон следует строго за другим, а на карту, которая помогает ответить на вопросы:</p>
+  <ul>
+    <li>какие поднавыки включены в комплексный навык;</li>
+    <li>какие из них являются базовыми;</li>
+    <li>какие можно осваивать только после предыдущих;</li>
+    <li>какие работают одновременно (параллельно);</li>
+    <li>где точки, в которых необходимо научиться принимать самостоятельные решения;</li>
+    <li>по каким признакам человек поймёт, что действует успешно;</li>
+    <li>как должен действовать, если результат его не устраивает.</li>
+  </ul>
+  <p>А теперь — про грабли, на которые наступает огромное количество авторов образовательных программ. Они расписывают программу как список тем, а потом удивляются, почему <b>студент всё прослушал-просмотрел-сертификат получил, но действовать так и не научился</b>.</p>
+  <p>Например: открываем рандомную программу обучения переговорам и читаем (я не выдумываю, видел такие не раз) —</p>
+  <ul>
+    <li>Тема 1. «Чикагская школа переговоров».</li>
+    <li>Тема 2. «Кремлёвская школа переговоров».</li>
+    <li>Тема 3. Типология переговоров.</li>
+    <li>Тема 4. Стратегии поведения в конфликте.</li>
+  </ul>
+  <p>…и так далее в том же духе. В финале модуля задание: проведите переговоры, используя изученные модели.</p>
+  <p>Какие именно действия и в какой последовательности должен совершать студент? На что именно обращать внимание и на каком этапе? В какой последовательности какие конкретно техники отработать? Как понять, что модель применена корректно (или некорректно)? Что делать, если собеседник реагирует не так, как написано в методичке?</p>
+  <p>В такой программе мы можем быть уверенными, что студент ознакомился с теорией переговорного процесса, но с точки зрения навыка вести переговоры он даже с места не сдвинулся.</p>
+  <p>При навыковом проектировании программу имеет смысл строить иначе. Сначала мы раскладываем комплексный навык «ведение переговоров» на более простые поднавыки (хотя бы приблизительно, навскидку):</p>
+  <ol>
+    <li>Собрать и проверить информацию о второй стороне.</li>
+    <li>Сформулировать желаемый результат, минимально приемлемый результат и границы уступок.</li>
+    <li>Предположить цели, интересы и ограничения оппонента.</li>
+    <li>Установить контакт и договориться о рамке предстоящего раунда переговоров.</li>
+    <li>Задавать вопросы и извлекать недостающую информацию.</li>
+    <li>Отличать заявленную позицию от стоящих за ней интересов.</li>
+    <li>Формулировать предложение с учётом интересов обеих сторон.</li>
+    <li>Замечать реакцию собеседника и корректировать способ своей коммуникации с ним.</li>
+    <li>Работать с возражениями, давлением и манипуляциями.</li>
+    <li>Проверять понимание и фиксировать договорённости.</li>
+  </ol>
+  <p><b>Каждый из этих поднавыков можно описать отдельным TOTE</b>, превратить в учебную задачу, дать студенту возможность потренироваться, получить обратную связь и совершить новую попытку<sup class="fn">2</sup>. Чтоб тебе была понятна степень необходимой дотошности в этом вопросе, приведу ещё один пример. Если мы добиваемся формирования комплексного навыка, нам недостаточно просто рассказать человеку о важности подготовки к переговорам. Нам нужно дать ему возможность провести эту подготовку самостоятельно, используя, скажем, определённые критерии качества:</p>
+  <ul>
+    <li>какую информацию необходимо собрать;</li>
+    <li>где её искать;</li>
+    <li>как отличать факты от фантазий и галлюцинаций;</li>
+    <li>как понять, что информации уже достаточно;</li>
+    <li>какие пробелы могут повлиять на результат коммуникации.</li>
+  </ul>
+  <p>Пока наш студент не получил такого опыта, мы не можем утверждать, что научили его готовиться к переговорам, и именно здесь, в точке подготовки, у нас остаётся слабое, слепое пятно, где поверхностное понимание может быть и есть, а навыка нет. А значит, построение дальнейшей целостной переговорной практики оказывается под угрозой…</p>
+  <p>Фух. Самое время проветрить в комнате, глубоко подышать и выпить воды.</p>
+  <p>Резюмируя эту действительно важную часть разговора: мы добавили в наш «чемоданчик с инструментами» ещё одну очень важную технологию, которую самое время применить к разработке твоей авторской программы — это декомпозиция навыка. Впереди тебя ждёт практическое задание: не спеши его скорее закончить и перевернуть страницу. Именно здесь особенно важную роль играет не скорость, а твои внимательность, требовательность к себе и подлинно инженерный взгляд.</p>
+  <div class="fnotes"><p><b>2</b> Я как будто вижу, как твои глаза округляются от ужаса. Выдыхай: я пока просто мелкими штрихами набрасываю — какой фронт работ открывается после того, как мы расписали комплексный навык на поднавыки. Как именно превращать отдельный TOTE в конкретный обучающий сценарий с практикой и обратной связью, мы непременно поговорим отдельно и особо. Не волнуйся!</p></div>
+</div>
+
+<div class="sheet sky-sheet" id="ch12-s3">
+  <div class="tab"><b>03</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Разложите комплексный навык на простые</h3>
+  <div class="task">
+    <div class="q"><b>1.</b> Возьмите любой комплексный навык, которым вы уже владеете: езда на велосипеде, приготовление кофе, отжимания от пола.</div>
+    <textarea data-wb="g3r4-1" rows="2" placeholder="Мой комплексный навык: …"></textarea>
+  </div>
+  <div class="task">
+    <div class="q"><b>2.</b> Разложите его на цепочку условно простых навыков (TOTE-ов). Для ориентира: отжимания — комплексный навык, и внутри него живут TOTE-ы — положение поясницы, ширина рук, постановка локтей, переход с колен на вытянутые ноги и так далее.</div>
+    <textarea data-wb="g3r4-2" rows="4" placeholder="Цепочка TOTE-ов: 1) … 2) … 3) …"></textarea>
+  </div>
+  <div class="task">
+    <div class="q"><b>3.</b> Проверьте цепочку сами, как строгий редактор: насколько логична последовательность? Нет ли «дыр» — шагов, которые вы делаете автоматически и потому забыли записать?</div>
+    <textarea data-wb="g3r4-3" rows="3" placeholder="Итог самопроверки: какие «автоматические» шаги пришлось дописать…"></textarea>
+  </div>
+  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
+  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
+</div>
+<img class="ill" src="images/ill-03-chemodan.jpg" alt="" loading="lazy">
+</div>
+<nav class="cnav"><a href="g3r3.html"><span class="lb">← Назад</span><span class="tt">Три позиции описания</span></a><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="g3r5.html" data-done="g3r4"><span class="lb">Дальше →</span><span class="tt">Лестница навыков</span></a></nav>
+
+<script>
+(function(){var K='up-read';
+ window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
+ window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script><script>window.upOrder=[["g1r1", "g1r1.html", "Глава 1 · Раздел 1", "Методология и методолог"], ["g1r2", "g1r2.html", "Глава 1 · Раздел 2", "Методолог, продакт-менеджер, маркетолог: проведём границы"], ["g1r3", "g1r3.html", "Глава 1 · Раздел 3", "Метапозиция методолога"], ["g1r4", "g1r4.html", "Глава 1 · Раздел 4", "Чем обучение взрослых отличается от обучения детей"], ["g2r1", "g2r1.html", "Глава 2 · Раздел 5", "Чему учим: цель обучения"], ["g2r2", "g2r2.html", "Глава 2 · Раздел 6", "Кого учим: портрет студента"], ["g2r3", "g2r3.html", "Глава 2 · Раздел 7", "Результат обучения"], ["g2r4", "g2r4.html", "Глава 2 · Раздел 8", "Сроки обучения: как соотнести обещания со временем"], ["g3r1", "g3r1.html", "Глава 3 · Раздел 9", "Концепт программы: какую историю мы рассказываем студенту?"], ["g3r2", "g3r2.html", "Глава 3 · Раздел 10", "Модель TOTE: строительный блок для создания изменений"], ["g3r3", "g3r3.html", "Глава 3 · Раздел 11", "Три позиции описания"], ["g3r4", "g3r4.html", "Глава 3 · Раздел 12", "Простые и комплексные навыки"], ["g3r5", "g3r5.html", "Глава 3 · Раздел 13", "Лестница навыков"], ["g4r1", "g4r1.html", "Глава 4 · Раздел 14", "Формирование навыка: «матрёшка»"], ["g4r2", "g4r2.html", "Глава 4 · Раздел 15", "Концептуальная часть матрёшки"], ["g4r3", "g4r3.html", "Глава 4 · Раздел 16", "Инструкция и опыт"], ["g4r4", "g4r4.html", "Глава 4 · Раздел 17", "Шеринг и рефлексия"]];</script><script>
+(function(){
+ var d=document.getElementById('drawer'),o=document.getElementById('overlay');
+ function open(){d.classList.add('open');o.classList.add('show')}
+ function close(){d.classList.remove('open');o.classList.remove('show')}
+ var mb=document.getElementById('menuBtn');if(mb)mb.addEventListener('click',open);
+ var db=document.getElementById('drawerClose');if(db)db.addEventListener('click',close);
+ if(o)o.addEventListener('click',close);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+ document.querySelectorAll('.nav-sec-row>button').forEach(function(b){
+   b.addEventListener('click',function(){b.closest('.nav-sec').classList.toggle('open')})});
+ var tb=document.querySelector('.topbar a[data-menu]');
+ if(tb)tb.addEventListener('click',function(e){e.preventDefault();open()});
+ var r=window.upRead();
+ document.querySelectorAll('.drawer .nav-item').forEach(function(a){
+   if(r.indexOf(a.dataset.k)>=0)a.classList.add('read')});
+ var map=document.getElementById('navMap');
+ if(map&&window.upOrder){var secs={};
+   upOrder.forEach(function(u){var s=u[0].match(/^g(\d+)/)[1];(secs[s]=secs[s]||{t:0,d:0});secs[s].t++;if(r.indexOf(u[0])>=0)secs[s].d++});
+   var cur=map.dataset.cur||'',h='';
+   for(var s=1;s<=4;s++){var x=secs[s];
+     if(!x){h+='<div class="step locked" style="height:'+(26+s*12)+'px" title="Глава '+s+' — скоро"><b>🔒</b></div>';continue}
+     var pct=Math.round(x.d/x.t*100);
+     h+='<div class="step'+(String(s)===cur?' cur':'')+(x.d>=x.t?' done':'')+'" style="height:'+(26+s*12)+'px" title="Глава '+s+': '+x.d+' из '+x.t+'"><i style="height:'+pct+'%"></i><b>'+s+'</b></div>'}
+   map.innerHTML=h}
+ var f=document.getElementById('drawerFoot');
+ if(f&&window.upOrder){var nxt=null;
+   for(var i=0;i<upOrder.length;i++){if(r.indexOf(upOrder[i][0])<0){nxt=upOrder[i];break}}
+   f.innerHTML='Прочитано разделов: <b>'+r.length+' из '+upOrder.length+'</b>'+
+     (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть 1 прочитана целиком ✓');
+ }
+})();</script>
+<script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-done]');if(a)window.upMark(a.getAttribute('data-done'))});</script>
+<script>(function(){var end=document.querySelector('.cnav');
+ if(!end||!('IntersectionObserver' in window))return;
+ var o=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){window.upMark('g3r4');o.disconnect()}})},{threshold:0.35});
+ o.observe(end)})();</script>
+<script>(function(){var r=window.upRead();document.querySelectorAll('.sec-tiles a').forEach(function(a){if(r.indexOf(a.dataset.k)>=0)a.classList.add('read')})})();</script>
+<script>
+(function(){var K='up-wb';
+ function load(){try{return JSON.parse(localStorage.getItem(K)||'{}')}catch(e){return {}}}
+ function save(m){try{localStorage.setItem(K,JSON.stringify(m))}catch(e){}}
+ var m=load();
+ document.querySelectorAll('textarea[data-wb]').forEach(function(t){
+   if(m[t.dataset.wb])t.value=m[t.dataset.wb];
+   t.addEventListener('input',function(){m[t.dataset.wb]=t.value;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+ document.querySelectorAll('.wb-ans[data-wb]').forEach(function(d){
+   if(m[d.dataset.wb])d.innerText=m[d.dataset.wb];
+   d.addEventListener('input',function(){m[d.dataset.wb]=d.innerText;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+})();</script><script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.copy-btn'); if(!b)return;
+  var sh=b.closest('.sky-sheet'); if(!sh)return;
+  var t=sh.querySelector('h3');
+  var L=['Рабочая тетрадь · '+(t?t.textContent.trim():'Практика'),''];
+  sh.querySelectorAll('.task').forEach(function(x){
+    var q=x.querySelector('.q'),a=x.querySelector('textarea');
+    if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
+    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
+  });
+  var txt=L.join('\n');
+  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
+  function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+});</script>
 </body>
 </html>

@@ -3,17 +3,207 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Скоро — Управляемо и предсказуемо</title>
+<title>Раздел 7. Результат обучения — Управляемо и предсказуемо</title>
 <link rel="stylesheet" href="book.css">
 </head>
-<body>
-<div class="sky-head" style="padding:120px 24px 40px">
-  <div class="over">глава 7 · пока под замком</div>
-  <div class="brand" style="font-size:26px;letter-spacing:.12em">Результат обучения</div>
-  <div class="crumbs" style="margin-top:18px">Эта глава ещё не опубликована — откроем совсем скоро</div>
+<body class="book-page">
+<button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
+<svg width="20" height="16" viewBox="0 0 20 16" fill="none"><path d="M1 1h18M1 8h18M1 15h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+<div class="overlay" id="overlay"></div>
+<nav class="drawer" id="drawer" aria-label="Оглавление книги">
+<button class="close" type="button" id="drawerClose">×</button>
+<div class="brand">Управляемо и предсказуемо</div>
+<div class="sub">Андрей Ланд · часть 1</div>
+<a class="nav-group" href="index.html">Обложка и вступление</a><div class="nav-sec"><div class="nav-sec-row"><a href="g1r1.html">Глава 1 · Поговорим по понятиям</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g1r1" href="g1r1.html"><span class="num">1</span>Методология и методолог</a><a class="nav-item" data-k="g1r2" href="g1r2.html"><span class="num">2</span>Методолог, продакт-менеджер, маркетолог: проведём границы</a><a class="nav-item" data-k="g1r3" href="g1r3.html"><span class="num">3</span>Метапозиция методолога</a><a class="nav-item" data-k="g1r4" href="g1r4.html"><span class="num">4</span>Чем обучение взрослых отличается от обучения детей</a></div></div><div class="nav-sec open"><div class="nav-sec-row"><a href="g2r1.html">Глава 2 · От чистого листа — к фундаменту твоей программы</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g2r1" href="g2r1.html"><span class="num">5</span>Чему учим: цель обучения</a><a class="nav-item" data-k="g2r2" href="g2r2.html"><span class="num">6</span>Кого учим: портрет студента</a><a class="nav-item cur" data-k="g2r3" href="g2r3.html"><span class="num">7</span>Результат обучения</a><a class="nav-item" data-k="g2r4" href="g2r4.html"><span class="num">8</span>Сроки обучения: как соотнести обещания со временем</a></div></div><div class="nav-sec"><div class="nav-sec-row"><a href="g3r1.html">Глава 3 · Макро-структура: концепт и лестница навыков</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g3r1" href="g3r1.html"><span class="num">9</span>Концепт программы: какую историю мы рассказываем студенту?</a><a class="nav-item" data-k="g3r2" href="g3r2.html"><span class="num">10</span>Модель TOTE: строительный блок для создания изменений</a><a class="nav-item" data-k="g3r3" href="g3r3.html"><span class="num">11</span>Три позиции описания</a><a class="nav-item" data-k="g3r4" href="g3r4.html"><span class="num">12</span>Простые и комплексные навыки</a><a class="nav-item" data-k="g3r5" href="g3r5.html"><span class="num">13</span>Лестница навыков</a></div></div><div class="nav-sec"><div class="nav-sec-row"><a href="g4r1.html">Глава 4 · Микро-структура: как рождается навык</a><button type="button" aria-label="Развернуть раздел"><span class="arr">›</span></button></div><div class="items"><a class="nav-item" data-k="g4r1" href="g4r1.html"><span class="num">14</span>Формирование навыка: «матрёшка»</a><a class="nav-item" data-k="g4r2" href="g4r2.html"><span class="num">15</span>Концептуальная часть матрёшки</a><a class="nav-item" data-k="g4r3" href="g4r3.html"><span class="num">16</span>Инструкция и опыт</a><a class="nav-item" data-k="g4r4" href="g4r4.html"><span class="num">17</span>Шеринг и рефлексия</a></div></div><a class="nav-group" href="chast-1.html">Оглавление части 1</a><a class="nav-group" href="tetrad.html">Рабочая тетрадь</a><span class="nav-group" style="color:rgba(240,232,213,.45)">Части 2–4 — скоро</span>
+<div class="nav-map-label">Путь по части 1</div>
+<div class="nav-map" id="navMap" data-cur="2"></div>
+<div class="foot" id="drawerFoot"></div>
+</nav>
+<div class="topbar"><div class="topbar-in">
+  <span class="crumbs">Часть 1 · Глава 2 · Раздел 7 из 17</span>
+</div><div class="pbar"><i style="width:41%"></i></div></div>
+<div class="sheets">
+<div class="sheet chapter-head" id="ch7"><div class="sec-band"><div class="sec-band-k">Глава 2 · От чистого листа — к фундаменту твоей программы</div><p class="sec-band-d">Четыре стартовых вопроса будущей программы: чему учим, кого учим, что будет результатом обучения и в какие сроки он реально достижим.</p></div>
+  <div class="kicker">Раздел 7</div>
+  <h1>Результат обучения</h1>
+  <div class="orn">✦ ✦ ✦</div><div class="sec-tiles"><a class="tile" data-k="g2r1" href="g2r1.html"><span class="tn">Раздел 5</span><span class="tt">Чему учим: цель обучения</span></a><a class="tile" data-k="g2r2" href="g2r2.html"><span class="tn">Раздел 6</span><span class="tt">Кого учим: портрет студента</span></a><a class="tile cur" data-k="g2r3" href="g2r3.html"><span class="tn">Раздел 7</span><span class="tt">Результат обучения</span></a><a class="tile" data-k="g2r4" href="g2r4.html"><span class="tn">Раздел 8</span><span class="tt">Сроки обучения: как соотнести обещания со временем</span></a></div>
 </div>
-<div style="text-align:center;padding-bottom:80px">
-  <a href="chast-1.html" style="display:inline-block;font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#345258;background:#F0E8D5;border-radius:999px;padding:14px 34px;text-decoration:none">К оглавлению</a>
+
+<div class="sheet" id="ch7-s1">
+  <div class="tab"><b>01</b>Цель и результат</div>
+  <p class="drop">Во время чтения этой главы ты, возможно, меня возненавидишь. Потому что здесь концентрация моей дотошности достигнет внушительных (но не предельных! ;Р) значений. Почему? Потому что нам нужно еще договориться о результатах обучения.</p>
+  <p>Так, секундочку, мы же только что говорили о целях, да? Чем результат может отличаться от цели?! Это синонимы, очевидно же! Так вот, оказывается, нет. Давай разбираться.</p>
+  <p><b>Цель — это наш замысел о том, что человек будет делать за пределами программы</b>: как он будет пользоваться полученными навыками в своей собственной жизни. Выступать перед советом директоров, участвовать в конкурсе поваров, играть в компании друзей на фортепиано, вести социальные сети и привлекать клиентов.</p>
+  <p>А хорошо — а результат тогда? А <b>результат — это то, как мы поймем и проверим, что обучение прошло успешно</b>. Результатом будут конкретные действия студента в финале обучения. Действия, глядя на которые, мы сможем с чистой совестью сказать: да, это именно те результаты, которые мы обещали. Мы этому учили, и вот человек научился.</p>
+  <div class="define"><div class="label">Ключевая мысль</div><p>Результат — это материальное, конкретное, измеримое действие студента в финале программы, благодаря которым в том числе становятся достижимы и выполнимы цели обучения.</p></div>
+  <p>И <b>результат мы не просто описываем — мы его проектируем</b>. Мы закладываем с самого начала — что хотим увидеть в финале курса: успешное публичное выступление по заданному таймингу и структуре; сыгранное музыкальное произведение определенного формата и сложности; связанный шарф по оговоренной технологии; 10 опубликованных в личном блоге рилз, записанных с учетом ряда требований… И так далее.</p>
 </div>
+
+<div class="sheet" id="ch7-s2">
+  <div class="tab"><b>02</b>Восемь критериев</div>
+  <h2>Восемь критериев качественного описания результата</h2>
+  <div class="h-orn">✦</div>
+  <p>Ну, так ты уже чувствуешь запах жареного, да? Чтобы спроектировать результат, нам снова нужны критерии. Зачем? Во-первых, чтобы чётко согласоваться с будущими студентами и/или заказчиками относительно их ожиданий и говорить с ними на одном языке. Во-вторых, чтобы обучение было честным: не поле догадок, надежд и туманных предположений, а ясная траектория — к чему идем. В-третьих, если мы решим проводить сертификацию или выставлять оценки, нам нужно на что-то опираться: почему одному студенту сертификат выдаем, а этому нет.</p>
+  <div class="n-item">
+    <div class="n-tag">Критерий 1</div>
+    <div class="n-title">Утвердительная формулировка</div>
+    <p>Человек «сварил борщ по заданному рецепту». Не «научился не пересаливать», а прямо сварил (что ты хихикаешь! Лучше тебе не знать, как люди иногда результаты формулируют! «Он научится не волноваться перед выступлением» — что это, блин, значит? Что там будет происходить вместо волнения? Как мы это узнаем и проверим?!) Никаких отрицаний в описании результата быть не должно. Из формулировки мы должны четко понять: вот он сделал, и у него получилось.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 2</div>
+    <div class="n-title">Конкретное действие</div>
+    <p>Вот сейчас специально для поклонников soft skills (я сам поклонник 😀) приведу пример. «Научился бережно и безопасно общаться» — это туманно и не конкретно. Вместо этого: «провел сложные переговоры с негативно настроенным клиентом, снизил уровень напряжения, используя навыки подстройки и ведения, вывел на подписание контракта». Вот это ясное действие.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 3</div>
+    <div class="n-title">Контекст</div>
+    <p>Где именно, как именно, при каких обстоятельствах? Самопрезентация — в лифте: уложиться за 60 секунд. Или: представить продукт на шумной конференции, в рамках большого выставочного форума. Почему контекст важен? Потому что из конкретных обстоятельств сразу понятно, какие блоки и темы должны быть внутри обучения, чтобы результат стал возможным.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 4</div>
+    <div class="n-title">Личная ответственность</div>
+    <p>Результат находится в зоне контроля учащегося на 100%. Мы не можем обещать результат, который касается двух человек, причём один из них в программе участия не принимает.</p>
+    <div class="pair">
+      <div class="no"><span class="tag">Нечестный вариант</span>«В финале нашего курса вы счастливо выйдете замуж». Процесс заключения брака, насколько мне известно, предполагает волеизъявление другого человека, поэтому делать такое обещание — как минимум некорректно, а вообще-то недобросовестно.</div>
+      <div class="yes"><span class="tag">Что можно вместо этого</span>«В финале обучения вы легко проведете small-talk с тремя незнакомыми мужчинами на закрытом мероприятии». А уж дойдет дело до замужества или нет — не в нашей власти.</div>
+    </div>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 5</div>
+    <div class="n-title">Порог качества</div>
+    <p>При каких условиях результат будет удовлетворительным? Например: ученик исполнит на фортепиано композицию продолжительностью до 10 минут, сыграет ее двумя руками, в нужном темпе и чистом ритме, допустив не более 3 ошибок. Вот он, порог, по которому мы понимаем: да, это то, что мы хотели.</p>
+    <p>Или: студент выступит перед условным «советом директоров» по определенной структуре, уложится в тайминг до 5 минут, будет поддерживать зрительный контакт с аудиторией, сохранять ресурсное состояние и успешно обработает два неудобных вопроса от зрителей, используя полученные на курсе техники.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 6</div>
+    <div class="n-title">Сенсорность</div>
+    <p>Как мы увидим, услышим и прочувствуем обещанный результат? Этот критерий очень важен, поскольку связывает результат с реальностью: <b>наличие или отсутствие навыка измеряется поведением</b>! Не рассуждением, не письменным описанием, не фантазией. Поведением. И поэтому, проектируя курс, мы специально продумываем некоторый формат, который позволит наглядно убедиться и засвидетельствовать, что человек на уровне поведения демонстрирует навык приготовления яичницы, игры на фортепиано, проведения сложных переговоров и т.д.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 7</div>
+    <div class="n-title">Экология и этика</div>
+    <p>Этот критерий тоже довольно конкретен, несмотря на кажущуюся сложность. Фактически, здесь ты отвечаешь сам себе на следующие вопросы: какой ценой результат будет достигнут? Как процесс обучения отразится на здоровье студента (не только физическом, но и психическом), на его отношениях с близкими, на его репутации?<sup class="fn">1</sup> Насколько чисты и безопасны те инструменты, которые я закладываю в обучение? Скажем: если я на курсе целенаправленно учу студентов манипулировать другими людьми — какие последствия я таким образом создаю в жизни выпускников и тех, с кем они будут взаимодействовать? Несу ли я ответственность за эти последствия? Далеко не все авторы курсов вообще считают для себя необходимым задаваться такими вопросами.</p>
+  </div>
+  <div class="n-item">
+    <div class="n-tag">Критерий 8</div>
+    <div class="n-title">Масштаб</div>
+    <p>Насколько обещание соразмерно тому, как реально организован курс? Вот у нас онлайн-программа по публичным выступлениям на три месяца — можем ли мы обещать, что человек научится выступлениям офлайн перед тысячными залами? Честнее сказать: в рамках нашей онлайн-программы вы точно освоите навык онлайн-презентации своего продукта.</p>
+  </div>
+  <div class="fnotes"><p><b>1</b> Были в свое время программы, где ведущие давали крупным руководителям задание выйти в неглиже на центральную улицу и прочесть стихи, чтобы таким образом «навсегда освободиться от страха публичных выступлений»… Насколько экологичны такие практики для репутации ученика, его отношений с семьей и бизнес-партнерами? Насколько они психологически безопасны? Вопрос открытый.</p></div>
+</div>
+
+<div class="sheet" id="ch7-s3">
+  <div class="tab"><b>03</b>А как же soft skills</div>
+  <h2>А что с мягкими навыками?</h2>
+  <div class="h-orn">✦</div>
+  <p>Возможно, в этой точке у тебя появится вопрос: хорошо, эти восемь критериев понятны и подходят для строго-навыковых, технологических программ, где результаты можно «померить линейкой». А что делать с мягкими навыками — неужели там всё то же самое? Представь себе, да. Выше я уже приводил примеры из мягких ниш, но давай я еще раз зафиксирую: по итогам любого даже трижды soft-обучения <b>мы можем продумать процедуру, в которой студенты покажут, чему конкретно они научились</b>, как именно используя те инструменты, обучались.</p>
+  <div class="example"><div class="field">Бережная коммуникация</div><p>Студент в финале программы пишет несколько писем (другим участникам, например), в которых использует конкретные техники (например, обратную связь высокого качества, я-сообщения, благодарность) — и получает ответы, по которым можно оценить, как изменились в лучшую сторону отношения этих людей.</p></div>
+  <div class="example"><div class="field">Эмоциональный интеллект</div><p>Ученик проводит несколько учебных диалогов и фиксирует по критериям, какие изменения эмоций он наблюдал в себе и в собеседниках, после чего заполняет и присылает документ, в котором описано, как он замечает телесные и мимические сигналы, как интерпретирует и как меняет свое поведение, воздействуя на собственное состояние и состояние партнера.</p></div>
+  <p>Как ты, надеюсь, замечаешь восемь критериев описания результата помогают создать максимально ясную, честную и эффективную программу, пройдя которую студент действительно сверит точку А и точку Б, увидит разницу, порадуется своим успехам, а мы порадуемся вместе с ним.</p>
+  <p>А еще, если уж говорить о «маркетинге здорового человека»: результаты в виде конкретных действий студентов по итогам обучения — это отличный материал, который можно оформить в кейсы (взяв предварительно разрешения).</p>
+</div>
+
+<div class="sheet sky-sheet" id="ch7-s4">
+  <div class="tab"><b>04</b>Практика</div>
+  <div class="label">Рабочая тетрадь</div>
+  <h3>Спроектируйте результат вашей программы</h3>
+  <div class="task">
+    <div class="q"><b>1.</b> Рядом с целью обучения и портретом студента — мы уже знаем, чему учим и кого учим — коротко, быстро сформулируйте результат: так, как он сам сформулируется.</div>
+    <textarea data-wb="g2r3-1" rows="3" placeholder="Запишите первую, черновую формулировку результата…"></textarea>
+  </div>
+  <div class="task">
+    <div class="q"><b>2.</b> Затем откройте восемь критериев и прямо проставьте галочки напротив каждого: утвердительная форма, конкретное действие, контекст, личная ответственность, порог качества, сенсорность, экология и этика, масштаб.</div>
+    <textarea data-wb="g2r3-2" rows="4" placeholder="Пройдитесь по восьми критериям: какие уже выполнены, а какие требуют доработки и почему…"></textarea>
+  </div>
+  <div class="task">
+    <div class="q"><b>3.</b> Самопроверка: прочитайте формулировку вслух и спросите себя — смог бы посторонний человек, наблюдая финальную работу студента, однозначно сказать: «Да, вот он, обещанный результат»? Если нет — внесите больше конкретики, детализации и точности.</div>
+    <textarea data-wb="g2r3-3" rows="3" placeholder="Запишите уточнённую формулировку результата — с конкретикой и деталями…"></textarea>
+  </div>
+  <div class="task">
+    <div class="q"><b>4.</b> И важный момент для рефлексии: какой из критериев находится у вас в слепой зоне? Где вы начинаете тупить и спотыкаться? Зафиксируйте это место и вернитесь к нему через день со свежей головой — как правило, точное слово находится.</div>
+    <textarea data-wb="g2r3-4" rows="3" placeholder="Какой критерий в слепой зоне, где спотыкаетесь…"></textarea>
+  </div>
+  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
+  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="calm">Спасибо за терпение и внимание. Да, это самая душная часть первой главы — и самая фундаментальная: именно прописанный результат делает обучение честным.</div>
+</div>
+</div>
+<nav class="cnav"><a href="g2r2.html"><span class="lb">← Назад</span><span class="tt">Кого учим: портрет студента</span></a><a class="mid" href="chast-1.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="g2r4.html" data-done="g2r3"><span class="lb">Дальше →</span><span class="tt">Сроки обучения: как соотнести обещания со временем</span></a></nav>
+
+<script>
+(function(){var K='up-read';
+ window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
+ window.upMark=function(k){var a=window.upRead();if(a.indexOf(k)<0){a.push(k);try{localStorage.setItem(K,JSON.stringify(a))}catch(e){}}};
+})();</script><script>window.upOrder=[["g1r1", "g1r1.html", "Глава 1 · Раздел 1", "Методология и методолог"], ["g1r2", "g1r2.html", "Глава 1 · Раздел 2", "Методолог, продакт-менеджер, маркетолог: проведём границы"], ["g1r3", "g1r3.html", "Глава 1 · Раздел 3", "Метапозиция методолога"], ["g1r4", "g1r4.html", "Глава 1 · Раздел 4", "Чем обучение взрослых отличается от обучения детей"], ["g2r1", "g2r1.html", "Глава 2 · Раздел 5", "Чему учим: цель обучения"], ["g2r2", "g2r2.html", "Глава 2 · Раздел 6", "Кого учим: портрет студента"], ["g2r3", "g2r3.html", "Глава 2 · Раздел 7", "Результат обучения"], ["g2r4", "g2r4.html", "Глава 2 · Раздел 8", "Сроки обучения: как соотнести обещания со временем"], ["g3r1", "g3r1.html", "Глава 3 · Раздел 9", "Концепт программы: какую историю мы рассказываем студенту?"], ["g3r2", "g3r2.html", "Глава 3 · Раздел 10", "Модель TOTE: строительный блок для создания изменений"], ["g3r3", "g3r3.html", "Глава 3 · Раздел 11", "Три позиции описания"], ["g3r4", "g3r4.html", "Глава 3 · Раздел 12", "Простые и комплексные навыки"], ["g3r5", "g3r5.html", "Глава 3 · Раздел 13", "Лестница навыков"], ["g4r1", "g4r1.html", "Глава 4 · Раздел 14", "Формирование навыка: «матрёшка»"], ["g4r2", "g4r2.html", "Глава 4 · Раздел 15", "Концептуальная часть матрёшки"], ["g4r3", "g4r3.html", "Глава 4 · Раздел 16", "Инструкция и опыт"], ["g4r4", "g4r4.html", "Глава 4 · Раздел 17", "Шеринг и рефлексия"]];</script><script>
+(function(){
+ var d=document.getElementById('drawer'),o=document.getElementById('overlay');
+ function open(){d.classList.add('open');o.classList.add('show')}
+ function close(){d.classList.remove('open');o.classList.remove('show')}
+ var mb=document.getElementById('menuBtn');if(mb)mb.addEventListener('click',open);
+ var db=document.getElementById('drawerClose');if(db)db.addEventListener('click',close);
+ if(o)o.addEventListener('click',close);
+ document.addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+ document.querySelectorAll('.nav-sec-row>button').forEach(function(b){
+   b.addEventListener('click',function(){b.closest('.nav-sec').classList.toggle('open')})});
+ var tb=document.querySelector('.topbar a[data-menu]');
+ if(tb)tb.addEventListener('click',function(e){e.preventDefault();open()});
+ var r=window.upRead();
+ document.querySelectorAll('.drawer .nav-item').forEach(function(a){
+   if(r.indexOf(a.dataset.k)>=0)a.classList.add('read')});
+ var map=document.getElementById('navMap');
+ if(map&&window.upOrder){var secs={};
+   upOrder.forEach(function(u){var s=u[0].match(/^g(\d+)/)[1];(secs[s]=secs[s]||{t:0,d:0});secs[s].t++;if(r.indexOf(u[0])>=0)secs[s].d++});
+   var cur=map.dataset.cur||'',h='';
+   for(var s=1;s<=4;s++){var x=secs[s];
+     if(!x){h+='<div class="step locked" style="height:'+(26+s*12)+'px" title="Глава '+s+' — скоро"><b>🔒</b></div>';continue}
+     var pct=Math.round(x.d/x.t*100);
+     h+='<div class="step'+(String(s)===cur?' cur':'')+(x.d>=x.t?' done':'')+'" style="height:'+(26+s*12)+'px" title="Глава '+s+': '+x.d+' из '+x.t+'"><i style="height:'+pct+'%"></i><b>'+s+'</b></div>'}
+   map.innerHTML=h}
+ var f=document.getElementById('drawerFoot');
+ if(f&&window.upOrder){var nxt=null;
+   for(var i=0;i<upOrder.length;i++){if(r.indexOf(upOrder[i][0])<0){nxt=upOrder[i];break}}
+   f.innerHTML='Прочитано разделов: <b>'+r.length+' из '+upOrder.length+'</b>'+
+     (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть 1 прочитана целиком ✓');
+ }
+})();</script>
+<script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-done]');if(a)window.upMark(a.getAttribute('data-done'))});</script>
+<script>(function(){var end=document.querySelector('.cnav');
+ if(!end||!('IntersectionObserver' in window))return;
+ var o=new IntersectionObserver(function(es){es.forEach(function(e){
+   if(e.isIntersecting){window.upMark('g2r3');o.disconnect()}})},{threshold:0.35});
+ o.observe(end)})();</script>
+<script>(function(){var r=window.upRead();document.querySelectorAll('.sec-tiles a').forEach(function(a){if(r.indexOf(a.dataset.k)>=0)a.classList.add('read')})})();</script>
+<script>
+(function(){var K='up-wb';
+ function load(){try{return JSON.parse(localStorage.getItem(K)||'{}')}catch(e){return {}}}
+ function save(m){try{localStorage.setItem(K,JSON.stringify(m))}catch(e){}}
+ var m=load();
+ document.querySelectorAll('textarea[data-wb]').forEach(function(t){
+   if(m[t.dataset.wb])t.value=m[t.dataset.wb];
+   t.addEventListener('input',function(){m[t.dataset.wb]=t.value;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+ document.querySelectorAll('.wb-ans[data-wb]').forEach(function(d){
+   if(m[d.dataset.wb])d.innerText=m[d.dataset.wb];
+   d.addEventListener('input',function(){m[d.dataset.wb]=d.innerText;save(m);
+     var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+})();</script><script>
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.copy-btn'); if(!b)return;
+  var sh=b.closest('.sky-sheet'); if(!sh)return;
+  var t=sh.querySelector('h3');
+  var L=['Рабочая тетрадь · '+(t?t.textContent.trim():'Практика'),''];
+  sh.querySelectorAll('.task').forEach(function(x){
+    var q=x.querySelector('.q'),a=x.querySelector('textarea');
+    if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
+    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
+  });
+  var txt=L.join('\n');
+  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
+  function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
+});</script>
 </body>
 </html>

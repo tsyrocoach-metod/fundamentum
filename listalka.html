@@ -1,632 +1,228 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Управляемо и предсказуемо — часть 1 целиком</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Управляемо и предсказуемо — электронная книга</title>
 <style>
   :root{
     --sea:#46707C; --sea-deep:#345258; --ink:#2B3E43; --ink-soft:#5C7178;
-    --page:#FBF8F1; --page-edge:#F0EADA; --cream:#F0E8D5;
-    --gold:#B8965A; --line:#E3DCC9;
+    --page:#FBF8F1; --page-edge:#F0EADA; --cream:#F0E8D5; --gold:#B8965A; --line:#E3DCC9;
   }
-  html{scroll-behavior:smooth}
+  *{box-sizing:border-box}
+  html,body{height:100%}
   body{
-    margin:0; color:var(--ink);
-    font-family:Georgia,'Times New Roman',serif;
-    font-size:19px; line-height:1.8;
+    margin:0; color:var(--ink); font-family:Georgia,'Times New Roman',serif;
     background-color:var(--sea);
     background-image:
       radial-gradient(ellipse 55% 38% at 15% 10%, rgba(240,233,214,.30), transparent 70%),
       radial-gradient(ellipse 48% 32% at 85% 25%, rgba(255,255,255,.20), transparent 70%),
-      radial-gradient(ellipse 65% 42% at 50% 85%, rgba(228,236,232,.15), transparent 70%),
-      radial-gradient(ellipse 45% 30% at 5% 60%, rgba(43,69,75,.5), transparent 72%),
       linear-gradient(165deg,#54808C 0%, #46707C 45%, #3B6069 100%);
     background-attachment:fixed;
+    overflow:hidden;
   }
-
-  /* ── Кнопка меню и выдвижная панель ── */
-  .menu-btn{
-    position:fixed; top:18px; left:18px; z-index:60;
-    width:48px; height:48px; border-radius:50%; border:1px solid rgba(240,232,213,.5);
-    background:rgba(52,82,88,.88); color:var(--cream); cursor:pointer;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow:0 6px 20px rgba(20,40,45,.35);
-  }
-  .menu-btn:hover{background:var(--sea-deep)}
-  .menu-btn svg{display:block}
-  .drawer{
-    position:fixed; top:0; left:0; bottom:0; z-index:70;
-    width:330px; max-width:88vw; box-sizing:border-box;
-    background:linear-gradient(170deg,#3A5B64,#2E484F);
-    color:var(--cream); padding:28px 26px 40px; overflow-y:auto;
-    transform:translateX(-102%); transition:transform .3s ease;
-    box-shadow:24px 0 60px rgba(20,40,45,.4);
-  }
-  .drawer.open{transform:translateX(0)}
-  .drawer .close{
-    position:absolute; top:16px; right:16px; width:36px; height:36px;
-    border:none; border-radius:50%; background:rgba(240,232,213,.12);
-    color:var(--cream); font-size:20px; line-height:1; cursor:pointer;
-  }
-  .drawer .brand{font-size:17px; letter-spacing:.2em; text-transform:uppercase; margin:6px 0 2px}
-  .drawer .sub{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:rgba(240,232,213,.6); padding-bottom:18px; border-bottom:1px solid rgba(240,232,213,.25); margin-bottom:10px}
-  .nav-group{display:block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin:20px 0 4px; text-decoration:none}
-  a.nav-group:hover{color:#E8CF9E}
-  .nav-item{
-    display:block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:15px; line-height:1.45;
-    color:rgba(240,232,213,.92); text-decoration:none; padding:7px 0 7px 14px;
-    border-left:2px solid rgba(240,232,213,.2);
-  }
-  .nav-item:hover{color:#fff; border-left-color:var(--gold)}
-  .nav-item.soon{color:rgba(240,232,213,.45); cursor:default; font-style:italic}
-  .overlay{position:fixed; inset:0; z-index:65; background:rgba(20,35,40,.45); opacity:0; pointer-events:none; transition:opacity .3s}
-  .overlay.show{opacity:1; pointer-events:auto}
-
-  /* ── Небесная шапка книги ── */
-  .sky-head{color:var(--cream); text-align:center; padding:64px 24px 44px}
-  .sky-head .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.35em; text-transform:lowercase; color:rgba(240,232,213,.75)}
-  .sky-head .brand{font-size:34px; letter-spacing:.24em; text-transform:uppercase; margin-top:6px}
-  .sky-head .crumbs{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:rgba(240,232,213,.7); margin-top:24px}
-
-  /* ── Колонка листов ── */
-  .sheets{max-width:780px; margin:0 auto 72px; padding:0 12px; display:flex; flex-direction:column; gap:34px}
-
-  .sheet{
-    background:var(--page); border-radius:14px;
-    box-shadow:0 22px 60px rgba(20,40,45,.32), 0 3px 12px rgba(20,40,45,.18);
-    padding:52px 76px 56px; position:relative;
-  }
-  .sheet .tab{
-    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-    background:var(--sea-deep); color:var(--cream); white-space:nowrap;
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:600;
-    letter-spacing:.26em; text-transform:uppercase;
-    border-radius:999px; padding:7px 22px; border:1px solid rgba(240,232,213,.35);
-  }
-  .sheet .tab b{color:var(--gold); font-weight:700; margin-right:10px}
-
-  /* Титульные листы глав */
-  .chapter-head{text-align:center; scroll-margin-top:30px;
-    background:linear-gradient(180deg, #FBF8F1 0%, #F4EEDF 100%);
-    border:1px solid rgba(200,169,107,.45);
-  }
-  .chapter-head .kicker{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:600}
-  .chapter-head h1{font-weight:400; font-size:37px; line-height:1.25; margin:16px 0 0; color:var(--sea-deep)}
-  .chapter-head .orn{color:var(--gold); font-size:18px; letter-spacing:.6em; margin-top:22px}
-  .chapter-head .lede{font-style:italic; color:var(--ink-soft); max-width:480px; margin:18px auto 0; font-size:18px}
-
-  .chapter-head .intro{text-align:left; margin-top:38px; padding-top:34px; border-top:1px solid var(--line)}
-
-  .kicker-line{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.26em; text-transform:uppercase; color:var(--gold); font-weight:700; text-align:center; margin-bottom:10px}
-
-  p{margin:0 0 24px}
-  p:last-child{margin-bottom:0}
-  .drop::first-letter{
-    font-size:74px; float:left; line-height:.82; padding:8px 14px 0 0; color:var(--sea); font-weight:400;
-  }
-  em{font-style:normal; box-shadow:inset 0 -9px 0 rgba(70,112,124,.18)}
-  .sheet{scroll-margin-top:30px}
-
-  h2{
-    font-weight:400; font-size:27px; color:var(--sea-deep); line-height:1.35;
-    margin:6px 0 6px; text-align:center;
-  }
-  .h-orn{text-align:center; color:var(--gold); letter-spacing:.5em; font-size:14px; margin-bottom:28px}
-  h3{font-weight:400; font-size:21.5px; color:var(--sea-deep); margin:34px 0 14px}
-  .sheet ul, .sheet ol{margin:0 0 24px; padding-left:26px}
-  .sheet li{margin-bottom:10px}
-
-  /* Определение */
-  .define{
-    margin:34px 0; padding:30px 36px; text-align:center;
-    border-top:2px solid var(--gold); border-bottom:2px solid var(--gold);
-    background:linear-gradient(180deg, rgba(200,169,107,.07), transparent 60%);
-  }
-  .define .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:12px}
-  .define p{font-size:21.5px; font-style:italic; line-height:1.65; margin:0; color:var(--sea-deep)}
-
-  /* Лесенка */
-  .ladder{display:flex; flex-direction:column; gap:0; margin:30px 0; border:1px solid var(--line); border-radius:14px; overflow:hidden}
-  .step{padding:22px 28px; display:grid; grid-template-columns:130px 1fr; gap:18px; align-items:baseline}
+  /* ── рама книги ── */
+  .frame{position:fixed; inset:0; display:flex; flex-direction:column; align-items:center}
+  .tophead{width:100%; display:flex; align-items:center; gap:12px; padding:10px 16px;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.85)}
+  .tophead .runhead{flex:1; text-align:center; letter-spacing:.06em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .tophead button{background:none; border:1px solid rgba(240,232,213,.4); color:var(--cream);
+    border-radius:999px; padding:7px 16px; font-family:inherit; font-size:11px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; white-space:nowrap}
+  .tophead button:hover{background:rgba(240,232,213,.15)}
+  .stage{flex:1; width:100%; display:flex; align-items:center; justify-content:center; perspective:2400px; position:relative}
+  .leafbox{position:relative; transform-style:preserve-3d}
+  .pg{position:absolute; inset:0; background:var(--page); border-radius:6px 14px 14px 6px;
+    box-shadow:0 18px 50px rgba(20,40,45,.4), 0 2px 8px rgba(20,40,45,.2);
+    padding:34px 38px 44px; overflow:hidden; display:none}
+  .pg.base{display:flow-root}
+  .pg::before{content:""; position:absolute; top:0; bottom:0; left:0; width:14px;
+    background:linear-gradient(90deg, rgba(43,62,67,.14), rgba(43,62,67,0)); pointer-events:none; border-radius:6px 0 0 6px}
+  .pg .pgno{position:absolute; bottom:14px; left:0; right:0; text-align:center;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; color:#A9A18D; letter-spacing:.12em}
+  /* лист-перевёртыш */
+  .leaf{position:absolute; inset:0; transform-style:preserve-3d; transform-origin:left center; z-index:30}
+  .leaf .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden}
+  .leaf .front{transform:rotateY(0)}
+  .leaf .back{transform:rotateY(180deg); background:var(--page-edge); border-radius:14px 6px 6px 14px;
+    box-shadow:inset 0 0 40px rgba(43,62,67,.12)}
+  .leaf .front .pg{display:flow-root; position:absolute}
+  .turning{transition:transform .55s cubic-bezier(.4,.1,.3,1)}
+  .shade{position:absolute; inset:0; pointer-events:none; z-index:40; opacity:0; transition:opacity .55s;
+    background:linear-gradient(75deg, rgba(20,35,40,.35), transparent 55%); border-radius:6px 14px 14px 6px}
+  /* ── низ ── */
+  .bothead{width:100%; padding:10px 18px 14px; display:flex; align-items:center; gap:14px;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.8)}
+  .pbar{flex:1; height:3px; background:rgba(240,232,213,.25); border-radius:2px; cursor:pointer}
+  .pbar i{display:block; height:100%; width:0; background:var(--gold); border-radius:2px}
+  .pcount{white-space:nowrap; font-variant-numeric:tabular-nums}
+  .navtap{position:absolute; top:0; bottom:0; width:18%; z-index:50; cursor:pointer}
+  .navtap.l{left:0}
+  .navtap.r{right:0; width:22%}
+  /* ── типографика страницы ── */
+  .pg{font-size:16.5px; line-height:1.68}
+  .pg p{margin:0 0 14px}
+  .pg h1{font-weight:400; font-size:26px; line-height:1.3; color:var(--sea-deep); margin:10px 0 8px; text-align:center}
+  .pg h2{font-weight:400; font-size:21px; line-height:1.35; color:var(--sea-deep); margin:8px 0 10px; text-align:center}
+  .pg h3{font-weight:400; font-size:18.5px; color:var(--sea-deep); margin:16px 0 8px}
+  .pg ul,.pg ol{margin:0 0 14px; padding-left:22px}
+  .pg li{margin-bottom:7px}
+  .kicker,.kicker-line{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10.5px; letter-spacing:.28em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; text-align:center; margin:4px 0 6px}
+  .orn,.h-orn{text-align:center; color:var(--gold); letter-spacing:.5em; font-size:13px; margin:8px 0 12px}
+  .tab{display:table; margin:0 auto 14px; background:var(--sea-deep); color:var(--cream);
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; font-weight:600; letter-spacing:.22em;
+    text-transform:uppercase; border-radius:999px; padding:6px 16px}
+  .tab b{color:var(--gold); margin-right:8px}
+  .drop::first-letter{font-size:52px; float:left; line-height:.85; padding:5px 10px 0 0; color:var(--sea)}
+  em{font-style:normal; box-shadow:inset 0 -8px 0 rgba(70,112,124,.18)}
+  b{color:inherit}
+  .define{margin:16px 0; padding:16px 18px; text-align:center; border-top:2px solid var(--gold);
+    border-bottom:2px solid var(--gold); background:linear-gradient(180deg, rgba(200,169,107,.07), transparent 60%)}
+  .define .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.26em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px}
+  .define p{font-size:17.5px; font-style:italic; line-height:1.6; margin:0; color:var(--sea-deep)}
+  .story{margin:14px 0; padding:14px 16px; border-radius:10px; background:var(--page-edge); color:#5A5642}
+  .story .who{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px}
+  .story p{margin:0 0 10px}
+  .example{border:1px solid var(--line); border-radius:10px; padding:12px 16px; margin-bottom:10px; background:#fff}
+  .example .field{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:5px}
+  .example p{margin:0; font-size:15.5px}
+  .n-item{margin:12px 0; padding:14px 16px; border:1px solid var(--line); border-left:3px solid var(--gold);
+    border-radius:10px; background:#fff}
+  .n-item .n-tag{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:4px}
+  .n-item .n-title{font-size:17px; color:var(--sea-deep); margin:0 0 8px; line-height:1.35}
+  .n-item p{font-size:15.5px; margin-bottom:10px}
+  .ladder{margin:14px 0; border:1px solid var(--line); border-radius:10px; overflow:hidden}
+  .step{padding:12px 16px; display:grid; grid-template-columns:110px 1fr; gap:12px; align-items:baseline}
   .step + .step{border-top:1px solid var(--line)}
   .step:nth-child(2){background:var(--page-edge)}
   .step:nth-child(3){background:var(--sea-deep); color:var(--cream)}
-  .step b{font-weight:400; font-size:20px; letter-spacing:.02em}
-  .step span{font-family:-apple-system,'Segoe UI',sans-serif; font-size:15.5px; line-height:1.65; color:var(--ink-soft)}
+  .step b{font-weight:400; font-size:16.5px}
+  .step span{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13.5px; line-height:1.55; color:var(--ink-soft)}
   .step:nth-child(3) span{color:rgba(240,232,213,.85)}
-
-  /* История-пример */
-  .story{margin:36px 0; padding:26px 30px; border-radius:12px; background:var(--page-edge); font-style:italic; color:#5A5642}
-  .story .who{font-family:-apple-system,'Segoe UI',sans-serif; font-style:normal; font-size:11px; letter-spacing:.25em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:10px}
-  .story p{margin:0 0 14px}
-  .story p:last-child{margin:0}
-
-  /* Как не надо / как надо */
-  .pair{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:32px 0; font-family:-apple-system,'Segoe UI',sans-serif; font-size:16px; line-height:1.65}
-  .pair>div{border-radius:12px; padding:22px 24px}
+  .pair{display:grid; grid-template-columns:1fr; gap:10px; margin:14px 0;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.6}
+  .pair>div{border-radius:10px; padding:12px 14px}
   .pair .no{background:var(--page-edge); color:#8B8271}
   .pair .yes{background:var(--sea-deep); color:var(--cream)}
-  .pair .tag{font-size:11px; letter-spacing:.22em; text-transform:uppercase; font-weight:700; display:block; margin-bottom:10px}
+  .pair .tag{font-size:10px; letter-spacing:.2em; text-transform:uppercase; font-weight:700; display:block; margin-bottom:6px}
   .pair .no .tag{color:#A79E8D}
   .pair .yes .tag{color:var(--gold)}
-
-  .chips{display:flex; flex-wrap:wrap; gap:10px; margin:24px 0; justify-content:center; font-family:-apple-system,'Segoe UI',sans-serif}
-  .chips i{font-style:normal; border:1px solid var(--gold); color:var(--sea-deep); border-radius:999px; padding:6px 18px; font-size:15px}
-
-  .example{border:1px solid var(--line); border-radius:12px; padding:22px 28px; margin-bottom:14px; background:#fff}
-  .example:last-child{margin-bottom:0}
-  .example .field{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px}
-  .example p{margin:0; font-size:17px}
-
-  /* Практика — небесный лист */
-  .sheet.sky-sheet{
-    color:var(--cream);
-    background-color:var(--sea);
-    background-image:
-      radial-gradient(ellipse 60% 50% at 18% 15%, rgba(240,233,214,.28), transparent 70%),
-      radial-gradient(ellipse 50% 45% at 88% 85%, rgba(43,69,75,.5), transparent 75%),
-      linear-gradient(155deg,#527D89,#3C636D);
-    border:1px solid rgba(240,232,213,.35);
-  }
-  .sky-sheet .tab{background:var(--cream); color:var(--sea-deep); border:none}
-  .sky-sheet .tab b{color:#96742F}
-  .sky-sheet .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:14px; text-align:center}
-  .sky-sheet h3{font-weight:400; font-size:25px; margin:0 0 20px; color:#fff; text-align:center}
-  .sky-sheet ol, .sky-sheet ul{margin:0 0 26px; padding-left:22px}
-  .sky-sheet li{margin-bottom:12px; font-size:17.5px}
-  .sky-sheet .calm{border-top:1px solid rgba(240,232,213,.3); padding-top:22px; font-style:italic; color:rgba(240,232,213,.9); font-size:17.5px}
-
-  /* Задание с полем для ответа — светлая карточка на «небе» */
-  .task{background:var(--page); border-radius:12px; padding:20px 24px 18px; margin:0 0 14px; color:var(--ink)}
-  .task .q{font-size:17px; line-height:1.65; margin-bottom:12px}
-  .task .q b{font-weight:700; color:var(--gold); margin-right:6px}
-  .task textarea{
-    width:100%; box-sizing:border-box; display:block;
-    border:1px solid var(--line); border-radius:8px; padding:10px 14px;
-    font-family:Georgia,'Times New Roman',serif; font-size:16px; line-height:1.6;
-    color:var(--ink); background:#fff; resize:vertical; min-height:60px;
-  }
-  .task textarea:focus{outline:2px solid var(--gold); outline-offset:1px}
-  .task textarea::placeholder{color:#A9A18D; font-style:italic}
-  .practice-actions{text-align:center; margin:24px 0 8px}
-  .copy-btn{
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; font-weight:600;
-    letter-spacing:.12em; text-transform:uppercase; color:var(--sea-deep);
-    background:var(--cream); border:none; border-radius:999px; padding:13px 30px; cursor:pointer;
-    box-shadow:0 4px 14px rgba(20,40,45,.25);
-  }
-  .copy-btn:hover{background:#fff}
-  .copy-btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
-  .practice-hint{font-family:-apple-system,'Segoe UI',sans-serif; text-align:center; font-size:13px; color:rgba(240,232,213,.75); margin-top:10px}
-  .sky-sheet em{box-shadow:inset 0 -9px 0 rgba(200,169,107,.35)}
-
-  /* Пронумерованный пункт структурного перечня */
-  .n-item{margin:24px 0; padding:24px 28px; border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:12px; background:#fff}
-  .n-item .n-tag{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px}
-  .n-item .n-title{font-size:20.5px; color:var(--sea-deep); margin:0 0 12px; font-weight:400; line-height:1.4}
-  .n-item p{font-size:17px; margin-bottom:14px}
-  .n-item p:last-child{margin-bottom:0}
-  .n-item .pair{margin:18px 0 0}
-  .n-item ul,.n-item ol{margin-bottom:0}
-
-  /* Показ по одной главе */
-  section.chapter{display:none}
-  section.chapter.active{display:flex; flex-direction:column; gap:34px}
-
-  /* Отметка «пройдено» в меню */
-  .nav-group .check{color:#9FCDAB; margin-left:8px; display:none; letter-spacing:0}
-  .nav-group.read .check{display:inline}
-
-  /* Тост «глава пройдена» */
-  .toast{
-    position:fixed; bottom:26px; left:50%; z-index:80;
-    transform:translateX(-50%) translateY(90px); opacity:0;
-    background:var(--sea-deep); color:var(--cream);
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; letter-spacing:.06em;
-    padding:12px 28px; border-radius:999px; border:1px solid rgba(240,232,213,.4);
-    box-shadow:0 10px 30px rgba(20,40,45,.4);
-    transition:transform .35s ease, opacity .35s ease; pointer-events:none;
-  }
-  .toast.show{transform:translateX(-50%) translateY(0); opacity:1}
-
-  /* Кликабельный переход к следующей главе */
-  a.next-link{display:block; text-align:center; text-decoration:none; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease}
-  a.next-link:hover{transform:translateY(-4px); box-shadow:0 30px 70px rgba(20,40,45,.4), 0 5px 16px rgba(20,40,45,.22)}
-  .next-link .orn{color:var(--gold); letter-spacing:.6em; font-size:16px; margin-bottom:16px}
-  .next-link .to{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-soft)}
-  .next-link .title{font-size:23px; color:var(--sea-deep); margin-top:10px; line-height:1.4}
-  .next-link .go{display:inline-block; margin-top:18px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--cream); background:var(--sea-deep); border-radius:999px; padding:10px 26px}
-  .next-link:hover .go{background:var(--sea)}
-  .next-soon{text-align:center}
-  .next-soon .orn{color:var(--gold); letter-spacing:.6em; font-size:16px; margin-bottom:16px}
-  .next-soon .to{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--ink-soft)}
-  .next-soon .title{font-size:23px; color:var(--sea-deep); margin-top:10px}
-  .next-soon .note{font-style:italic; color:var(--ink-soft); margin-top:14px; font-size:17px}
-
-
-  /* ── Слот под схему ─────────────────────────────────────────────
-     Заглушка, пока иллюстрация не нарисована. Когда схема готова —
-     заменить содержимое .fig-slot на <img src="data:image/…"> или <svg>.
-     Спрятать все слоты разом: .figure{display:none}
-     ──────────────────────────────────────────────────────────────── */
-  .figure{margin:34px 0}
-  .fig-slot{
-    border:1.5px dashed var(--gold); border-radius:14px;
-    background:linear-gradient(180deg, rgba(200,169,107,.07), rgba(200,169,107,.02));
-    padding:26px 28px;
-  }
-  .fig-mark{
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
-    letter-spacing:.28em; text-transform:uppercase; color:var(--gold); text-align:center;
-  }
-  .fig-name{
-    font-size:21px; color:var(--sea-deep); text-align:center;
-    margin:10px 0 16px; line-height:1.3;
-  }
-  .fig-todo{
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:15px; line-height:1.6;
-    color:var(--ink-soft); border-top:1px solid var(--line); padding-top:14px;
-  }
-  .fig-todo b{
-    display:block; font-size:11px; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--gold); margin-bottom:6px; font-weight:700;
-  }
-  .fig-todo ul{margin:8px 0 0; padding-left:20px}
-  .fig-todo li{margin-bottom:5px}
-  .fig-size{
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.14em;
-    text-transform:uppercase; color:#A9A18D; text-align:center; margin-top:14px;
-  }
-  @media (max-width:840px){ .fig-slot{padding:20px 18px} .fig-name{font-size:19px} }
-
-  /* Письмо от автора */
-  .letter .sig{font-style:italic; color:var(--ink-soft); text-align:right; margin-top:34px}
-  .letter .sig b{display:block; font-style:normal; font-weight:400; font-size:21px; color:var(--sea-deep); margin-top:6px}
-
-  footer{text-align:center; padding:0 0 48px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.15em; color:rgba(240,232,213,.6)}
-
-  @media (max-width:840px){
-    body{font-size:17.5px}
-    .sheets{gap:26px}
-    .sheet{padding:42px 24px 46px}
-    .sheet .tab{font-size:10px; padding:6px 14px; max-width:82%; overflow:hidden; text-overflow:ellipsis}
-    .chapter-head h1{font-size:28px}
-    .sky-head .brand{font-size:24px}
-    h2{font-size:24px}
-    .pair{grid-template-columns:1fr}
-    .step{grid-template-columns:1fr; gap:6px}
-    .menu-btn{top:12px; left:12px; width:44px; height:44px}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .drawer,.overlay{transition:none}
-    html{scroll-behavior:auto}
-  }
-
-  /* ═══ Обложка и части ═══ */
-  .cover-wrap{max-width:820px;margin:0 auto;padding:0 16px 70px}
-  .cover-sheet{background:var(--page);border-radius:14px;padding:52px 60px 46px;text-align:center;
-    box-shadow:0 22px 60px rgba(20,40,45,.32),0 3px 12px rgba(20,40,45,.18)}
-  .cover-sheet .over{font-family:-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;
-    letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
-  .cover-sheet h1{font-weight:400;font-size:clamp(28px,5.4vw,46px);line-height:1.12;margin:18px 0 0;
-    color:var(--sea-deep);letter-spacing:.04em;text-wrap:balance}
-  .cover-sheet .rule{width:52px;height:1px;background:var(--gold);margin:24px auto 0;opacity:.85}
-  .cover-sheet .sub{color:var(--ink-soft);max-width:440px;margin:20px auto 0;text-wrap:balance}
-  .cover-sheet .author{font-family:-apple-system,'Segoe UI',sans-serif;font-size:12px;font-weight:600;
-    letter-spacing:.3em;text-transform:uppercase;color:var(--sea-deep);margin-top:26px}
-  .cover-intro{border-top:1px solid var(--line);margin-top:34px;padding-top:28px;text-align:left}
-  .cover-intro p{margin:0 0 14px}
-  .cover-intro p:last-child{margin:0}
-
-  .parts-label{font-family:-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;
-    letter-spacing:.32em;text-transform:uppercase;color:rgba(240,232,213,.8);text-align:center;margin:44px 0 18px}
-  .parts{display:flex;flex-direction:column;gap:14px}
-  .part-card{display:block;text-decoration:none;background:var(--page);border-radius:14px;padding:26px 30px;
-    box-shadow:0 18px 46px rgba(20,40,45,.28);position:relative;transition:transform .2s,box-shadow .2s}
-  a.part-card:hover{transform:translateY(-3px);box-shadow:0 26px 60px rgba(20,40,45,.36)}
-  .part-card .pn{font-family:-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;
-    letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
-  .part-card h2{font-weight:400;font-size:24px;line-height:1.28;margin:8px 0 8px;color:var(--sea-deep)}
-  .part-card p{margin:0;color:var(--ink-soft);font-size:16px;line-height:1.55}
-  .part-card .go{display:inline-block;margin-top:16px;font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);
-    background:var(--sea-deep);border-radius:999px;padding:10px 24px}
-  a.part-card:hover .go{background:var(--sea)}
-  .part-card.locked{background:rgba(251,248,241,.55);box-shadow:0 10px 28px rgba(20,40,45,.18)}
-  .part-card.locked h2{color:var(--ink-soft)}
-  .part-card.locked p{color:#8E9DA1}
-  .part-card .soon{display:inline-flex;align-items:center;gap:7px;margin-top:14px;
-    font-family:-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;color:#8E9DA1;border:1px solid var(--line);border-radius:999px;padding:8px 16px}
-  .part-card .done{display:inline-block;margin-left:10px;font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:11px;font-weight:700;letter-spacing:.1em;color:#5E8A6C}
-
-  /* ═══ Оглавление части ═══ */
-  .toc-wrap{max-width:820px;margin:0 auto;padding:0 16px 70px}
-  .toc-sheet{background:var(--page);border-radius:14px;padding:44px 54px 40px;
-    box-shadow:0 22px 60px rgba(20,40,45,.3)}
-  .toc-sheet h1{font-weight:400;font-size:clamp(25px,4.4vw,34px);line-height:1.2;margin:8px 0 0;
-    color:var(--sea-deep);text-align:center}
-  .toc-sheet .over{font-family:-apple-system,'Segoe UI',sans-serif;font-size:11px;font-weight:700;
-    letter-spacing:.3em;text-transform:uppercase;color:var(--gold);text-align:center}
-  .toc-progress{text-align:center;font-family:-apple-system,'Segoe UI',sans-serif;font-size:13px;
-    color:var(--ink-soft);margin-top:16px;padding-bottom:22px;border-bottom:1px solid var(--line)}
-  .sec-group{margin-top:26px}
-  .sec-name{display:flex;align-items:baseline;gap:12px;padding-bottom:8px;border-bottom:1px solid rgba(200,169,107,.4)}
-  .sec-name .sn{font-family:-apple-system,'Segoe UI',sans-serif;font-size:10.5px;font-weight:700;
-    letter-spacing:.2em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
-  .sec-name b{font-weight:400;font-size:19px;color:var(--ink);line-height:1.3}
-  a.toc-ch{display:flex;gap:14px;align-items:baseline;padding:11px 4px;text-decoration:none;border-bottom:1px solid var(--line)}
-  a.toc-ch:last-child{border-bottom:none}
-  a.toc-ch:hover{background:rgba(200,169,107,.07)}
-  a.toc-ch .no{flex:none;width:22px;text-align:right;color:var(--gold);font-size:15px}
-  a.toc-ch .tt{color:var(--ink);font-size:16.5px;line-height:1.4}
-  a.toc-ch.read .tt{color:var(--ink-soft)}
-  a.toc-ch .ck{margin-left:auto;color:#5E8A6C;font-size:13px;display:none;flex:none}
-  a.toc-ch.read .ck{display:inline}
-  .toc-start{text-align:center;margin-top:30px;padding-top:24px;border-top:1px solid var(--line)}
-  .toc-start a{display:inline-block;font-family:-apple-system,'Segoe UI',sans-serif;font-size:12px;
-    font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);
-    background:var(--sea-deep);border-radius:999px;padding:13px 30px;text-decoration:none}
-  .toc-start a:hover{background:var(--sea)}
-
-  /* ═══ Шапка и навигация раздела ═══ */
-  .topbar{position:sticky;top:0;z-index:40;background:rgba(52,82,88,.94);
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--cream)}
-  .topbar-in{max-width:820px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;gap:14px;
-    font-family:-apple-system,'Segoe UI',sans-serif;font-size:12px}
-  .topbar a{color:var(--cream);text-decoration:none;white-space:nowrap;opacity:.9}
-  .topbar a:hover{opacity:1;color:#fff}
-  .topbar .crumbs{margin-left:auto;text-align:right;color:rgba(240,232,213,.75);letter-spacing:.04em;min-width:0}
-  .pbar{height:3px;background:rgba(240,232,213,.2)}
-  .pbar i{display:block;height:100%;background:var(--gold)}
-  .chap-line{max-width:780px;margin:0 auto;padding:26px 20px 0;text-align:center;
-    font-family:-apple-system,'Segoe UI',sans-serif;font-size:11.5px;font-weight:700;
-    letter-spacing:.24em;text-transform:uppercase;color:rgba(240,232,213,.72)}
-
-  .cnav{max-width:780px;margin:0 auto;padding:0 12px 64px;display:flex;gap:12px;align-items:stretch}
-  .cnav a{flex:1;text-decoration:none;background:var(--page);border-radius:12px;padding:18px 20px;
-    box-shadow:0 12px 32px rgba(20,40,45,.24);display:flex;flex-direction:column;justify-content:center;min-width:0}
-  .cnav a:hover{background:#fff}
-  .cnav .lb{font-family:-apple-system,'Segoe UI',sans-serif;font-size:10.5px;font-weight:700;
-    letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
-  .cnav .tt{color:var(--sea-deep);font-size:16px;line-height:1.35}
-  .cnav a.mid{flex:0 0 auto;align-items:center;text-align:center}
-  .cnav a.nxt{text-align:right}
-
-  @media (max-width:840px){
-    .cover-sheet{padding:36px 22px 32px}
-    .toc-sheet{padding:30px 20px 28px}
-    .part-card{padding:20px 22px}
-    .cnav{flex-direction:column;padding-bottom:48px}
-    .cnav a.nxt{text-align:left}
-    .topbar-in{font-size:11px;gap:10px}
-    .topbar .crumbs{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .chap-line{font-size:10.5px;letter-spacing:.18em;padding-top:20px}
-  }
-
-  /* ═══ v2: вступление ═══ */
-  .accent-block{margin:38px 0; padding:30px 34px; border:1px solid rgba(200,169,107,.5);
-    border-left:4px solid var(--gold); border-radius:12px;
-    background:linear-gradient(180deg, rgba(200,169,107,.08), rgba(200,169,107,.02))}
-  .accent-block .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.3em;
-    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:16px}
-  .accent-block p{font-size:18px}
-  .key-line{text-align:center; padding:6px 24px; margin:26px 0 30px}
-  .key-line em{font-size:20.5px; line-height:1.7; color:var(--sea-deep)}
-  sup.fn{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; color:var(--gold); font-weight:700}
-  .fnotes{margin-top:40px; padding-top:18px; border-top:1px solid var(--line)}
-  .fnotes p{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.6;
-    color:var(--ink-soft); margin:0 0 10px}
-  .fnotes p b{color:var(--gold); margin-right:8px; font-weight:700}
-
-  /* ═══ v2: карточки частей ═══ */
-  .part-card{padding:28px 34px; text-align:left}
-  .part-card .pn{margin-bottom:12px}
-  .part-card h2{margin:0 0 10px; text-align:left; font-size:25px}
-  .part-card .meta{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12.5px;
-    color:var(--ink-soft); margin-top:12px; letter-spacing:.02em}
-
-  /* ═══ v2: закладка на обложке ═══ */
-  .bookmark-box{margin:26px auto 0; max-width:820px; padding:0 16px}
-  .bookmark-in{background:rgba(251,248,241,.12); border:1px solid rgba(240,232,213,.35);
-    border-radius:12px; padding:18px 22px; color:var(--cream);
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px; line-height:1.6; text-align:center}
-  .bookmark-in b{font-weight:700}
-  .bookmark-in .warn{display:block; margin-top:8px; font-size:12.5px; color:rgba(240,232,213,.75)}
-  .bookmark-actions{margin-top:12px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
-  .bookmark-actions a,.bookmark-actions button{font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; cursor:pointer;
-    border-radius:999px; padding:10px 22px; border:1px solid rgba(240,232,213,.5);
-    background:transparent; color:var(--cream); text-decoration:none}
-  .bookmark-actions a.primary{background:var(--cream); color:var(--sea-deep); border-color:var(--cream)}
-  .bookmark-actions a:hover,.bookmark-actions button:hover{background:rgba(240,232,213,.18)}
-  .bookmark-actions a.primary:hover{background:#fff}
-
-  /* ═══ v2.4: раздел внутри титульного листа главы ═══ */
-  .sec-band{margin:-10px 0 34px; padding-bottom:26px; border-bottom:1px solid rgba(200,169,107,.45)}
-  .sec-band-k{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
-    letter-spacing:.26em; text-transform:uppercase; color:var(--gold)}
-  .sec-band-d{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6;
-    color:var(--ink-soft); max-width:52ch; margin:10px auto 0; text-wrap:balance}
-  .sec-tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:34px auto 0; max-width:600px;
-    text-align:left; border-top:1px solid var(--line); padding-top:28px}
-  .sec-tiles .tile{display:block; text-decoration:none; border:1px solid var(--line);
-    border-radius:12px; padding:12px 16px; background:#fff; transition:box-shadow .15s}
-  .sec-tiles .tile:hover{box-shadow:0 6px 18px rgba(20,40,45,.12)}
-  .sec-tiles .tn{display:block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:10.5px;
-    font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:3px}
-  .sec-tiles .tt{display:block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px;
-    line-height:1.4; color:var(--ink)}
-  .sec-tiles .tile.cur{background:var(--sea-deep); border-color:var(--sea-deep)}
-  .sec-tiles .tile.cur .tn{color:#E8CF9E}
-  .sec-tiles .tile.cur .tt{color:var(--cream); font-weight:600}
-  .sec-tiles .tile.read:not(.cur) .tn::after{content:" ✓"; color:#5E8A6C; letter-spacing:0}
-
-  /* ═══ v2: меню-дерево ═══ */
-  .nav-sec{margin:18px 0 4px}
-  .nav-sec-row{display:flex; align-items:center; gap:6px}
-  .nav-sec-row>a{flex:1; font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.18em;
-    text-transform:uppercase; color:var(--gold); padding:6px 0; font-weight:700; text-decoration:none; line-height:1.5}
-  .nav-sec-row>a:hover{color:#E8CF9E}
-  .nav-sec-row>button{flex:none; width:32px; height:32px; background:none; border:none; cursor:pointer;
-    color:var(--gold); display:flex; align-items:center; justify-content:center}
-  .nav-sec-row>button .arr{transition:transform .2s; font-size:15px}
-  .nav-sec.open .nav-sec-row>button .arr{transform:rotate(90deg)}
-  .nav-sec .items{display:none}
-  .nav-sec.open .items{display:block}
-  .nav-item .num{color:var(--gold); margin-right:8px}
-  .nav-item.cur{color:#fff; border-left-color:var(--gold); font-weight:600}
-  .nav-item.read::after{content:" ✓"; color:#9FCDAB; font-size:12px}
-  .drawer .foot{margin-top:26px; padding-top:16px; border-top:1px solid rgba(240,232,213,.25);
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.65); line-height:1.6}
-
-  /* ═══ v2: практика — кнопка тетради ═══ */
-  .wb-note{background:rgba(251,248,241,.12); border:1px solid rgba(240,232,213,.3); border-radius:10px;
-    padding:14px 18px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6;
-    color:rgba(240,232,213,.95); margin-bottom:18px}
-  .practice-actions{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
-  .wb-btn{display:inline-block; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; font-weight:600;
-    letter-spacing:.12em; text-transform:uppercase; color:var(--sea-deep); text-decoration:none;
-    background:var(--gold); border-radius:999px; padding:13px 30px; box-shadow:0 4px 14px rgba(20,40,45,.25)}
-  .wb-btn:hover{background:#CBA96B}
-
-  /* ═══ v2: рабочая тетрадь ═══ */
-  .wb-wrap{max-width:860px; margin:0 auto 72px; padding:0 12px; display:flex; flex-direction:column; gap:30px}
-  .wb-page{background:var(--page); border-radius:14px; padding:46px 58px 50px; position:relative;
-    box-shadow:0 22px 60px rgba(20,40,45,.32), 0 3px 12px rgba(20,40,45,.18)}
-  .wb-page .wb-kicker{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.26em;
-    text-transform:uppercase; color:var(--gold); font-weight:700}
-  .wb-page h2{text-align:left; font-size:25px; margin:8px 0 4px}
-  .wb-page .wb-src{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--ink-soft); margin-bottom:20px}
-  .wb-q{margin:22px 0 10px; font-size:17.5px; line-height:1.65}
-  .wb-q b{color:var(--gold); margin-right:6px}
-  .wb-ans{border:1px solid var(--line); border-radius:8px; background:#fff; min-height:96px;
-    padding:12px 16px; font-family:Georgia,'Times New Roman',serif; font-size:16px; line-height:28px;
-    color:var(--ink); background-image:repeating-linear-gradient(transparent, transparent 27px, var(--line) 27px, var(--line) 28px);
-    background-origin:content-box}
-  .wb-ans:focus{outline:2px solid var(--gold); outline-offset:1px}
-  .wb-ans:empty::before{content:attr(data-ph); color:#A9A18D; font-style:italic}
-  .wb-head{color:var(--cream); text-align:center; padding:48px 24px 8px}
-  .wb-head .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; letter-spacing:.35em;
-    text-transform:lowercase; color:rgba(240,232,213,.75)}
-  .wb-head h1{font-weight:400; font-size:clamp(26px,4.6vw,38px); margin:10px 0 0; letter-spacing:.06em; text-transform:uppercase}
-  .wb-toolbar{position:sticky; top:0; z-index:40; background:rgba(52,82,88,.94);
-    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}
-  .wb-toolbar-in{max-width:860px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; gap:12px;
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--cream)}
-  .wb-toolbar a{color:var(--cream); text-decoration:none; opacity:.9; white-space:nowrap}
-  .wb-toolbar a:hover{opacity:1}
-  .wb-toolbar .sp{margin-left:auto}
-  .wb-toolbar button{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11.5px; font-weight:700;
-    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:9px 20px;
-    border:none; background:var(--cream); color:var(--sea-deep)}
-  .wb-toolbar button:hover{background:#fff}
-  .wb-saved{font-size:11.5px; color:rgba(240,232,213,.7)}
-  .wb-intro p{margin-bottom:16px}
-
-  /* ═══ v2: печать ═══ */
-  .print-stub{display:none}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; justify-content:center; font-family:-apple-system,'Segoe UI',sans-serif}
+  .chips i{font-style:normal; border:1px solid var(--gold); color:var(--sea-deep); border-radius:999px; padding:4px 14px; font-size:13px}
+  sup.fn{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; color:var(--gold); font-weight:700}
+  .fnotes{margin-top:14px; padding-top:10px; border-top:1px solid var(--line)}
+  .fnotes p{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12.5px; line-height:1.55; color:var(--ink-soft); margin:0 0 7px}
+  .fnotes p b{color:var(--gold); margin-right:6px}
+  .figure{margin:14px 0}
+  .fig-img{display:block; width:auto; max-width:88%; max-height:52vh; margin:0 auto; border:1px solid var(--line); border-radius:10px}
+  .fig-cap{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--ink-soft); margin-top:8px}
+  .fig-cap b{color:var(--gold); font-weight:700; text-transform:uppercase; font-size:10.5px; margin-right:5px}
+  .fig-slot{border:1.5px dashed var(--gold); border-radius:10px; padding:14px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--ink-soft)}
+  .fig-slot .fig-mark{font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); font-weight:700; text-align:center}
+  .fig-slot .fig-name{font-family:Georgia,serif; font-size:16px; color:var(--sea-deep); text-align:center; margin:6px 0}
+  .fig-slot .fig-todo,.fig-slot .fig-size{display:none}
+  .ill{float:right; width:34%; max-width:200px; margin:4px 0 10px 16px; border:1px solid var(--line); border-radius:8px}
+  .ill-wide{width:42%; max-width:250px}
+  .sec-band{display:none}
+  .sec-tiles{display:none}
+  .sec-desc{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6; color:var(--ink-soft);
+    max-width:46ch; margin:8px auto 0; text-align:center}
+  .lede{font-style:italic; color:var(--ink-soft); text-align:center; font-size:16px; margin:8px 0}
+  .sig{font-style:italic; color:var(--ink-soft); text-align:right; margin-top:16px}
+  .sig b{display:block; font-style:normal; font-size:18px; color:var(--sea-deep); margin-top:4px}
+  .accent-block{margin:14px 0; padding:14px 16px; border:1px solid rgba(200,169,107,.5); border-left:3px solid var(--gold);
+    border-radius:10px; background:linear-gradient(180deg, rgba(200,169,107,.08), rgba(200,169,107,.02))}
+  .accent-block .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.26em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px}
+  .accent-block p{font-size:15.5px}
+  .key-line{text-align:center; padding:2px 10px; margin:12px 0}
+  .key-line em{font-size:17px; line-height:1.6; color:var(--sea-deep)}
+  /* практика */
+  .sky-sheet-wrap{background:linear-gradient(155deg,#527D89,#3C636D); border-radius:12px; padding:16px;
+    color:var(--cream); border:1px solid rgba(240,232,213,.35); margin:4px 0 10px}
+  .sky-sheet-wrap .label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.26em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:8px; text-align:center}
+  .sky-sheet-wrap h3{color:#fff; text-align:center; margin:0 0 12px; font-size:19px}
+  .sky-sheet-wrap .calm{border-top:1px solid rgba(240,232,213,.3); padding-top:12px; font-style:italic;
+    color:rgba(240,232,213,.9); font-size:15px}
+  .wb-note{background:rgba(251,248,241,.12); border:1px solid rgba(240,232,213,.3); border-radius:8px;
+    padding:10px 12px; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; line-height:1.55;
+    color:rgba(240,232,213,.95); margin-bottom:12px}
+  .task{background:var(--page); border-radius:10px; padding:12px 14px 10px; margin:0 0 10px; color:var(--ink)}
+  .task .q{font-size:14.5px; line-height:1.6; margin-bottom:8px}
+  .task .q b{color:var(--gold); margin-right:5px}
+  .task textarea{width:100%; display:block; border:1px solid var(--line); border-radius:7px; padding:8px 10px;
+    font-family:Georgia,serif; font-size:14px; line-height:1.55; color:var(--ink); background:#fff; resize:vertical; min-height:46px}
+  .task textarea:focus{outline:2px solid var(--gold)}
+  .practice-actions{text-align:center; margin:12px 0 2px}
+  .dl-btn{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11.5px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--sea-deep); background:var(--cream); border:none; border-radius:999px;
+    padding:10px 22px; cursor:pointer; box-shadow:0 3px 10px rgba(20,40,45,.25)}
+  .dl-btn:hover{background:#fff}
+  /* обложка и оглавление */
+  .cover-pg{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; height:100%}
+  .cover-pg .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.34em; text-transform:uppercase; color:var(--gold)}
+  .cover-pg .t{font-size:34px; line-height:1.25; letter-spacing:.1em; text-transform:uppercase; color:var(--sea-deep); margin:20px 0 0}
+  .cover-pg .rule{width:52px; height:1px; background:var(--gold); margin:22px auto 0}
+  .cover-pg .s{color:var(--ink-soft); max-width:300px; margin:18px auto 0; font-size:16px; line-height:1.6}
+  .cover-pg .hint{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:#A9A18D; margin-top:38px}
+  .toc-pg .toc-row{display:flex; gap:12px; align-items:baseline; padding:10px 2px; text-decoration:none; border-bottom:1px solid var(--line)}
+  .toc-pg .toc-row .no{flex:none; width:20px; text-align:right; color:var(--gold); font-size:14px}
+  .toc-pg .toc-row .tt{color:var(--ink); font-size:15.5px; line-height:1.4}
+  .toc-pg .toc-row:hover{background:rgba(200,169,107,.07)}
+  .toc-pg .toc-sub{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:var(--ink-soft); margin:12px 0 4px; text-align:center}
+  .section-title, .chapter-head{text-align:center}
+  .section-title{display:flex; flex-direction:column; justify-content:center; height:100%}
+  /* печать листа практики */
+  #printbox{display:none}
   @media print{
-    body.wb{background:#fff !important}
-    @page{size:A4; margin:0}
-    body.wb .wb-toolbar, body.wb .menu-btn, body.wb .drawer, body.wb .overlay, body.wb .wb-head{display:none !important}
-    body.wb .wb-wrap{max-width:none; margin:0; padding:0; gap:0; display:block}
-    body.wb .wb-page{box-shadow:none; border-radius:0; padding:18mm 16mm; margin:0;
-      page-break-after:always; break-after:page; background:#fff}
-    body.wb .wb-page:last-child{page-break-after:auto; break-after:auto}
-    body.wb .wb-ans{background-color:#fff; border-color:#bbb}
-    body.wb .wb-ans:empty{min-height:34mm}
+    body{background:#fff; overflow:visible}
+    .frame{display:none}
+    #printbox{display:block; font-family:Georgia,serif; color:#1a1a1a; padding:10mm}
+    #printbox .ph{font-family:-apple-system,sans-serif; font-size:10pt; letter-spacing:.1em; text-transform:uppercase;
+      color:#8a6d2f; border-bottom:1px solid #ccc; padding-bottom:6pt; margin-bottom:14pt}
+    #printbox h3{font-weight:400; font-size:16pt; margin:0 0 12pt}
+    #printbox .q{font-size:12pt; line-height:1.6; margin:10pt 0 6pt}
+    #printbox .ans{border:1px solid #bbb; border-radius:4pt; min-height:30mm; padding:6pt 8pt; font-size:12pt; line-height:1.7; white-space:pre-wrap}
   }
-  @media (max-width:840px){
-    .wb-page{padding:32px 22px 36px}
-    .accent-block{padding:22px 20px}
-    .bookmark-actions{flex-direction:column; align-items:center}
-  }
-
-  /* ═══ v2.2: готовые схемы ═══ */
-  .fig-img{display:block; width:100%; max-width:560px; margin:0 auto;
-    border:1px solid var(--line); border-radius:12px; background:var(--page-edge)}
-  .fig-tall .fig-img{max-width:420px}
-  .fig-cap{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:13.5px;
-    color:var(--ink-soft); margin-top:12px}
-  .fig-cap b{color:var(--gold); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:11.5px; margin-right:6px}
-
-  /* ═══ v2.3: обложка-титул ═══ */
-  .cover-hero{min-height:86vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center; color:var(--cream); padding:80px 24px 48px}
-  .cover-hero .over{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; font-weight:700;
-    letter-spacing:.4em; text-transform:uppercase; color:#E8CF9E}
-  .cover-title{font-weight:400; font-size:clamp(36px,7.5vw,78px); line-height:1.16; letter-spacing:.1em;
-    text-transform:uppercase; margin:26px 0 0; text-wrap:balance}
-  .cover-rule{width:64px; height:1px; background:var(--gold); margin:30px auto 0; opacity:.9}
-  .cover-sub{font-size:19px; line-height:1.6; color:rgba(240,232,213,.85); max-width:460px; margin:24px auto 0; text-wrap:balance}
-  .cover-cta{display:inline-block; margin-top:40px; font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:14px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; text-decoration:none;
-    color:var(--sea-deep); background:var(--cream); border-radius:999px; padding:17px 44px;
-    box-shadow:0 10px 30px rgba(20,40,45,.35); transition:transform .2s, box-shadow .2s}
-  .cover-cta:hover{transform:translateY(-2px); box-shadow:0 16px 40px rgba(20,40,45,.45); background:#fff}
-  .cover-more{display:inline-block; margin-top:22px; font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:13px; letter-spacing:.06em; color:rgba(240,232,213,.75); text-decoration:none}
-  .cover-more:hover{color:#fff}
-
-  /* ═══ v2.3: заставка раздела ═══ */
-  .sec-art{display:block; width:100%; max-width:520px; margin:0 auto 24px;
-    border:1px solid var(--line); border-radius:12px}
-  .sec-thumb{width:46px; height:46px; object-fit:cover; border-radius:50%;
-    border:1px solid rgba(200,169,107,.6); flex:none; align-self:center}
-
-  /* ═══ v2.3: мини-карта пути в меню ═══ */
-  .nav-map-label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.24em;
-    text-transform:uppercase; color:rgba(240,232,213,.6); margin:26px 0 8px}
-  .nav-map{display:flex; align-items:flex-end; gap:7px}
-  .nav-map .step{flex:1; position:relative; border:1px solid rgba(240,232,213,.35); border-radius:6px 6px 3px 3px;
-    overflow:hidden; background:rgba(251,248,241,.06)}
-  .nav-map .step i{position:absolute; left:0; right:0; bottom:0; background:rgba(200,169,107,.55); transition:height .4s}
-  .nav-map .step.done i{background:var(--gold)}
-  .nav-map .step.cur{border-color:var(--gold)}
-  .nav-map .step b{position:absolute; left:0; right:0; bottom:3px; text-align:center;
-    font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; font-weight:700; color:var(--cream)}
-  @media (max-width:840px){
-    .cover-hero{min-height:78vh; padding-top:96px}
-    .cover-sub{font-size:17px}
-  }
-
-  /* ═══ v2.4: замочки ═══ */
-  .nav-sec.locked .lk{display:flex; align-items:center; gap:8px; font-family:-apple-system,'Segoe UI',sans-serif;
-    font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700;
-    color:rgba(240,232,213,.4); padding:6px 0; line-height:1.5; flex:1}
-  .nav-sec.locked .lock{margin-left:auto; font-size:12px; opacity:.8}
-  span.toc-ch.locked{display:flex; gap:14px; align-items:baseline; padding:11px 4px;
-    border-bottom:1px solid var(--line); opacity:.5; cursor:default}
-  span.toc-ch.locked .no{flex:none; width:22px; text-align:right; color:#A9A18D; font-size:15px}
-  span.toc-ch.locked .tt{color:var(--ink-soft); font-size:16.5px; line-height:1.4}
-  span.toc-ch.locked .lk{margin-left:auto; font-size:12px; flex:none}
-  .nav-map .step.locked{opacity:.45}
-  .nav-map .step.locked b{bottom:auto; top:50%; transform:translateY(-50%); font-size:9px}
-  .toc-note{text-align:center; font-family:-apple-system,'Segoe UI',sans-serif; font-size:14px;
-    color:var(--ink-soft); max-width:52ch; margin:14px auto 0; text-wrap:balance}
-  @media (max-width:600px){.sec-tiles{grid-template-columns:1fr}}
-
-  /* ═══ v2.5: иллюстрации в тексте, обтекание ═══ */
-  .ill{float:right; width:32%; max-width:250px; margin:6px 0 14px 22px;
-    border:1px solid var(--line); border-radius:10px; background:var(--page-edge)}
-  .ill-wide{width:38%; max-width:310px}
-  .sheet::after, .story::after{content:""; display:block; clear:both}
-  @media (max-width:600px){
-    .ill{width:45%; margin:4px 0 10px 14px}
-    .ill-wide{width:52%}
+  @media (max-width:620px){
+    .pg{padding:22px 20px 38px; font-size:15px}
+    .pg h1{font-size:21px}
+    .cover-pg .t{font-size:26px}
   }
 </style>
 </head>
 <body>
-<div class="sky-head">
-  <div class="over">методология обучения взрослых</div>
-  <div class="brand">Управляемо и предсказуемо</div>
-  <div class="crumbs">Часть 1 · Структура программы · Андрей Ланд</div>
+<div class="frame">
+  <div class="tophead">
+    <button id="tocBtn" type="button">Оглавление</button>
+    <div class="runhead" id="runhead">Управляемо и предсказуемо</div>
+    <button id="siteBtn" type="button" onclick="location.href='index.html'">Обычная версия</button>
+  </div>
+  <div class="stage" id="stage">
+    <div class="leafbox" id="leafbox">
+      <div class="pg base" id="pgA"></div>
+      <div class="shade" id="shade"></div>
+      <div class="navtap l" id="tapL" title="Назад"></div>
+      <div class="navtap r" id="tapR" title="Дальше"></div>
+    </div>
+  </div>
+  <div class="bothead">
+    <span class="pcount" id="pcount"></span>
+    <div class="pbar" id="pbar"><i id="pfill"></i></div>
+  </div>
 </div>
-<div class="sheets"><div class="sheet letter" id="letter">
+
+<div id="src" style="display:none">
+<div class="sheet cover-src" id="pg-cover"></div>
+<div class="sheet toc-src" id="pg-toc"></div>
+<div class="sheet letter" id="pg-letter-a">
     <div class="tab"><b>✦</b>От автора</div>
     <div class="kicker-line">Вместо предисловия</div>
     <h2>Добро пожаловать в книгу</h2>
@@ -667,7 +263,7 @@
     <div class="tab"><b>✦</b>Практика</div>
     <div class="label">Рабочая тетрадь</div>
     <h3>Твоё первое задание</h3>
-    <div class="wb-note">У этой книги есть рабочая тетрадь — отдельные листы для заданий. Заполняй их прямо на сайте: ответы сохраняются в твоём браузере, а всю тетрадь можно в любой момент сохранить в PDF или распечатать и работать от руки.</div>
+    <div class="wb-note">Ответы сохраняются в этом браузере. Лист с заданием можно скачать в PDF или распечатать — кнопка под вопросами.</div>
     <div class="task">
       <div class="q"><b>1.</b> Прямо сейчас, не откладывая, запиши ответ на вопрос: какой высший смысл привёл тебя к изучению методологии? Ради чего ты открыл эту книгу?</div>
       <textarea rows="4" data-wb="letter-1" placeholder="Твой высший смысл: ради чего ты здесь…"></textarea>
@@ -675,10 +271,17 @@
     <div class="task">
       <div class="q"><b>2.</b> Сделай закладку на этой записи. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляни в эту запись и возьми оттуда ресурс, чтобы сделать ещё один шаг навстречу своей цели, навстречу своему методологическому мастерству.</div>
     </div>
-    <div class="practice-actions"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать вопросы и ответы</button></div>
-    <div class="practice-hint">Тетрадь откроется в соседней вкладке — удобно заполнять её параллельно с чтением.</div>
+    <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+    
   </div>
-<div class="sheet chapter-head"><div class="kicker">Глава 1</div><h1>Поговорим по понятиям</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch1">
+
+<div class="sheet section-title" id="sec1">
+      <div class="kicker">Глава 1</div>
+      <h1>Поговорим по понятиям</h1>
+      <div class="orn">✦ ✦ ✦</div>
+      <p class="sec-desc">Что такое методология и кто такой методолог: границы профессии, метапозиция и чем обучение взрослых отличается от обучения детей.</p>
+    </div>
+<div class="sheet chapter-head" id="ch-g1r1">
   <div class="kicker">Раздел 1</div>
   <h1>Методология и методолог</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -720,7 +323,8 @@
     <li>Как будет меняться состояние студентов и более того (!) насколько они будут получать удовольствие от обучения. Да-да: <b>сделать так, чтобы учёба приносила людям радость — это работа методолога</b>! И мы обязательно поговорим о том, как именно это устроить.</li>
     <li>И, конечно, очень важный вопрос, — больной для огромного количества онлайн-школ и отдельных экспертов, который мы выделим отдельным пунктом. Как методологу управлять мотивацией студентов? Что делать, когда она падает, когда люди начинают по каким-то причинам «отваливаться», терять интерес, пропускать вебинары, «уходить с радаров»? Как мы будем себя вести в ситуациях, когда, по определённым законам социальной динамики (и это будет очень важная часть нашего разговора) — между участниками курса или программы начнёт накапливаться напряжение, будет повышаться уровень конфликтности?</li>
   </ol>
-</div><div class="sheet chapter-head" id="ch2">
+</div>
+<div class="sheet chapter-head" id="ch-g1r2">
   <div class="kicker">Раздел 2</div>
   <h1>Методолог, продакт-менеджер, маркетолог: проведём границы</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -764,10 +368,11 @@
     <div class="q"><b>3.</b> Проверьте себя: прочитайте написанное вслух. Если бы вы объясняли эти границы коллеге — понял бы он с первого раза, кто за что отвечает?</div>
     <textarea data-wb="g1r2-3" rows="3" placeholder="Отметьте, что пришлось уточнить в формулировках после проверки вслух…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">А дальше нас ждёт ещё один очень важный нюанс — очень тонкий, очень глубокий. Не переключайтесь.</div>
-</div><div class="sheet chapter-head" id="ch3">
+</div>
+<div class="sheet chapter-head" id="ch-g1r3">
   <div class="kicker">Раздел 3</div>
   <h1>Метапозиция методолога</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -811,9 +416,10 @@
     <div class="q"><b>4.</b> О чём я думаю чаще — о содержании курса, о контенте, которым хочу поделиться? Или же о том, как именно этот контент организовать, чтобы сделать обучение более эффективным?</div>
     <textarea data-wb="g1r3-4" rows="4" placeholder="Что перевешивает — содержание или организация обучения? Почему…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
-</div><div class="sheet chapter-head" id="ch4">
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
+</div>
+<div class="sheet chapter-head" id="ch-g1r4">
   <div class="kicker">Раздел 4</div>
   <h1>Чем обучение взрослых отличается от обучения детей</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -998,8 +604,8 @@
     <div class="q"><b>8.</b> Самопроверка. Перечитайте свои ответы и задайте себе шесть вопросов: понимает ли участник, зачем ему учиться? Может ли он влиять на процесс и оценивать себя? Используется ли его предыдущий опыт? Связано ли обучение с актуальной жизненной задачей? Решает ли участник конкретную проблему и практикуется ли во время обучения? Есть ли у него личная причина довести обучение до результата? Отметьте, какие принципы уже встроены в ваш продукт, а какие пока существуют в виде доброго намерения.</div>
     <textarea data-wb="g1r4-8" rows="4" placeholder="Что я хочу усилить или переделать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Ну вот, друзья, мы проделали неслабую работу за этот пролог. Разобрались, что такое методология и кто такой методолог. Освоили метапозицию. Выяснили, чем проектирование обучения для взрослых отличается от простой передачи информации. И сразу примерили шесть принципов андрагогики к собственному продукту. Этих вбитых колышков вполне достаточно, чтобы заходить на глубину. Со следующей главы мы начнём вдумчиво, последовательно и прикладно разбирать создание образовательной программы с самого начала — с первых решений, которые принимает её автор. До встречи в следующей главе.</div>
 </div>
 
@@ -1023,8 +629,8 @@
     <div class="q"><b>4.</b> Самопроверка: перечитайте каждую идею и спросите себя — участвует ли здесь ученик в планировании и оценке, практикует ли здесь и сейчас, связано ли это с его реальной жизнью, решает ли конкретную задачу?</div>
     <textarea data-wb="g1r4-12" rows="4" placeholder="Ваши выводы после самопроверки: что усилить, что переделать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Ну вот, друзья, мы проделали неслабую работу в этой главе. Мы разобрались, что такое методология, кто такой методолог, что такое метапозиция, и выяснили, чем обучение взрослых отличается от обучения детей. Этих основ нам вполне достаточно, чтобы погружаться вглубь. В следующей главе мы начнём вдумчиво и последовательно собирать каркас твоей авторской обучающей программы: скорее переворачивай страницу!</div>
 </div>
 
@@ -1033,7 +639,14 @@
     <div class="to">Раздел 2</div>
     <div class="title">От чистого листа — к фундаменту твоей программы</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head"><div class="kicker">Глава 2</div><h1>От чистого листа — к фундаменту твоей программы</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch5">
+  </a>
+<div class="sheet section-title" id="sec2">
+      <div class="kicker">Глава 2</div>
+      <h1>От чистого листа — к фундаменту твоей программы</h1>
+      <div class="orn">✦ ✦ ✦</div>
+      <p class="sec-desc">Четыре стартовых вопроса будущей программы: чему учим, кого учим, что будет результатом обучения и в какие сроки он реально достижим.</p>
+    </div>
+<div class="sheet chapter-head" id="ch-g2r1">
   <div class="kicker">Раздел 5</div>
   <h1>Чему учим: цель обучения</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1134,10 +747,11 @@
     <div class="q"><b>4.</b> Отрефлексируй: что было легко, где возникли трудности? С глаголом? С контекстом?</div>
     <textarea data-wb="g2r1-4" rows="4" placeholder="Что было легко, где скрипели мозги…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r1" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Не стоит переживать, если не удается подобрать точные слова с первого раза: мы учимся по-новому думать! Сложности, «скрипение» мозгов — это естественно и ожидаемо! Как я уже говорил — мы устанавливаем себе новую операционную систему мышления. Освоить управление ей — это задача, требующая времени и внимания.</div>
-</div><div class="sheet chapter-head" id="ch6">
+</div>
+<div class="sheet chapter-head" id="ch-g2r2">
   <div class="kicker">Раздел 6</div>
   <h1>Кого учим: портрет студента</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1237,9 +851,10 @@
     <div class="q"><b>4.</b> Теперь сведи вместе цель обучения и портрет студента и понаблюдай, что происходит на пересечении этих двух описаний. Уже здесь, вероятнее всего, начнут появляться идеи про структуру и формат — ты можешь зафиксировать их на отдельных стикерах, но не спеши «прибивать гвоздями» эти решения, мы обязательно дойдем до предметного обсуждения вопросов структуры и форматов, поэтому все может еще 10 раз поменяться. ;Р Главное, мы проделали уже очень важную работу: у нас есть четко описанная цель обучения и портрет студента. Ура. Движемся дальше!</div>
     <textarea data-wb="g2r2-4" rows="4" placeholder="Что рождается на пересечении цели и портрета…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
-</div><div class="sheet chapter-head" id="ch7">
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
+</div>
+<div class="sheet chapter-head" id="ch-g2r3">
   <div class="kicker">Раздел 7</div>
   <h1>Результат обучения</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1339,10 +954,11 @@
     <div class="q"><b>4.</b> И важный момент для рефлексии: какой из критериев находится у вас в слепой зоне? Где вы начинаете тупить и спотыкаться? Зафиксируйте это место и вернитесь к нему через день со свежей головой — как правило, точное слово находится.</div>
     <textarea data-wb="g2r3-4" rows="3" placeholder="Какой критерий в слепой зоне, где спотыкаетесь…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Спасибо за терпение и внимание. Да, это самая душная часть первой главы — и самая фундаментальная: именно прописанный результат делает обучение честным.</div>
-</div><div class="sheet chapter-head" id="ch8">
+</div>
+<div class="sheet chapter-head" id="ch-g2r4">
   <div class="kicker">Раздел 8</div>
   <h1>Сроки обучения: как соотнести обещания со временем?</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1474,8 +1090,8 @@
     <div class="q"><b>4.</b> Настройте таким образом линзу своего восприятия: как я делаю чисто, как я делаю честно соотношение между результатами, которые обещаю, и сроками, которые предлагаю.</div>
     <textarea data-wb="g2r4-4" rows="3" placeholder="Ваши выводы: что для вас значит честное соотношение обещаний и сроков…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Вот мы и подошли к финалу первой главы. Мы поняли, что такое цель обучения и чему мы учим; что такое портрет студента и кого мы учим; каким должен быть результат — и как соотнести его со сроками. Я надеюсь, всё это уже записано в вашей рабочей тетради. Если нет — непременно сделайте: это самые фундаментальные основы, с которых начинается наша работа. Пробуйте — пусть появятся вопросы и всякое непонимание: чтобы получились содержательные вопросы, нужно первый раз попробовать. С деталями будем разбираться в следующих главах.</div>
 </div>
 
@@ -1484,7 +1100,14 @@
     <div class="to">Раздел 3</div>
     <div class="title">Макроструктура: концепт и лестница навыков</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head"><div class="kicker">Глава 3</div><h1>Макро-структура: концепт и лестница навыков</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch9">
+  </a>
+<div class="sheet section-title" id="sec3">
+      <div class="kicker">Глава 3</div>
+      <h1>Макро-структура: концепт и лестница навыков</h1>
+      <div class="orn">✦ ✦ ✦</div>
+      <p class="sec-desc">Как выстроить логику программы: концепт-история, модель TOTE, три позиции описания и лестница навыков — от простых к комплексным.</p>
+    </div>
+<div class="sheet chapter-head" id="ch-g3r1">
   <div class="kicker">Раздел 9</div>
   <h1>Концепт программы: какую историю мы рассказываем студенту?</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1525,7 +1148,8 @@
   <h3>Несколько вариантов правильно собранного концепта программы</h3>
   <div class="chips"><i>самопрезентация</i><i>игра на фортепиано</i><i>приготовление борща</i><i>продажи</i></div>
   <div class="fnotes"><p><b>1</b> Если ты вспомнишь наш разговор о принципах андрагогики, то тебе будет очень легко понять, почему именно на эти вопросы должен отвечать концепт программы.</p></div>
-</div><div class="sheet chapter-head" id="ch10">
+</div>
+<div class="sheet chapter-head" id="ch-g3r2">
   <div class="kicker">Раздел 10</div>
   <h1>Модель TOTE: строительный блок для создания изменений</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1620,10 +1244,11 @@
     <div class="q"><b>5.</b> Отложите запись на день, затем перечитайте свежим взглядом и проведите самопроверку: насколько логична и последовательна ваша история? Нет ли «дыр» и логических скачков между шагами? Насколько понятен путь студента?</div>
     <textarea data-wb="g3r2-5" rows="3" placeholder="Что заметили при перечитывании: где логика сцепилась, а где остались «дыры»…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Не гонитесь за красотой формулировок — сейчас важно, чтобы цепочка сцепилась. Красоту наведём позже.</div>
-</div><div class="sheet chapter-head" id="ch11">
+</div>
+<div class="sheet chapter-head" id="ch-g3r3">
   <div class="kicker">Раздел 11</div>
   <h1>Три позиции описания</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1714,10 +1339,11 @@
     <div class="q"><b>5.</b> Вернитесь в Позицию 1 и зафиксируйте инсайты, которые вы получили.</div>
     <textarea data-wb="g3r3-4" rows="3" placeholder="Мои инсайты: что изменилось в моём взгляде на программу…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Если в третьей позиции вам стало немного неловко за первую — вы всё сделали правильно. Именно так и рождается программа про студента.</div>
-</div><div class="sheet chapter-head" id="ch12">
+</div>
+<div class="sheet chapter-head" id="ch-g3r4">
   <div class="kicker">Раздел 12</div>
   <h1>Простые и комплексные навыки</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1829,11 +1455,12 @@
     <div class="q"><b>3.</b> Проверьте цепочку сами, как строгий редактор: насколько логична последовательность? Нет ли «дыр» — шагов, которые вы делаете автоматически и потому забыли записать?</div>
     <textarea data-wb="g3r4-3" rows="3" placeholder="Итог самопроверки: какие «автоматические» шаги пришлось дописать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
 </div>
-<img class="ill" src="images/ill-03-chemodan.jpg" alt="" loading="lazy"><div class="sheet chapter-head" id="ch13">
+<img class="ill" src="images/ill-03-chemodan.jpg" alt="" loading="lazy">
+<div class="sheet chapter-head" id="ch-g3r5">
   <div class="kicker">Раздел 13</div>
   <h1>Лестница навыков</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -1908,8 +1535,8 @@
     <div class="q"><b>3.</b> Затем устройте себе самопроверку — пройдитесь по лестнице с тремя вопросами: насколько логична связка между ступенями? Насколько понятно, что конкретно должно произойти внутри ступени? Какое физическое действие студент совершает на этой ступени — чтобы TOTE мог открыться и закрыться?</div>
     <textarea data-wb="g3r5-3" rows="4" placeholder="Ответы по трём вопросам: где связка хромает, что происходит внутри ступени, какое действие совершает студент…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r5" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Вы наверняка увидите свои «слепые пятна» — места, где вместо действия у вас просто лекция, «груда материала». Это нормально, это цена победы. Спросите себя честно: «Зачем я читаю эту лекцию? Она действительно нужна для перехода на следующую ступень?»</div>
 </div>
 
@@ -1934,7 +1561,14 @@
     <div class="to">Часть</div>
     <div class="title">Матрёшка: как рождается навык</div>
     <span class="go">Читать дальше →</span>
-  </a><div class="sheet chapter-head"><div class="kicker">Глава 4</div><h1>Микро-структура: как рождается навык</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch14">
+  </a>
+<div class="sheet section-title" id="sec4">
+      <div class="kicker">Глава 4</div>
+      <h1>Микро-структура: как рождается навык</h1>
+      <div class="orn">✦ ✦ ✦</div>
+      <p class="sec-desc">Как устроен один шаг обучения — «матрёшка»: концептуальная часть, инструкция, опыт, шеринг и рефлексия.</p>
+    </div>
+<div class="sheet chapter-head" id="ch-g4r1">
   <div class="kicker">Раздел 14</div>
   <h1>Формирование навыка: матрёшка</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -2094,10 +1728,11 @@
     <div class="q"><b>3.</b> Запиши первые идеи, которые начнут появляться — пока без требований к качеству, просто наброски.</div>
     <textarea data-wb="g4r1-2" rows="5" placeholder="Первые наброски: каким мог бы быть концепт, инструкция, опыт, шеринг, рефлексия…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r1" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Отпусти ум в лёгкое творческое парение и просто понаблюдай, как это начнёт укладываться в голове. Если пока не укладывается — ничего страшного: сейчас уложим, последовательно и спокойно, и всё у нас обязательно будет хорошо.</div>
-</div><div class="sheet chapter-head" id="ch15">
+</div>
+<div class="sheet chapter-head" id="ch-g4r2">
   <div class="kicker">Раздел 15</div>
   <h1>Концептуальная часть матрёшки</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -2211,10 +1846,11 @@
     <div class="q"><b>5.</b> Отметь, насколько легко речевой аппарат встал на эти рельсы, насколько легко ум включил этот фокус внимания.</div>
     <textarea data-wb="g4r2-5" rows="3" placeholder="Опиши свои наблюдения: легко ли далась такая логика повествования…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Если мозги немножко кряхтят — в этом нет совершенно ничего страшного, это абсолютно нормальный этап работы.</div>
-</div><div class="sheet chapter-head" id="ch16">
+</div>
+<div class="sheet chapter-head" id="ch-g4r3">
   <div class="kicker">Раздел 16</div>
   <h1>Инструкция и опыт</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -2397,10 +2033,11 @@
     <div class="q"><b>5.</b> Прочитай инструкцию вслух глазами студента: внятно ли, ясно ли, чего от него добиваются? Отметь места, где остаётся неопределённость, и уточни их.</div>
     <textarea data-wb="g4r3-5" rows="4" placeholder="Запиши, где оставалась неопределённость и как ты её убрал…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Фантазируй, генерируй — и возвращайся к этой инструкции свежим взглядом: именно взгляд из позиции студента показывает, насколько мы хороши в формулировках.</div>
-</div><div class="sheet chapter-head" id="ch17">
+</div>
+<div class="sheet chapter-head" id="ch-g4r4">
   <div class="kicker">Раздел 17</div>
   <h1>Шеринг и рефлексия</h1>
   <div class="orn">✦ ✦ ✦</div>
@@ -2640,10 +2277,274 @@
     <div class="q"><b>6.</b> Пройдись по собранной конструкции ещё раз и отметь, где всё слажено, а где возникает опасность «свинодевочки» — на какие части матрёшки нужно обратить особое внимание.</div>
     <textarea data-wb="g4r4-6" rows="4" placeholder="Отметь, где матрёшка сходится, а где есть риск «свинодевочки»…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions"><button class="dl-btn" type="button">Скачать лист (PDF)</button></div>
+  
   <div class="calm">Собирай спокойненько, плавненько, без истерик и без попытки сделать идеально с первого раза. Мы разобрались, наверное, с самым сложным элементом, который в нашем методологическом деле существует — мозг сильнее всего закипает именно на матрёшках. Очень важный критерий того, что матрёшка закрылась: «я готов двигаться дальше». Так что можно промокнуть лоб, выдохнуть — и идти играть в этот конструктор. Необходимый минимум, чтобы идти и делать, у тебя точно уже есть.</div>
-</div></div>
-<footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · главы 1–4</footer>
+</div>
+</div>
+<div id="printbox"></div>
+
+<script>
+(function(){
+'use strict';
+var src=document.getElementById('src');
+
+/* ── обложка и оглавление как готовые страницы ── */
+var COVER='<div class="cover-pg"><div class="over">Андрей Ланд</div>'+
+ '<div class="t">Управляемо<br>и предсказуемо</div><div class="rule"></div>'+
+ '<div class="s">Практическое руководство по созданию обучающих программ для взрослых</div>'+
+ '<div class="hint">Листай: тапни по правому краю страницы,<br>смахни влево или нажми →</div></div>';
+var TOC='<div class="toc-pg"><div class="kicker">Оглавление</div><h1 style="font-size:22px">Часть 1 · Структура программы</h1>'+
+ '<a class="toc-row" data-anchor="pg-letter-a" href="#"><span class="no">✦</span><span class="tt">От автора — вступление</span></a>'+
+ '<div class="toc-sub">Глава 1 · Поговорим по понятиям</div><a class="toc-row" data-anchor="ch-g1r1" href="#"><span class="no">1</span><span class="tt">Методология и методолог</span></a><a class="toc-row" data-anchor="ch-g1r2" href="#"><span class="no">2</span><span class="tt">Методолог, продакт-менеджер, маркетолог: проведём границы</span></a><a class="toc-row" data-anchor="ch-g1r3" href="#"><span class="no">3</span><span class="tt">Метапозиция методолога</span></a><a class="toc-row" data-anchor="ch-g1r4" href="#"><span class="no">4</span><span class="tt">Чем обучение взрослых отличается от обучения детей</span></a><div class="toc-sub">Глава 2 · От чистого листа — к фундаменту твоей программы</div><a class="toc-row" data-anchor="ch-g2r1" href="#"><span class="no">5</span><span class="tt">Чему учим: цель обучения</span></a><a class="toc-row" data-anchor="ch-g2r2" href="#"><span class="no">6</span><span class="tt">Кого учим: портрет студента</span></a><a class="toc-row" data-anchor="ch-g2r3" href="#"><span class="no">7</span><span class="tt">Результат обучения</span></a><a class="toc-row" data-anchor="ch-g2r4" href="#"><span class="no">8</span><span class="tt">Сроки обучения: как соотнести обещания со временем</span></a><div class="toc-sub">Глава 3 · Макро-структура: концепт и лестница навыков</div><a class="toc-row" data-anchor="ch-g3r1" href="#"><span class="no">9</span><span class="tt">Концепт программы: какую историю мы рассказываем студенту?</span></a><a class="toc-row" data-anchor="ch-g3r2" href="#"><span class="no">10</span><span class="tt">Модель TOTE: строительный блок для создания изменений</span></a><a class="toc-row" data-anchor="ch-g3r3" href="#"><span class="no">11</span><span class="tt">Три позиции описания</span></a><a class="toc-row" data-anchor="ch-g3r4" href="#"><span class="no">12</span><span class="tt">Простые и комплексные навыки</span></a><a class="toc-row" data-anchor="ch-g3r5" href="#"><span class="no">13</span><span class="tt">Лестница навыков</span></a><div class="toc-sub">Глава 4 · Микро-структура: как рождается навык</div><a class="toc-row" data-anchor="ch-g4r1" href="#"><span class="no">14</span><span class="tt">Формирование навыка: «матрёшка»</span></a><a class="toc-row" data-anchor="ch-g4r2" href="#"><span class="no">15</span><span class="tt">Концептуальная часть матрёшки</span></a><a class="toc-row" data-anchor="ch-g4r3" href="#"><span class="no">16</span><span class="tt">Инструкция и опыт</span></a><a class="toc-row" data-anchor="ch-g4r4" href="#"><span class="no">17</span><span class="tt">Шеринг и рефлексия</span></a>'+'</div>';
+
+/* ── пагинация ── */
+var pages=[];            // [{el: div(содержимое), anchor: ближайший id, chap: подпись}]
+var stage=document.getElementById('stage');
+var leafbox=document.getElementById('leafbox');
+var pgA=document.getElementById('pgA');
+var cur=0, busy=false;
+var PW=0, PH=0, PAD_V=0;
+
+function pageSize(){
+  var vw=Math.min(innerWidth,1400), vh=innerHeight;
+  PW=Math.min(620, vw-16);
+  PH=Math.min(vh-118, Math.round(PW*1.5));
+  if(PH<420){PH=Math.max(vh-110,380)}
+  leafbox.style.width=PW+'px'; leafbox.style.height=PH+'px';
+}
+
+function newPage(){
+  var d=document.createElement('div');
+  d.style.cssText='position:absolute;left:-9999px;top:0;width:'+PW+'px;height:'+PH+'px;';
+  d.className='pg'; d.style.display='flow-root';
+  document.body.appendChild(d);
+  return d;
+}
+function innerH(d){ return PH - PAD_V; }
+function overflows(d){ return d.scrollHeight > PH+1; }
+
+function paginate(){
+  pages.forEach(function(p){ if(p.el.parentNode) p.el.parentNode.removeChild(p.el) });
+  pages=[];
+  var probe=newPage(); PAD_V=probe.clientHeight?PH-probe.clientHeight+0:0; probe.remove();
+
+  function pushReady(html, anchor, chap){
+    var d=newPage(); d.innerHTML=html; pages.push({el:d, anchor:anchor, chap:chap});
+    return d;
+  }
+  pushReady(COVER,'pg-cover','');
+  var tocPage=newPage(); tocPage.innerHTML=TOC; pages.push({el:tocPage, anchor:'pg-toc', chap:'Оглавление'});
+  // если оглавление не влезло — переливаем лишние строки на вторую страницу
+  if(tocPage.scrollHeight>PH+1){
+    var box=tocPage.querySelector('.toc-pg');
+    var d2=newPage(); var box2=document.createElement('div'); box2.className='toc-pg'; d2.appendChild(box2);
+    pages.push({el:d2, anchor:null, chap:'Оглавление'});
+    while(tocPage.scrollHeight>PH+1 && box.children.length>1){
+      box2.insertBefore(box.lastElementChild, box2.firstChild);
+    }
+  }
+
+  var chap='';
+  var sheets=[].slice.call(src.children).filter(function(x){return !/cover-src|toc-src/.test(x.className)});
+  sheets.forEach(function(sheet){
+    var isSky=/sky-sheet/.test(sheet.className);
+    var isTitle=/chapter-head|section-title/.test(sheet.className);
+    var anchor=sheet.id||null;
+    if(/chapter-head/.test(sheet.className)){
+      var h=sheet.querySelector('h1'); var k=sheet.querySelector('.kicker');
+      chap=(k?k.textContent+' · ':'')+(h?h.textContent:'');
+    }
+    if(isTitle){
+      var d=newPage(); d.innerHTML='<div class="section-title">'+sheet.innerHTML+'</div>';
+      pages.push({el:d, anchor:anchor, chap:chap});
+      return;
+    }
+    var d=newPage(); var wrap;
+    function fresh(){
+      d=newPage();
+      wrap=null;
+      if(isSky){ wrap=document.createElement('div'); wrap.className='sky-sheet-wrap'; d.appendChild(wrap); }
+      pages.push({el:d, anchor:null, chap:chap});
+    }
+    fresh(); pages[pages.length-1].anchor=anchor;
+    var host=function(){ return wrap||d };
+    [].slice.call(sheet.children).forEach(function(node){
+      var n=node.cloneNode(true);
+      host().appendChild(n);
+      if(overflows(d)){
+        host().removeChild(n);
+        // блок с детьми — пробуем дробить
+        var kids=[].slice.call(n.children);
+        var splittable=/story|accent-block|fnotes|define/.test(n.className)&&kids.length>1;
+        if(splittable){
+          var shell=n.cloneNode(false);
+          host().appendChild(shell);
+          kids.forEach(function(kid){
+            shell.appendChild(kid);
+            if(overflows(d)){
+              shell.removeChild(kid);
+              if(!shell.children.length) host().removeChild(shell);
+              fresh();
+              shell=n.cloneNode(false); host().appendChild(shell); shell.appendChild(kid);
+            }
+          });
+        } else {
+          if(!host().children.length){ host().appendChild(n); }  // великан — пусть живёт на своей странице
+          else { fresh(); host().appendChild(n); }
+          if(overflows(d)&&host().children.length===1){/* смиримся: страница-великан */}
+        }
+      }
+    });
+    // пустые страницы не держим
+    if(!host().children.length){ var last=pages.pop(); last.el.remove(); }
+  });
+
+  pages.forEach(function(p,i){
+    var no=document.createElement('div'); no.className='pgno'; no.textContent=(i+1)+' · '+pages.length;
+    p.el.appendChild(no);
+  });
+}
+
+/* ── показ ── */
+var runhead=document.getElementById('runhead');
+var pcount=document.getElementById('pcount');
+var pfill=document.getElementById('pfill');
+function mount(i){
+  pgA.innerHTML='';
+  var p=pages[i];
+  [].slice.call(p.el.childNodes).forEach(function(n){ pgA.appendChild(n.cloneNode(true)) });
+  hydrate(pgA);
+  runhead.textContent=p.chap||'Управляемо и предсказуемо';
+  pcount.textContent=(i+1)+' / '+pages.length;
+  pfill.style.width=Math.round((i+1)/pages.length*100)+'%';
+  try{localStorage.setItem('up-listalka', String(i))}catch(e){}
+}
+
+/* ── ответы: общий склад с основной версией ── */
+function wbLoad(){try{return JSON.parse(localStorage.getItem('up-wb')||'{}')}catch(e){return{}}}
+function wbSave(m){try{localStorage.setItem('up-wb',JSON.stringify(m))}catch(e){}}
+function hydrate(root){
+  var m=wbLoad();
+  [].slice.call(root.querySelectorAll('textarea[data-wb]')).forEach(function(t){
+    if(m[t.dataset.wb])t.value=m[t.dataset.wb];
+    t.addEventListener('input',function(){var mm=wbLoad();mm[t.dataset.wb]=t.value;wbSave(mm)});
+  });
+}
+
+/* ── перелистывание ── */
+var shade=document.getElementById('shade');
+function flip(dir){
+  if(busy)return;
+  var ni=cur+dir;
+  if(ni<0||ni>=pages.length)return;
+  busy=true;
+  var leaf=document.createElement('div'); leaf.className='leaf';
+  var front=document.createElement('div'); front.className='face front';
+  var back=document.createElement('div'); back.className='face back';
+  var fp=document.createElement('div'); fp.className='pg'; fp.style.display='flow-root'; fp.style.position='absolute'; fp.style.inset='0';
+  leaf.appendChild(front); leaf.appendChild(back); front.appendChild(fp);
+  if(dir>0){
+    fp.innerHTML=pgA.innerHTML;          // уходящая страница на листе
+    mount(ni);                            // под листом уже новая
+    leafbox.appendChild(leaf);
+    shade.style.opacity='1';
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      leaf.classList.add('turning');
+      leaf.style.transform='rotateY(-178deg)';
+      shade.style.opacity='0';
+    })});
+  } else {
+    var p=pages[ni]; fp.innerHTML='';
+    [].slice.call(p.el.childNodes).forEach(function(n){ fp.appendChild(n.cloneNode(true)) });
+    leaf.style.transform='rotateY(-178deg)';
+    leafbox.appendChild(leaf);
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
+      leaf.classList.add('turning');
+      leaf.style.transform='rotateY(0deg)';
+      shade.style.opacity='1';
+      setTimeout(function(){shade.style.opacity='0'},560);
+    })});
+  }
+  setTimeout(function(){
+    cur=ni;
+    if(dir<0) mount(cur);
+    leaf.remove(); busy=false;
+  },580);
+}
+
+/* ── управление ── */
+document.getElementById('tapR').addEventListener('click',function(){flip(1)});
+document.getElementById('tapL').addEventListener('click',function(){flip(-1)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')flip(1);
+  if(e.key==='ArrowLeft')flip(-1);
+});
+var tx=null,ty=null;
+stage.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+stage.addEventListener('touchend',function(e){
+  if(tx===null)return;
+  var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.4) flip(dx<0?1:-1);
+  tx=ty=null;
+},{passive:true});
+document.getElementById('pbar').addEventListener('click',function(e){
+  var r=this.getBoundingClientRect();
+  var i=Math.min(pages.length-1, Math.max(0, Math.round((e.clientX-r.left)/r.width*(pages.length-1))));
+  cur=i; mount(cur);
+});
+document.getElementById('tocBtn').addEventListener('click',function(){cur=1;mount(cur)});
+document.addEventListener('click',function(e){
+  var a=e.target.closest('.toc-row'); if(!a)return;
+  e.preventDefault();
+  var id=a.dataset.anchor;
+  for(var i=0;i<pages.length;i++){ if(pages[i].anchor===id){cur=i;mount(cur);return} }
+});
+
+/* ── скачивание листа практики ── */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.dl-btn'); if(!b)return;
+  var box=document.getElementById('printbox');
+  var scope=b.closest('.sky-sheet-wrap')||pgA;
+  var t=scope.querySelector('h3');
+  var html='<div class="ph">Управляемо и предсказуемо · Рабочий лист</div>';
+  html+='<h3>'+(t?t.textContent:'Практика')+'</h3>';
+  [].slice.call(scope.querySelectorAll('.task')).forEach(function(x){
+    var q=x.querySelector('.q'), a=x.querySelector('textarea');
+    if(q)html+='<div class="q">'+q.innerHTML+'</div>';
+    html+='<div class="ans">'+(a&&a.value?a.value.replace(/</g,'&lt;'):'')+'</div>';
+  });
+  box.innerHTML=html;
+  window.print();
+});
+
+/* ── старт ── */
+function boot(){
+  pageSize(); paginate();
+  var saved=0;
+  try{saved=parseInt(localStorage.getItem('up-listalka')||'0',10)||0}catch(e){}
+  var hm=location.hash.match(/^#p(\d+)$/);
+  if(hm){saved=parseInt(hm[1],10)-1}
+  else if(location.hash.length>1){
+    var hid=location.hash.slice(1);
+    for(var i=0;i<pages.length;i++){if(pages[i].anchor===hid){saved=i;break}}
+  }
+  cur=Math.max(0, Math.min(saved, pages.length-1));
+  mount(cur);
+}
+var rto=null;
+addEventListener('resize',function(){
+  clearTimeout(rto);
+  rto=setTimeout(function(){
+    var a=pages[cur]?pages[cur].anchor:null; var frac=cur/Math.max(1,pages.length-1);
+    pageSize(); paginate();
+    var ni=Math.round(frac*(pages.length-1));
+    if(a){for(var i=0;i<pages.length;i++){if(pages[i].anchor===a){ni=i;break}}}
+    cur=Math.min(ni,pages.length-1); mount(cur);
+  },250);
+});
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot); else boot();
+})();
+</script>
 </body>
 </html>
