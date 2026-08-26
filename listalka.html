@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Управляемо и предсказуемо — электронная книга</title>
 <style>
   :root{
@@ -22,7 +22,7 @@
     overflow:hidden;
   }
   /* ── рама книги ── */
-  .frame{position:fixed; inset:0; display:flex; flex-direction:column; align-items:center}
+  .frame{position:fixed; inset:0; height:100dvh; display:flex; flex-direction:column; align-items:center}
   .tophead{width:100%; display:flex; align-items:center; gap:12px; padding:10px 16px;
     font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.85)}
   .tophead .runhead{flex:1; text-align:center; letter-spacing:.06em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
@@ -32,24 +32,24 @@
   .tophead button:hover{background:rgba(240,232,213,.15)}
   .stage{flex:1; width:100%; display:flex; align-items:center; justify-content:center; perspective:2400px; position:relative}
   .leafbox{position:relative; transform-style:preserve-3d}
-  .pg{position:absolute; inset:0; background:var(--page); border-radius:6px 14px 14px 6px;
-    box-shadow:0 18px 50px rgba(20,40,45,.4), 0 2px 8px rgba(20,40,45,.2);
+  .pg{position:absolute; inset:0; background:var(--page); border-radius:10px 16px 16px 10px;
+    box-shadow:0 14px 40px rgba(20,40,45,.30), 0 2px 6px rgba(20,40,45,.14);
     padding:34px 38px 44px; overflow:hidden; display:none}
   .pg.base{display:flow-root}
-  .pg::before{content:""; position:absolute; top:0; bottom:0; left:0; width:14px;
-    background:linear-gradient(90deg, rgba(43,62,67,.14), rgba(43,62,67,0)); pointer-events:none; border-radius:6px 0 0 6px}
+  .pg::before{content:""; position:absolute; top:0; bottom:0; left:0; width:12px;
+    background:linear-gradient(90deg, rgba(43,62,67,.10), rgba(43,62,67,0)); pointer-events:none; border-radius:10px 0 0 10px}
   .pg .pgno{position:absolute; bottom:14px; left:0; right:0; text-align:center;
     font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; color:#A9A18D; letter-spacing:.12em}
   /* лист-перевёртыш */
   .leaf{position:absolute; inset:0; transform-style:preserve-3d; transform-origin:left center; z-index:30}
   .leaf .face{position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden}
   .leaf .front{transform:rotateY(0)}
-  .leaf .back{transform:rotateY(180deg); background:var(--page-edge); border-radius:14px 6px 6px 14px;
-    box-shadow:inset 0 0 40px rgba(43,62,67,.12)}
+  .leaf .back{transform:rotateY(180deg); background:var(--page-edge); border-radius:16px 10px 10px 16px;
+    box-shadow:inset 0 0 34px rgba(43,62,67,.09)}
   .leaf .front .pg{display:flow-root; position:absolute}
-  .turning{transition:transform .55s cubic-bezier(.4,.1,.3,1)}
-  .shade{position:absolute; inset:0; pointer-events:none; z-index:40; opacity:0; transition:opacity .55s;
-    background:linear-gradient(75deg, rgba(20,35,40,.35), transparent 55%); border-radius:6px 14px 14px 6px}
+  .turning{transition:transform .7s cubic-bezier(.25,.1,.2,1)}
+  .shade{position:absolute; inset:0; pointer-events:none; z-index:40; opacity:0; transition:opacity .7s;
+    background:linear-gradient(75deg, rgba(20,35,40,.22), transparent 55%); border-radius:10px 16px 16px 10px}
   /* ── низ ── */
   .bothead{width:100%; padding:10px 18px 14px; display:flex; align-items:center; gap:14px;
     font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; color:rgba(240,232,213,.8)}
@@ -191,10 +191,22 @@
     #printbox .q{font-size:12pt; line-height:1.6; margin:10pt 0 6pt}
     #printbox .ans{border:1px solid #bbb; border-radius:4pt; min-height:30mm; padding:6pt 8pt; font-size:12pt; line-height:1.7; white-space:pre-wrap}
   }
+  .bothead{padding-bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
+  @media (max-width:900px){
+    .tophead{padding-top:calc(8px + env(safe-area-inset-top, 0px))}
+  }
   @media (max-width:620px){
-    .pg{padding:22px 20px 38px; font-size:15px}
+    .pg{padding:20px 18px 34px; font-size:16px; line-height:1.62; border-radius:8px 12px 12px 8px}
     .pg h1{font-size:21px}
+    .pg h2{font-size:19px}
     .cover-pg .t{font-size:26px}
+    .tophead{padding-left:10px; padding-right:10px; gap:8px}
+    .tophead button{padding:6px 12px; font-size:10px; letter-spacing:.06em}
+    .bothead{padding:8px 12px calc(10px + env(safe-area-inset-bottom, 0px))}
+    .pg .pgno{bottom:10px; font-size:10px}
+    .navtap{width:16%}
+    .navtap.r{width:20%}
+    .ill{width:42%; margin:4px 0 8px 12px}
   }
 </style>
 </head>
@@ -2308,9 +2320,18 @@ var PW=0, PH=0, PAD_V=0;
 
 function pageSize(){
   var vw=Math.min(innerWidth,1400), vh=innerHeight;
-  PW=Math.min(620, vw-16);
-  PH=Math.min(vh-118, Math.round(PW*1.5));
-  if(PH<420){PH=Math.max(vh-110,380)}
+  var chrome = vw<=620 ? 92 : 118;           // рама сверху и снизу
+  if(vw<=620){                                // телефон: почти во весь экран
+    PW=vw-8;
+    PH=vh-chrome;
+  } else if(vw<=1024){                        // планшет
+    PW=Math.min(680, vw-32);
+    PH=Math.min(vh-chrome, Math.round(PW*1.45));
+  } else {
+    PW=Math.min(620, vw-16);
+    PH=Math.min(vh-chrome, Math.round(PW*1.5));
+  }
+  if(PH<380)PH=Math.max(vh-88,340);
   leafbox.style.width=PW+'px'; leafbox.style.height=PH+'px';
 }
 
@@ -2470,7 +2491,7 @@ function flip(dir){
     cur=ni;
     if(dir<0) mount(cur);
     leaf.remove(); busy=false;
-  },580);
+  },720);
 }
 
 /* ── управление ── */
@@ -2480,13 +2501,76 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowRight'||e.key===' ')flip(1);
   if(e.key==='ArrowLeft')flip(-1);
 });
-var tx=null,ty=null;
-stage.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
-stage.addEventListener('touchend',function(e){
-  if(tx===null)return;
-  var dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
-  if(Math.abs(dx)>48&&Math.abs(dx)>Math.abs(dy)*1.4) flip(dx<0?1:-1);
-  tx=ty=null;
+/* тянем страницу пальцем */
+var drag=null;
+function dragStart(x,y,target){
+  if(busy)return;
+  if(target.closest('textarea,button,a,input'))return;
+  drag={x:x,y:y,leaf:null,dir:0,p:0,active:false};
+}
+function makeLeaf(dir){
+  var ni=cur+dir;
+  if(ni<0||ni>=pages.length)return null;
+  var leaf=document.createElement('div'); leaf.className='leaf';
+  var front=document.createElement('div'); front.className='face front';
+  var back=document.createElement('div'); back.className='face back';
+  var fp=document.createElement('div'); fp.className='pg'; fp.style.display='flow-root'; fp.style.position='absolute'; fp.style.inset='0';
+  leaf.appendChild(front); leaf.appendChild(back); front.appendChild(fp);
+  if(dir>0){
+    fp.innerHTML=pgA.innerHTML;
+    mount(ni); cur=ni;                     // база уже следующая, лист сверху — текущая
+    leaf.style.transform='rotateY(0deg)';
+  } else {
+    var p=pages[ni]; fp.innerHTML='';
+    [].slice.call(p.el.childNodes).forEach(function(n){ fp.appendChild(n.cloneNode(true)) });
+    leaf.style.transform='rotateY(-178deg)';
+  }
+  leafbox.appendChild(leaf);
+  return {el:leaf, ni:ni};
+}
+stage.addEventListener('touchstart',function(e){
+  dragStart(e.touches[0].clientX,e.touches[0].clientY,e.target);
+},{passive:true});
+stage.addEventListener('touchmove',function(e){
+  if(!drag)return;
+  var dx=e.touches[0].clientX-drag.x, dy=e.touches[0].clientY-drag.y;
+  if(!drag.active){
+    if(Math.abs(dx)<12||Math.abs(dx)<Math.abs(dy)*1.2)return;
+    drag.dir = dx<0 ? 1 : -1;
+    var mk=makeLeaf(drag.dir);
+    if(!mk){drag=null;return}
+    drag.leaf=mk.el; drag.ni=mk.ni; drag.prev=(drag.dir>0)?drag.ni-drag.dir:cur;
+    drag.active=true; busy=true;
+    shade.style.transition='none'; shade.style.opacity='.6';
+  }
+  e.preventDefault();
+  var p=Math.max(0,Math.min(1, Math.abs(dx)/(PW*0.85)));
+  drag.p=p;
+  var ang = drag.dir>0 ? -(p*178) : (-178+p*178);
+  drag.leaf.style.transform='rotateY('+ang+'deg)';
+  shade.style.opacity=String(0.5*(drag.dir>0?(1-p):p));
+},{passive:false});
+stage.addEventListener('touchend',function(){
+  if(!drag){return}
+  if(!drag.active){drag=null;return}
+  var d=drag; drag=null;
+  var commit = d.p>0.22;
+  d.leaf.style.transition='transform .45s cubic-bezier(.25,.1,.2,1)';
+  shade.style.transition='opacity .45s';
+  if(d.dir>0){
+    if(commit){ d.leaf.style.transform='rotateY(-178deg)'; shade.style.opacity='0'; }
+    else { d.leaf.style.transform='rotateY(0deg)'; shade.style.opacity='0'; }
+  } else {
+    if(commit){ d.leaf.style.transform='rotateY(0deg)'; shade.style.opacity='0'; }
+    else { d.leaf.style.transform='rotateY(-178deg)'; shade.style.opacity='0'; }
+  }
+  setTimeout(function(){
+    if(d.dir>0){ if(!commit){ cur=d.prev; mount(cur);} }
+    else { if(commit){ cur=d.ni; mount(cur);} }
+    d.leaf.remove();
+    shade.style.transition='opacity .7s';
+    busy=false;
+  },470);
 },{passive:true});
 document.getElementById('pbar').addEventListener('click',function(e){
   var r=this.getBoundingClientRect();
