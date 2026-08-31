@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Управляемо и предсказуемо — книга Андрея Ланда</title>
-<link rel="stylesheet" href="book.css?v=c8796df3">
+<link rel="stylesheet" href="book.css?v=f76037c6">
 </head>
 <body class="book-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -172,7 +172,32 @@ document.addEventListener('click',function(e){
   function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
     document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
-});</script>
+});</script><script>
+(function(){
+ var pop=null;
+ function hide(){if(pop){pop.remove();pop=null}}
+ function show(s){hide();
+   var sheet=s.closest('.sheet')||document, n=s.textContent.trim(), html=null;
+   [].slice.call(sheet.querySelectorAll('.fnotes p')).some(function(p){
+     var b=p.querySelector('b'); if(b&&b.textContent.trim()===n){html=p.innerHTML;return true}});
+   if(!html)return;
+   pop=document.createElement('div'); pop.className='fn-pop'; pop.innerHTML=html;
+   document.body.appendChild(pop);
+   var r=s.getBoundingClientRect(), w=Math.min(360, innerWidth-24);
+   pop.style.width=w+'px';
+   pop.style.left=Math.max(12, Math.min(innerWidth-w-12, r.left-40))+'px';
+   var top=r.bottom+8;
+   if(top+pop.offsetHeight>innerHeight-10) top=r.top-pop.offsetHeight-8;
+   pop.style.top=Math.max(8,top)+'px';
+ }
+ document.addEventListener('mouseover',function(e){var s=e.target.closest('sup.fn');if(s)show(s)});
+ document.addEventListener('click',function(e){
+   var s=e.target.closest('sup.fn');
+   if(s){if(pop)hide();else show(s);return}
+   if(pop&&!e.target.closest('.fn-pop'))hide();
+ });
+ addEventListener('scroll',hide,{passive:true});
+})();</script>
 <script>(function(){
   var r=window.upRead();
   if(r.length>0){var d=document.getElementById('pdone');if(d)d.textContent=' · прочитано '+r.length+' из 17 разделов'}

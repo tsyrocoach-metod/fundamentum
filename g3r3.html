@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Раздел 11. Три позиции описания — Управляемо и предсказуемо</title>
-<link rel="stylesheet" href="book.css?v=c8796df3">
+<link rel="stylesheet" href="book.css?v=f76037c6">
 </head>
 <body class="book-page sec-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -192,6 +192,68 @@ document.addEventListener('click',function(e){
   function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
     document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
-});</script>
+});</script><script>
+(function(){
+ var pop=null;
+ function hide(){if(pop){pop.remove();pop=null}}
+ function show(s){hide();
+   var sheet=s.closest('.sheet')||document, n=s.textContent.trim(), html=null;
+   [].slice.call(sheet.querySelectorAll('.fnotes p')).some(function(p){
+     var b=p.querySelector('b'); if(b&&b.textContent.trim()===n){html=p.innerHTML;return true}});
+   if(!html)return;
+   pop=document.createElement('div'); pop.className='fn-pop'; pop.innerHTML=html;
+   document.body.appendChild(pop);
+   var r=s.getBoundingClientRect(), w=Math.min(360, innerWidth-24);
+   pop.style.width=w+'px';
+   pop.style.left=Math.max(12, Math.min(innerWidth-w-12, r.left-40))+'px';
+   var top=r.bottom+8;
+   if(top+pop.offsetHeight>innerHeight-10) top=r.top-pop.offsetHeight-8;
+   pop.style.top=Math.max(8,top)+'px';
+ }
+ document.addEventListener('mouseover',function(e){var s=e.target.closest('sup.fn');if(s)show(s)});
+ document.addEventListener('click',function(e){
+   var s=e.target.closest('sup.fn');
+   if(s){if(pop)hide();else show(s);return}
+   if(pop&&!e.target.closest('.fn-pop'))hide();
+ });
+ addEventListener('scroll',hide,{passive:true});
+})();</script><script>
+(function(){
+ var src=document.querySelector('.dd-src'); if(!src)return;
+ var items=[].slice.call(src.children), title=src.dataset.ddTitle||'Подробный разбор', cur=0, ov=null;
+ function render(){
+   var b=ov.querySelector('.dd-body'); b.innerHTML=''; b.appendChild(items[cur].cloneNode(true)); b.scrollTop=0;
+   ov.querySelector('.dd-step').textContent='Принцип '+(cur+1)+' из '+items.length;
+   [].slice.call(ov.querySelectorAll('.dd-dots i')).forEach(function(d,i){d.className=i===cur?'cur':''});
+   ov.querySelector('.dd-prev').disabled=(cur===0);
+   ov.querySelector('.dd-next').textContent=(cur===items.length-1?'Готово ✓':'Дальше →');
+ }
+ function close(){if(ov){ov.remove();ov=null;document.body.style.overflow=''}}
+ function open(i){
+   cur=Math.max(0,Math.min(i||0,items.length-1));
+   ov=document.createElement('div'); ov.className='dd-overlay';
+   ov.innerHTML='<div class="dd-modal"><div class="dd-head"><span class="dd-step"></span>'+
+     '<span class="dd-title">'+title+'</span><button class="dd-close" type="button">×</button></div>'+
+     '<div class="dd-body"></div><div class="dd-nav"><button class="dd-prev" type="button">← Назад</button>'+
+     '<div class="dd-dots">'+items.map(function(){return '<i></i>'}).join('')+'</div>'+
+     '<button class="dd-next" type="button">Дальше →</button></div></div>';
+   document.body.appendChild(ov); document.body.style.overflow='hidden'; render();
+   ov.addEventListener('click',function(e){
+     if(e.target===ov||e.target.closest('.dd-close')){close();return}
+     if(e.target.closest('.dd-prev')&&cur>0){cur--;render()}
+     else if(e.target.closest('.dd-next')){if(cur<items.length-1){cur++;render()}else close()}
+   });
+ }
+ document.addEventListener('keydown',function(e){
+   if(!ov)return;
+   if(e.key==='Escape')close();
+   if(e.key==='ArrowRight'&&cur<items.length-1){cur++;render()}
+   if(e.key==='ArrowLeft'&&cur>0){cur--;render()}
+ });
+ document.addEventListener('click',function(e){
+   var b=e.target.closest('.dd-open'); if(b){e.preventDefault();open(0);return}
+   var it=e.target.closest('.dd-item'); if(it){e.preventDefault();open(parseInt(it.dataset.dd,10)||0)}
+ });
+})();</script>
 </body>
 </html>

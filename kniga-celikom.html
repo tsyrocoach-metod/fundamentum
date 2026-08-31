@@ -630,6 +630,67 @@
     .chapter-head h1{font-size:19px}
     .sec-page .sheets{padding-top:64px}
   }
+
+  /* ═══ v3.2: структура/содержание рядом ═══ */
+  .example-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0}
+  .example-pair .example{margin-bottom:0}
+  @media (max-width:600px){.example-pair{grid-template-columns:1fr}}
+
+  /* ═══ v3.2: иллюстрации «в фоне листа» ═══ */
+  .ill{border:none; border-radius:0; background:none; mix-blend-mode:multiply}
+  .ill-lg{width:46%; max-width:340px; margin:6px 0 16px 24px}
+  @media (max-width:600px){.ill-lg{width:56%; margin:4px 0 12px 14px}}
+
+  /* ═══ v3.2: всплывающие сноски ═══ */
+  sup.fn{cursor:pointer; padding:0 3px}
+  sup.fn:hover{text-decoration:underline}
+  .fn-pop{position:fixed; z-index:95; background:var(--page); border:1px solid var(--gold);
+    border-radius:10px; padding:13px 16px; font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:13.5px; line-height:1.6; color:var(--ink); box-shadow:0 14px 36px rgba(20,40,45,.28)}
+  .fn-pop b{color:var(--gold); margin-right:6px}
+
+  /* ═══ v3.2: поп-ап «разобрать подробно» ═══ */
+  .dd-list{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:22px 0 0}
+  .dd-item{display:flex; gap:10px; align-items:baseline; border:1px solid var(--line); border-radius:10px;
+    padding:12px 15px; background:#fff; text-decoration:none; color:var(--ink);
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.4; transition:box-shadow .15s}
+  .dd-item:hover{box-shadow:0 6px 18px rgba(20,40,45,.12)}
+  .dd-item .n{color:var(--gold); font-weight:700; flex:none}
+  @media (max-width:600px){.dd-list{grid-template-columns:1fr}}
+  .dd-overlay{position:fixed; inset:0; z-index:120; background:rgba(20,35,40,.55);
+    display:flex; align-items:center; justify-content:center; padding:22px}
+  .dd-modal{background:var(--page); border-radius:14px; width:100%; max-width:960px; max-height:92vh;
+    display:flex; flex-direction:column; box-shadow:0 30px 80px rgba(10,20,25,.5)}
+  .dd-head{display:flex; align-items:center; gap:14px; padding:16px 26px; border-bottom:1px solid var(--line)}
+  .dd-step{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--gold); font-weight:700; white-space:nowrap}
+  .dd-title{font-family:-apple-system,'Segoe UI',sans-serif; font-size:13px; color:var(--ink-soft);
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .dd-close{margin-left:auto; flex:none; width:34px; height:34px; border:none; border-radius:50%;
+    background:var(--page-edge); color:var(--ink); font-size:19px; line-height:1; cursor:pointer}
+  .dd-close:hover{background:var(--line)}
+  .dd-body{overflow-y:auto; padding:20px 30px 26px}
+  .dd-body .n-item{border:none; border-radius:0; padding:0; margin:0; background:transparent}
+  .dd-nav{display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 26px calc(14px + env(safe-area-inset-bottom,0px)); border-top:1px solid var(--line)}
+  .dd-nav button{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:11px 24px;
+    border:1px solid var(--line); background:#fff; color:var(--sea-deep)}
+  .dd-nav button:hover{background:var(--page-edge)}
+  .dd-nav .dd-next{background:var(--sea-deep); color:var(--cream); border-color:var(--sea-deep)}
+  .dd-nav .dd-next:hover{background:var(--sea)}
+  .dd-nav button:disabled{opacity:.4; cursor:default}
+  .dd-dots{display:flex; gap:7px}
+  .dd-dots i{width:8px; height:8px; border-radius:50%; background:var(--line)}
+  .dd-dots i.cur{background:var(--gold)}
+  @media (max-width:700px){
+    .dd-overlay{padding:0}
+    .dd-modal{max-height:100dvh; height:100%; border-radius:0}
+    .dd-body{padding:16px 18px 20px}
+    .dd-head{padding:12px 16px}
+    .dd-nav{padding-left:16px; padding-right:16px}
+    .dd-title{display:none}
+  }
 </style>
 </head>
 <body>
@@ -713,9 +774,11 @@
   </div>
   <p>К чему я приводил эти примеры: фактически <b>вся эта книга посвящена структуре обучающего процесса</b>. Его содержание — твоя сфера компетентности, в которую я не буду заглядывать: это может быть психология, иностранные языки, бухгалтерское дело, продажи или пошив пуховых платков — не имеет значения. Моя задача — <b>передать тебе навык видеть, каким структурным законам подчинить твою экспертность</b>, чтобы она превратилась в эффективный образовательный продукт, который будет приводить к прогнозируемо высокому результату.</p>
   <p>Понятно ли с идеей структуры и её отличием от содержания? Ок, чтоб моя совесть была окончательно спокойна, приведу финальный пример, который (надеюсь) сделает всё предельно ясным:</p>
+  <div class="example-pair">
   <div class="example"><div class="field">Структура</div><p>рельсы, шпалы, колёса, двигатель, руль, каркас.</p></div>
   <div class="example"><div class="field">Содержание</div><p>то, как ты назовёшь свой локомотив, кого в него посадишь и куда повезёшь.</p></div>
-  <div class="define"><div class="label">Зафиксируем</div><p>Методология обучения — это не разрозненные «фишки», типа «как нарезать слайды» или «в каком порядке расставить уроки». Это целостная система принципов и методов, или, если хочешь — операционная система, которая позволяет делать процесс обучения взрослых людей управляемым и предсказуемым.</p></div>
+  </div>
+  <div class="define"><div class="label">Зафиксируем</div><p>Методология обучения — это не разрозненные «фишки», типа «как нарезать слайды» или «в каком порядке расставить уроки». <b>Это целостная система принципов и методов, или, если хочешь — операционная система, которая позволяет делать процесс обучения взрослых людей управляемым и предсказуемым.</b></p></div>
 </div>
 
 <div class="sheet" id="ch1-s2">
@@ -791,7 +854,7 @@
   <p>Мы уже сказали, что <b>методология обучающего процесса — это целостная операционная система мышления</b>. Так вот, внутри этой операционной системы есть очень важный мыслительный инструмент, который так и называется — метапозиция.</p>
   <div class="define"><div class="label">Определение</div><p>Метапозиция — это взгляд «над» ситуацией. Метафорически выражаясь, это взгляд архитектора сверху, как на чертёж, так и на построенное здание. Метапозиция в нашей сфере позволяет видеть образовательный курс, тренинг или мастер-класс, как целостную систему, где все элементы взаимосвязаны и влияют друг на друга. Благодаря метапозиции мы можем задаваться, например, такими вопросами: что поменяется, если мы переставим вот здесь уроки местами? Как это в долгосрочном режиме повлияет на опыт студентов? Как те или иные наши действия отразятся на результатах обучения — промежуточных и финальных?</p></div>
   <p>И чтобы было чуть более понятно, приведу ещё пару примеров метапозиции из других областей.</p>
-  <div class="story"><div class="who">Пример из театра</div>
+  <div class="story"><div class="who">Пример из театра</div><img class="ill ill-lg" src="images/ill-05-rezhisser.jpg" alt="" loading="lazy">
     <p>Театральный режиссёр сидит в заднем ряду зрительного зала и смотрит, как репетируют артисты. Порой он может эмоционально включаться в содержание происходящего на сцене, чтобы сопоставить свои переживания с опытом потенциального зрителя. Но затем ему очень важно вернуться в позицию отстранённого, но очень внимательного наблюдателя, который не захвачен событийным рядом — и благодаря этому может видеть спектакль, как целостную систему. Благодаря такому взгляду, режиссёр понимает, каким образом переставить местами сцены, как уплотнить темпоритм, какие световые или музыкальные решения применить, чтобы добиться более мощного воздействия на зрителя.</p>
   </div>
   <div class="story"><div class="who">Пример из кино</div>
@@ -854,7 +917,7 @@
 <div class="sheet" id="ch4-s2">
   <div class="tab"><b>02</b>Шесть принципов на практике</div>
   <p>Итак, мы перечислили и коротко описали все шесть принципов. Теперь разберём их на одном и том же практическом материале. Представь, что мы вместе проектируем курс под названием «Самопрезентация за 60 секунд». Сейчас будем по очереди прикладывать программе каждый из шести принципов и смотреть, что происходит, когда мы его соблюдаем, а что — когда бодро проезжаем мимо.</p>
-  <div class="n-item">
+  <div class="dd-list"><a href="#" class="dd-item" data-dd="0"><span class="n">1</span>Взрослому важно понимать, зачем ему учиться</a><a href="#" class="dd-item" data-dd="1"><span class="n">2</span>Взрослый хочет участвовать в собственном обучении</a><a href="#" class="dd-item" data-dd="2"><span class="n">3</span>Опыт взрослого становится материалом обучения</a><a href="#" class="dd-item" data-dd="3"><span class="n">4</span>Готовность учиться связана с актуальной жизненной задачей</a><a href="#" class="dd-item" data-dd="4"><span class="n">5</span>Взрослый ориентирован на решение конкретной задачи</a><a href="#" class="dd-item" data-dd="5"><span class="n">6</span>Взрослому нужна собственная мотивация</a></div><div class="practice-actions" style="margin-top:20px"><button class="wb-btn dd-open" type="button">Разобрать: как надо и как не надо →</button></div><div class="dd-src" data-dd-title="Шесть принципов на практике" hidden><div class="n-item">
     <div class="n-tag">Принцип 1</div>
     <div class="n-title">Взрослому важно понимать, зачем ему учиться</div>
     <p>Сначала разберём, как будет выглядеть курс, где проигнорировали этот принцип: вот участники собрались на первое занятие, мы выходим к группе и заводим песнь издалека: «Самопрезентация уходит корнями в античную риторику. Ещё Аристотель выделял три способа убеждения…»</p>
@@ -863,7 +926,7 @@
     <p>Итак, теперь учтём первый принцип андрагогики в конструкции курса. И тогда: в самом начале встречи мы обозначим результат: «За время курса вы подготовите и несколько раз отрепетируете самопрезентацию продолжительностью до 60 секунд. Её можно будет использовать на профессиональном мероприятии, собеседовании, встрече с потенциальным клиентом или при защите проекта».</p>
     <p>Затем предложим участникам определить собственную точку применения: «Где именно вам может пригодиться навык коротко и убедительно рассказать о себе в ближайший месяц?» Так наша группа сразу поймёт, чем они будут заниматься, зачем и где смогут использовать результат: <b>у обучения появился адрес</b>. Оно теперь непосредственным образом связано с реальной жизнью наших студентов.</p>
   </div>
-  <div class="n-item">
+<div class="n-item">
     <div class="n-tag">Принцип 2</div>
     <div class="n-title">Взрослый хочет участвовать в собственном обучении</div>
     <div class="pair">
@@ -885,7 +948,7 @@
       </div>
     </div>
   </div>
-  <div class="n-item">
+<div class="n-item">
     <div class="n-tag">Принцип 3</div>
     <div class="n-title">Опыт взрослого становится материалом обучения</div>
     <div class="pair">
@@ -914,7 +977,7 @@
       </div>
     </div>
   </div>
-  <div class="n-item">
+<div class="n-item">
     <div class="n-tag">Принцип 4</div>
     <div class="n-title">Готовность учиться связана с актуальной жизненной задачей</div>
     <div class="pair">
@@ -928,7 +991,7 @@
       </div>
     </div>
   </div>
-  <div class="n-item">
+<div class="n-item">
     <div class="n-tag">Принцип 5</div>
     <div class="n-title">Взрослый ориентирован на решение конкретной задачи</div>
     <div class="pair">
@@ -941,7 +1004,7 @@
       </div>
     </div>
   </div>
-  <div class="n-item">
+<div class="n-item">
     <div class="n-tag">Принцип 6</div>
     <div class="n-title">Взрослому нужна собственная мотивация</div>
     <div class="pair">
@@ -954,7 +1017,8 @@
         <p>По ходу же курса участник будет наблюдать собственный прогресс, сравнивая первую и вторую видеозаписи своей презентации, замечая, как меняются структура, речь, состояние и реакция слушателей; а мы, как ведущие, будем помогать ему связывать свои успехи с важными для него перспективами, добиваясь того, чтоб в голове студента всякий раз загоралась зелёная лампочка: «Я осваиваю важный для себя навык. Я уже вижу изменения. И я понимаю, для чего продолжаю вкладывать своё время и силы в это обучение»<sup class="fn">5</sup>.</p>
       </div>
     </div>
-  </div>
+  </div></div>
+
   <h3>Соберём всё вместе</h3>
   <p>Итак, если мы проектируем курс «Самопрезентация за 60 секунд» с учётом шести принципов андрагогики, то:</p>
   <ol>
@@ -971,7 +1035,7 @@
     <p><b>3</b> Как формировать навык — это отдельный и очень важный разговор, который ждёт нас в будущих главах этой книги.</p>
     <p><b>4</b> Почему большинство курсов оказываются брошенными именно на середине — поговорим в главе, посвящённой групповой динамике.</p>
     <p><b>5</b> Как именно создавать эту связь в голове наших студентов — обязательно обсудим, когда дойдём до модели под названием «матрёшка».</p>
-  </div>
+</div>
 </div>
 
 <div class="sheet sky-sheet" id="ch4-s3">
