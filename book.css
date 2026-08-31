@@ -440,8 +440,9 @@
 
   /* ═══ v2.4: раздел внутри титульного листа главы ═══ */
   .sec-band{margin:-10px 0 34px; padding-bottom:26px; border-bottom:1px solid rgba(200,169,107,.45)}
-  .sec-band-k{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
-    letter-spacing:.26em; text-transform:uppercase; color:var(--gold)}
+  .sec-band-part{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.3em; text-transform:uppercase; color:var(--gold)}
+  .sec-band-t{font-size:32px; line-height:1.25; color:var(--sea-deep); margin-top:14px; text-wrap:balance}
   .sec-band-d{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6;
     color:var(--ink-soft); max-width:52ch; margin:10px auto 0; text-wrap:balance}
   .sec-tiles{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:34px auto 0; max-width:600px;
@@ -611,4 +612,15 @@
   @media (max-width:600px){
     .ill{width:45%; margin:4px 0 10px 14px}
     .ill-wide{width:52%}
+  }
+
+  /* ═══ v3.1: книжная иерархия титула ═══ */
+  .sec-page .sheets{padding-top:72px}
+  .chapter-head h1{font-size:26px}
+  .chapter-head .kicker{font-size:11px}
+  .chapter-head .orn{font-size:15px; margin-top:16px}
+  @media (max-width:840px){
+    .sec-band-t{font-size:25px}
+    .chapter-head h1{font-size:22px}
+    .sec-page .sheets{padding-top:64px}
   }
