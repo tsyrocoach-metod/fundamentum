@@ -840,3 +840,6 @@
     .tote-strip .tb em{font-size:8.5px; letter-spacing:.04em}
     .tote-strip .ta{font-size:13px}
   }
+
+  /* ═══ v4.7: центрированная иллюстрация в листе ═══ */
+  .ill-center{display:block; width:100%; max-width:540px; margin:8px auto 24px; mix-blend-mode:multiply}
