@@ -694,3 +694,9 @@
     letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:13px 26px;
     border:1px solid var(--line); background:#fff; color:var(--sea-deep)}
   .toc-start button:hover{background:var(--page-edge)}
+
+  /* ═══ v3.3: кликабельные главы в оглавлении ═══ */
+  a.sec-name{text-decoration:none; cursor:pointer}
+  a.sec-name:hover{background:rgba(200,169,107,.07)}
+  a.sec-name .go-arr{margin-left:auto; color:var(--gold); font-size:16px; opacity:0; transition:opacity .15s}
+  a.sec-name:hover .go-arr{opacity:1}
