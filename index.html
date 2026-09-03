@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Управляемо и предсказуемо — книга Андрея Ланда</title>
-<link rel="stylesheet" href="book.css?v=c33a3fb9">
+<link rel="stylesheet" href="book.css?v=bf16e136">
 </head>
 <body class="book-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -78,10 +78,8 @@
     <div class="task">
       <div class="q"><b>2.</b> Сохрани эту запись так, как тебе удобно. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляни в эту запись и возьми оттуда ресурс, чтобы сделать ещё один шаг навстречу своей цели, навстречу своему методологическому мастерству.</div>
     </div>
-    <div class="practice-actions pa2">
-  <div class="pa-item"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div>
-  <div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div>
-</div>
+    <div class="practice-actions pa1"><button class="wb-btn print-sheet" type="button">Сохранить PDF / Распечатать этот лист</button></div>
+    <div class="practice-note">Ответы сохраняются в этом браузере автоматически. Все задания книги собраны в <a href="tetrad.html" target="_blank" rel="noopener">рабочей тетради</a> — её можно открыть отдельно, заполнить целиком и скачать одним PDF.</div>
   </div>
 
 </div>
@@ -145,22 +143,39 @@
      var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
  });
 })();</script><script>
-document.addEventListener('click',function(e){
-  var b=e.target.closest('.copy-btn'); if(!b)return;
+(function(){
+ var PCSS='@page{size:A4;margin:14mm 12mm}'+
+  'body{font-family:Georgia,serif;color:#1c1c1c;margin:0;font-size:12pt;line-height:1.6}'+
+  '.ph{font-family:-apple-system,sans-serif;font-size:8pt;letter-spacing:.12em;text-transform:uppercase;'+
+    'color:#8a8a8a;border-bottom:0.5pt solid #cfcfcf;padding-bottom:2mm;margin-bottom:7mm}'+
+  'h2{font-weight:400;font-size:17pt;margin:0 0 6mm}'+
+  '.q{margin:5mm 0 2.5mm;font-size:11.5pt}.q b{color:#8a6d2f;margin-right:4pt}'+
+  '.q strong{font-weight:700}'+
+  '.ans{border:0.75pt solid #9a9a9a;border-radius:3pt;padding:3mm;min-height:12mm;white-space:pre-wrap;font-size:11pt;margin-bottom:2mm}'+
+  '.ans.empty{border:none;padding:0}'+
+  '.ln{border-bottom:0.75pt solid #b5b5b5;height:8.5mm}';
+ document.addEventListener('click',function(e){
+  var b=e.target.closest('.print-sheet'); if(!b)return;
   var sh=b.closest('.sky-sheet'); if(!sh)return;
   var t=sh.querySelector('h3');
-  var L=['Рабочая тетрадь · '+(t?t.textContent.trim():'Практика'),''];
-  sh.querySelectorAll('.task').forEach(function(x){
-    var q=x.querySelector('.q'),a=x.querySelector('textarea');
-    if(q)L.push(q.textContent.replace(/\s+/g,' ').trim());
-    if(a)L.push('Мой ответ: '+a.value.trim()); L.push('');
+  var html='<div class="ph">Управляемо и предсказуемо · Практика</div>';
+  html+='<h2>'+(t?t.textContent:'Практика')+'</h2>';
+  [].slice.call(sh.querySelectorAll('.task')).forEach(function(x){
+    var q=x.querySelector('.q'), a=x.querySelector('textarea');
+    if(q)html+='<div class="q">'+q.innerHTML+'</div>';
+    if(a){
+      var v=a.value.replace(/\s+$/,'');
+      if(v){html+='<div class="ans">'+v.replace(/</g,'&lt;')+'</div>'}
+      else{html+='<div class="ans empty"><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div><div class="ln"></div></div>'}
+    }
   });
-  var txt=L.join('\n');
-  function ok(){var o=b.textContent;b.textContent='Скопировано ✓';setTimeout(function(){b.textContent=o},2200)}
-  function fb(){var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
-    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){ }document.body.removeChild(ta)}
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(ok,fb);else fb();
-});</script><script>
+  var w=window.open('','_blank');
+  if(!w){alert('Разреши всплывающее окно для печати');return}
+  w.document.write('<!DOCTYPE html><html lang="ru"><head><meta charset="utf-8"><title>Практика — Управляемо и предсказуемо</title><style>'+PCSS+'</style></head><body>'+html+'</body></html>');
+  w.document.close(); w.focus();
+  setTimeout(function(){w.print()},400);
+ });
+})();</script><script>
 (function(){
  var pop=null;
  function hide(){if(pop){pop.remove();pop=null}}
