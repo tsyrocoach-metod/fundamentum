@@ -742,6 +742,39 @@
     body.book-page .sky-sheet .calm{color:#444}
     body.book-page .wb-note{color:#333; border-color:#bbb; background:#fff}
   }
+
+  /* ═══ v4.2: кнопки практик с подписями ═══ */
+  .pa2{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; text-align:center}
+  .pa-item{display:flex; flex-direction:column; gap:8px; align-items:center}
+  .pa-item .wb-btn, .pa-item .copy-btn{width:100%; max-width:280px}
+  .pa-cap{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; line-height:1.5;
+    color:rgba(240,232,213,.75); max-width:250px}
+  @media (max-width:600px){.pa2{grid-template-columns:1fr}}
+  .ill-ex{display:block; width:100%; max-width:330px; margin:12px auto 0; mix-blend-mode:multiply}
+
+  /* ═══ v4.2: наверх и ляссе ═══ */
+  .fabs{position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px));
+    display:flex; flex-direction:column; gap:10px; z-index:58}
+  .fab{width:46px; height:46px; border-radius:50%; border:1px solid rgba(240,232,213,.5);
+    background:rgba(52,82,88,.92); color:var(--cream); cursor:pointer; font-size:18px;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 6px 20px rgba(20,40,45,.35)}
+  .fab:hover{background:var(--sea-deep)}
+  .fab-top{opacity:0; pointer-events:none; transition:opacity .25s}
+  .fab-top.show{opacity:1; pointer-events:auto}
+  .fab-bm.did{background:var(--gold); border-color:var(--gold)}
+  .ribbon{position:absolute; left:50%; margin-left:368px; width:22px; height:66px; z-index:45; cursor:pointer;
+    background:linear-gradient(180deg,#D8B96C,#B8965A);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);
+    filter:drop-shadow(0 4px 8px rgba(20,40,45,.35))}
+  .rb-tip{position:absolute; right:140%; top:4px; white-space:nowrap;
+    background:var(--sea-deep); color:var(--cream); font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:12px; padding:8px 14px; border-radius:8px; border:1px solid rgba(240,232,213,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s}
+  .ribbon:hover .rb-tip, .ribbon.tip .rb-tip{opacity:1}
+  @media (max-width:840px){
+    .ribbon{left:auto; right:6px; margin-left:0; width:18px; height:56px}
+    .rb-tip{right:130%}
+  }
 </style>
 </head>
 <body>
@@ -800,8 +833,10 @@
     <div class="task">
       <div class="q"><b>2.</b> Сохрани эту запись так, как тебе удобно. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляни в эту запись и возьми оттуда ресурс, чтобы сделать ещё один шаг навстречу своей цели, навстречу своему методологическому мастерству.</div>
     </div>
-    <div class="practice-actions"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать вопросы и ответы</button></div>
-    <div class="practice-hint">Тетрадь откроется в соседней вкладке — удобно заполнять её параллельно с чтением.</div>
+    <div class="practice-actions pa2">
+  <div class="pa-item"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div>
+  <div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div>
+</div>
   </div>
 <div class="sheet chapter-head"><div class="kicker">Глава 1</div><h1>Поговорим по понятиям</h1><div class="orn">✦ ✦ ✦</div></div><div class="sheet chapter-head" id="ch1">
   <div class="kicker">Раздел 1</div>
@@ -817,18 +852,18 @@
   <p>(я же предупредил, что буду регулярно повторять два этих слова на протяжении всей книги? Вот: не соврал).</p>
   <p>Ещё одно слово, без которого нам не обойтись, говоря о методологии обучения — это слово «структура». Почему? Потому что когда мы говорим о способах организации чего бы то ни было, мы говорим о том, как структурно устроена та или иная деятельность. В нашем с тобой случае — как структурно устроена деятельность по передаче знаний другим людям, по превращению, скажем, книги, которую мы сняли с полки, — в образовательный процесс.</p>
   <p>Давай коротко разберёмся с тем, что такое «структура» на нескольких наглядных примерах (по опыту, навык отличать структуру от содержания в начале пути может даваться с некоторым трудом и требовать специальной фокусировки внимания).</p>
-  <div class="story"><div class="who">Пример из архитектуры</div><img class="ill" src="images/ill-01-most.jpg" alt="" loading="lazy">
+  <div class="story"><div class="who">Пример из архитектуры</div><img class="ill ill-lg" src="images/ill-01-most.jpg" alt="" loading="lazy">
     <p>Вот, скажем, течёт река, а через реку возведён мост. Мы, обыватели, смотрим на него просто как на некую монолитную постройку. При этом любой грамотный инженер, любой архитектор, глядя на мост, будет видеть огромное количество математически точных закономерностей, принципов и решений, благодаря которым автомобилисты могут безопасно ездить с одного берега реки на другой не один-два дня, а годы, десятилетия, может быть, даже века.</p>
     <p>Другими словами, внутренняя конструкция моста, его опоры, система крепежей, подбор материалов и т.д. — это и есть та структура, которую обязан знать, понимать и учитывать профессионал.</p>
   </div>
-  <div class="story"><div class="who">Пример из музыки</div>
+  <div class="story"><div class="who">Пример из музыки</div><img class="ill ill-lg" src="images/ill-10-partitura.jpg" alt="" loading="lazy">
     <p>Когда ты слушаешь фугу И. С. Баха, ты слышишь непрерывный поток звуков и тебе может даже не приходить в голову, насколько он упорядочен, насколько дотошно и расчётливо организован. Кому-то может даже показаться, что музыка — плод бессознательного, спонтанного вдохновения, из серии «вот как-то само из космоса пришло»... При этом любой профессионал, услышав баховскую музыку, немедленно заметит внутреннюю структуру — строгие, математически выверенные законы полифонии и гармонии, которые композитор использовал для того, чтобы даже спустя столетия его произведения продолжали управляемо и предсказуемо воздействовать на состояние слушателей.</p>
   </div>
   <p>К чему я приводил эти примеры: фактически <b>вся эта книга посвящена структуре обучающего процесса</b>. Его содержание — твоя сфера компетентности, в которую я не буду заглядывать: это может быть психология, иностранные языки, бухгалтерское дело, продажи или пошив пуховых платков — не имеет значения. Моя задача — <b>передать тебе навык видеть, каким структурным законам подчинить твою экспертность</b>, чтобы она превратилась в эффективный образовательный продукт, который будет приводить к прогнозируемо высокому результату.</p>
   <p>Понятно ли с идеей структуры и её отличием от содержания? Ок, чтоб моя совесть была окончательно спокойна, приведу финальный пример, который (надеюсь) сделает всё предельно ясным:</p>
   <div class="example-pair">
-  <div class="example"><div class="field">Структура</div><p>рельсы, шпалы, колёса, двигатель, руль, каркас.</p></div>
-  <div class="example"><div class="field">Содержание</div><p>то, как ты назовёшь свой локомотив, кого в него посадишь и куда повезёшь.</p></div>
+  <div class="example"><div class="field">Структура</div><p>рельсы, шпалы, колёса, двигатель, руль, каркас.</p><img class="ill-ex" src="images/ill-lokomotiv-chertezh.jpg" alt="" loading="lazy"></div>
+  <div class="example"><div class="field">Содержание</div><p>то, как ты назовёшь свой локомотив, кого в него посадишь и куда повезёшь.</p><img class="ill-ex" src="images/ill-lokomotiv-hod.jpg" alt="" loading="lazy"></div>
   </div>
   <div class="define"><div class="label">Зафиксируем</div><p>Методология обучения — это не разрозненные «фишки», типа «как нарезать слайды» или «в каком порядке расставить уроки». <b>Это целостная система принципов и методов, или, если хочешь — операционная система, которая позволяет делать процесс обучения взрослых людей управляемым и предсказуемым.</b></p></div>
 </div>
@@ -880,7 +915,7 @@
   <div class="label">Рабочая тетрадь</div>
   <h3>Проведите границы трёх ролей</h3>
   <div class="task">
-    <div class="q"><b>1.</b> Откройте свою рабочую тетрадь прямо сейчас — не откладывайте на потом — и зафиксируйте своими словами, как вы услышали и как понимаете, где пролегает граница между маркетологом, методологом и продуктологом.</div>
+    <div class="q"><b>1.</b> Зафиксируйте прямо сейчас — не откладывая на потом — своими словами, как вы услышали и как понимаете, где пролегает граница между маркетологом, методологом и продуктологом.</div>
     <textarea data-wb="g1r2-1" rows="4" placeholder="Запишите вашу формулировку: за что отвечает маркетолог, за что — методолог, за что — продуктолог…"></textarea>
   </div>
   <div class="task">
@@ -891,8 +926,7 @@
     <div class="q"><b>3.</b> Проверьте себя: прочитайте написанное вслух. Если бы вы объясняли эти границы коллеге — понял бы он с первого раза, кто за что отвечает?</div>
     <textarea data-wb="g1r2-3" rows="3" placeholder="Отметьте, что пришлось уточнить в формулировках после проверки вслух…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g1r2" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">А дальше нас ждёт ещё один очень важный нюанс — очень тонкий, очень глубокий. Не переключайтесь.</div>
 </div><div class="sheet chapter-head" id="ch3">
   <div class="kicker">Раздел 3</div>
@@ -938,8 +972,7 @@
     <div class="q"><b>4.</b> О чём я думаю чаще — о содержании курса, о контенте, которым хочу поделиться? Или же о том, как именно этот контент организовать, чтобы сделать обучение более эффективным?</div>
     <textarea data-wb="g1r3-4" rows="4" placeholder="Что перевешивает — содержание или организация обучения? Почему…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g1r3" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
 </div><div class="sheet chapter-head" id="ch4">
   <div class="kicker">Раздел 4</div>
   <h1>Чем обучение взрослых отличается от обучения детей</h1>
@@ -1126,8 +1159,7 @@
     <div class="q"><b>8.</b> Самопроверка. Перечитайте свои ответы и задайте себе шесть вопросов: понимает ли участник, зачем ему учиться? Может ли он влиять на процесс и оценивать себя? Используется ли его предыдущий опыт? Связано ли обучение с актуальной жизненной задачей? Решает ли участник конкретную проблему и практикуется ли во время обучения? Есть ли у него личная причина довести обучение до результата? Отметьте, какие принципы уже встроены в ваш продукт, а какие пока существуют в виде доброго намерения.</div>
     <textarea data-wb="g1r4-8" rows="4" placeholder="Что я хочу усилить или переделать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Ну вот, друзья, мы проделали неслабую работу за этот пролог. Разобрались, что такое методология и кто такой методолог. Освоили метапозицию. Выяснили, чем проектирование обучения для взрослых отличается от простой передачи информации. И сразу примерили шесть принципов андрагогики к собственному продукту. Этих вбитых колышков вполне достаточно, чтобы заходить на глубину. Со следующей главы мы начнём вдумчиво, последовательно и прикладно разбирать создание образовательной программы с самого начала — с первых решений, которые принимает её автор. До встречи в следующей главе.</div>
 </div>
 
@@ -1136,7 +1168,7 @@
   <div class="label">Рабочая тетрадь</div>
   <h3>Примените принципы андрагогики</h3>
   <div class="task">
-    <div class="q"><b>1.</b> Откройте тетрадь. Если у вас есть свой собственный продукт, свой курс — прямо напишите четыре строчки, быстро, в течение 40–50 секунд: какие идеи прямо сейчас приходят в голову, как применить в нём принципы обучения взрослых.</div>
+    <div class="q"><b>1.</b> Если у вас есть свой собственный продукт, свой курс — прямо напишите четыре строчки, быстро, в течение 40–50 секунд: какие идеи прямо сейчас приходят в голову, как применить в нём принципы обучения взрослых.</div>
     <textarea data-wb="g1r4-9" rows="4" placeholder="Четыре строчки — по одной идее для вашего курса на каждый принцип…"></textarea>
   </div>
   <div class="task">
@@ -1151,8 +1183,7 @@
     <div class="q"><b>4.</b> Самопроверка: перечитайте каждую идею и спросите себя — участвует ли здесь ученик в планировании и оценке, практикует ли здесь и сейчас, связано ли это с его реальной жизнью, решает ли конкретную задачу?</div>
     <textarea data-wb="g1r4-12" rows="4" placeholder="Ваши выводы после самопроверки: что усилить, что переделать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g1r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Ну вот, друзья, мы проделали неслабую работу в этой главе. Мы разобрались, что такое методология, кто такой методолог, что такое метапозиция, и выяснили, чем обучение взрослых отличается от обучения детей. Этих основ нам вполне достаточно, чтобы погружаться вглубь. В следующей главе мы начнём вдумчиво и последовательно собирать каркас твоей авторской обучающей программы: скорее переворачивай страницу!</div>
 </div>
 
@@ -1257,8 +1288,7 @@
     <div class="q"><b>4.</b> Отрефлексируй: что было легко, где возникли трудности? С глаголом? С контекстом?</div>
     <textarea data-wb="g2r1-4" rows="4" placeholder="Что было легко, где скрипели мозги…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r1" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g2r1" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Не стоит переживать, если не удается подобрать точные слова с первого раза: мы учимся по-новому думать! Сложности, «скрипение» мозгов — это естественно и ожидаемо! Как я уже говорил — мы устанавливаем себе новую операционную систему мышления. Освоить управление ей — это задача, требующая времени и внимания.</div>
 </div><div class="sheet chapter-head" id="ch6">
   <div class="kicker">Раздел 6</div>
@@ -1360,8 +1390,7 @@
     <div class="q"><b>4.</b> Теперь сведи вместе цель обучения и портрет студента и понаблюдай, что происходит на пересечении этих двух описаний. Уже здесь, вероятнее всего, начнут появляться идеи про структуру и формат — ты можешь зафиксировать их на отдельных стикерах, но не спеши «прибивать гвоздями» эти решения, мы обязательно дойдем до предметного обсуждения вопросов структуры и форматов, поэтому все может еще 10 раз поменяться. ;Р Главное, мы проделали уже очень важную работу: у нас есть четко описанная цель обучения и портрет студента. Ура. Движемся дальше!</div>
     <textarea data-wb="g2r2-4" rows="4" placeholder="Что рождается на пересечении цели и портрета…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g2r2" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
 </div><div class="sheet chapter-head" id="ch7">
   <div class="kicker">Раздел 7</div>
   <h1>Результат обучения</h1>
@@ -1462,8 +1491,7 @@
     <div class="q"><b>4.</b> И важный момент для рефлексии: какой из критериев находится у вас в слепой зоне? Где вы начинаете тупить и спотыкаться? Зафиксируйте это место и вернитесь к нему через день со свежей головой — как правило, точное слово находится.</div>
     <textarea data-wb="g2r3-4" rows="3" placeholder="Какой критерий в слепой зоне, где спотыкаетесь…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g2r3" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Спасибо за терпение и внимание. Да, это самая душная часть первой главы — и самая фундаментальная: именно прописанный результат делает обучение честным.</div>
 </div><div class="sheet chapter-head" id="ch8">
   <div class="kicker">Раздел 8</div>
@@ -1597,8 +1625,7 @@
     <div class="q"><b>4.</b> Настройте таким образом линзу своего восприятия: как я делаю чисто, как я делаю честно соотношение между результатами, которые обещаю, и сроками, которые предлагаю.</div>
     <textarea data-wb="g2r4-4" rows="3" placeholder="Ваши выводы: что для вас значит честное соотношение обещаний и сроков…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g2r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g2r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Вот мы и подошли к финалу первой главы. Мы поняли, что такое цель обучения и чему мы учим; что такое портрет студента и кого мы учим; каким должен быть результат — и как соотнести его со сроками. Я надеюсь, всё это уже записано в вашей рабочей тетради. Если нет — непременно сделайте: это самые фундаментальные основы, с которых начинается наша работа. Пробуйте — пусть появятся вопросы и всякое непонимание: чтобы получились содержательные вопросы, нужно первый раз попробовать. С деталями будем разбираться в следующих главах.</div>
 </div>
 
@@ -1738,8 +1765,7 @@
     <div class="q"><b>5.</b> Отложите запись на день, затем перечитайте свежим взглядом и проведите самопроверку: насколько логична и последовательна ваша история? Нет ли «дыр» и логических скачков между шагами? Насколько понятен путь студента?</div>
     <textarea data-wb="g3r2-5" rows="3" placeholder="Что заметили при перечитывании: где логика сцепилась, а где остались «дыры»…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r2" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Не гонитесь за красотой формулировок — сейчас важно, чтобы цепочка сцепилась. Красоту наведём позже.</div>
 </div><div class="sheet chapter-head" id="ch11">
   <div class="kicker">Раздел 11</div>
@@ -1832,8 +1858,7 @@
     <div class="q"><b>5.</b> Вернитесь в Позицию 1 и зафиксируйте инсайты, которые вы получили.</div>
     <textarea data-wb="g3r3-4" rows="3" placeholder="Мои инсайты: что изменилось в моём взгляде на программу…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r3" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Если в третьей позиции вам стало немного неловко за первую — вы всё сделали правильно. Именно так и рождается программа про студента.</div>
 </div><div class="sheet chapter-head" id="ch12">
   <div class="kicker">Раздел 12</div>
@@ -1947,8 +1972,7 @@
     <div class="q"><b>3.</b> Проверьте цепочку сами, как строгий редактор: насколько логична последовательность? Нет ли «дыр» — шагов, которые вы делаете автоматически и потому забыли записать?</div>
     <textarea data-wb="g3r4-3" rows="3" placeholder="Итог самопроверки: какие «автоматические» шаги пришлось дописать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
 </div>
 <img class="ill" src="images/ill-03-chemodan.jpg" alt="" loading="lazy"><div class="sheet chapter-head" id="ch13">
@@ -2026,8 +2050,7 @@
     <div class="q"><b>3.</b> Затем устройте себе самопроверку — пройдитесь по лестнице с тремя вопросами: насколько логична связка между ступенями? Насколько понятно, что конкретно должно произойти внутри ступени? Какое физическое действие студент совершает на этой ступени — чтобы TOTE мог открыться и закрыться?</div>
     <textarea data-wb="g3r5-3" rows="4" placeholder="Ответы по трём вопросам: где связка хромает, что происходит внутри ступени, какое действие совершает студент…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r5" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r5" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Вы наверняка увидите свои «слепые пятна» — места, где вместо действия у вас просто лекция, «груда материала». Это нормально, это цена победы. Спросите себя честно: «Зачем я читаю эту лекцию? Она действительно нужна для перехода на следующую ступень?»</div>
 </div>
 
@@ -2197,7 +2220,7 @@
   <div class="label">Рабочая тетрадь</div>
   <h3>Пофантазируй о своей первой матрёшке</h3>
   <div class="task">
-    <div class="q"><b>1.</b> Открой рабочую тетрадь и нарисуй матрёшку в разрезе: пять вложенных элементов — концепт, инструкция, опыт, шеринг, рефлексия.</div>
+    <div class="q"><b>1.</b> Нарисуй матрёшку в разрезе: пять вложенных элементов — концепт, инструкция, опыт, шеринг, рефлексия.</div>
   </div>
   <div class="task">
     <div class="q"><b>2.</b> Посмотри на свою лестницу навыков и в режиме брейнсторма поразмышляй: какой ТОТЕ внутри твоей лестницы ты мог бы разложить на элементы матрёшки?</div>
@@ -2207,8 +2230,7 @@
     <div class="q"><b>3.</b> Запиши первые идеи, которые начнут появляться — пока без требований к качеству, просто наброски.</div>
     <textarea data-wb="g4r1-2" rows="5" placeholder="Первые наброски: каким мог бы быть концепт, инструкция, опыт, шеринг, рефлексия…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r1" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g4r1" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Отпусти ум в лёгкое творческое парение и просто понаблюдай, как это начнёт укладываться в голове. Если пока не укладывается — ничего страшного: сейчас уложим, последовательно и спокойно, и всё у нас обязательно будет хорошо.</div>
 </div><div class="sheet chapter-head" id="ch15">
   <div class="kicker">Раздел 15</div>
@@ -2324,8 +2346,7 @@
     <div class="q"><b>5.</b> Отметь, насколько легко речевой аппарат встал на эти рельсы, насколько легко ум включил этот фокус внимания.</div>
     <textarea data-wb="g4r2-5" rows="3" placeholder="Опиши свои наблюдения: легко ли далась такая логика повествования…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g4r2" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Если мозги немножко кряхтят — в этом нет совершенно ничего страшного, это абсолютно нормальный этап работы.</div>
 </div><div class="sheet chapter-head" id="ch16">
   <div class="kicker">Раздел 16</div>
@@ -2510,8 +2531,7 @@
     <div class="q"><b>5.</b> Прочитай инструкцию вслух глазами студента: внятно ли, ясно ли, чего от него добиваются? Отметь места, где остаётся неопределённость, и уточни их.</div>
     <textarea data-wb="g4r3-5" rows="4" placeholder="Запиши, где оставалась неопределённость и как ты её убрал…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g4r3" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Фантазируй, генерируй — и возвращайся к этой инструкции свежим взглядом: именно взгляд из позиции студента показывает, насколько мы хороши в формулировках.</div>
 </div><div class="sheet chapter-head" id="ch17">
   <div class="kicker">Раздел 17</div>
@@ -2753,8 +2773,7 @@
     <div class="q"><b>6.</b> Пройдись по собранной конструкции ещё раз и отметь, где всё слажено, а где возникает опасность «свинодевочки» — на какие части матрёшки нужно обратить особое внимание.</div>
     <textarea data-wb="g4r4-6" rows="4" placeholder="Отметь, где матрёшка сходится, а где есть риск «свинодевочки»…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g4r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с твоими ответами скопируются в буфер — вставь их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g4r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Собирай спокойненько, плавненько, без истерик и без попытки сделать идеально с первого раза. Мы разобрались, наверное, с самым сложным элементом, который в нашем методологическом деле существует — мозг сильнее всего закипает именно на матрёшках. Очень важный критерий того, что матрёшка закрылась: «я готов двигаться дальше». Так что можно промокнуть лоб, выдохнуть — и идти играть в этот конструктор. Необходимый минимум, чтобы идти и делать, у тебя точно уже есть.</div>
 </div></div>
 <footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · главы 1–4</footer>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Глава 3. Макро-структура: концепт и лестница навыков — Управляемо и предсказуемо</title>
-<link rel="stylesheet" href="book.css?v=9fc398ee">
+<link rel="stylesheet" href="book.css?v=a1229c8b">
 </head>
 <body class="book-page sec-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -19,6 +19,7 @@
 <div class="nav-map" id="navMap" data-cur="3"></div>
 <div class="foot" id="drawerFoot"></div>
 </nav>
+<div class="ribbon" id="ribbon" hidden><div class="rb-tip">Это твоя закладка — ты остановился здесь</div></div>
 <div class="sheets">
 <div class="sheet chapter-head"><div class="sec-band" style="border-bottom:none;margin-bottom:0;padding-bottom:0"><div class="sec-band-part">Часть 1 · Структура программы</div><div class="sec-band-t">Глава 3. Макро-структура: концепт и лестница навыков</div><p class="sec-band-d">Как выстроить логику программы: концепт-история, модель TOTE, три позиции описания и лестница навыков — от простых к комплексным.</p></div><div class="sec-tiles"><a class="tile" data-k="g3r1" href="#r9"><span class="tn">Раздел 9</span><span class="tt">Концепт программы: какую историю мы рассказываем студенту?</span></a><a class="tile" data-k="g3r2" href="#r10"><span class="tn">Раздел 10</span><span class="tt">Модель TOTE: строительный блок для создания изменений</span></a><a class="tile" data-k="g3r3" href="#r11"><span class="tn">Раздел 11</span><span class="tt">Три позиции описания</span></a><a class="tile" data-k="g3r4" href="#r12"><span class="tn">Раздел 12</span><span class="tt">Простые и комплексные навыки</span></a><a class="tile" data-k="g3r5" href="#r13"><span class="tn">Раздел 13</span><span class="tt">Лестница навыков</span></a></div></div><div class="sheet chapter-head sec-divider" id="r9">
   <div class="kicker">Раздел 9</div>
@@ -156,8 +157,7 @@
     <div class="q"><b>5.</b> Отложите запись на день, затем перечитайте свежим взглядом и проведите самопроверку: насколько логична и последовательна ваша история? Нет ли «дыр» и логических скачков между шагами? Насколько понятен путь студента?</div>
     <textarea data-wb="g3r2-5" rows="3" placeholder="Что заметили при перечитывании: где логика сцепилась, а где остались «дыры»…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r2" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r2" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Не гонитесь за красотой формулировок — сейчас важно, чтобы цепочка сцепилась. Красоту наведём позже.</div>
 </div><div class="sheet chapter-head sec-divider" id="r11">
   <div class="kicker">Раздел 11</div>
@@ -250,8 +250,7 @@
     <div class="q"><b>5.</b> Вернитесь в Позицию 1 и зафиксируйте инсайты, которые вы получили.</div>
     <textarea data-wb="g3r3-4" rows="3" placeholder="Мои инсайты: что изменилось в моём взгляде на программу…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r3" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r3" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Если в третьей позиции вам стало немного неловко за первую — вы всё сделали правильно. Именно так и рождается программа про студента.</div>
 </div><div class="sheet chapter-head sec-divider" id="r12">
   <div class="kicker">Раздел 12</div>
@@ -365,8 +364,7 @@
     <div class="q"><b>3.</b> Проверьте цепочку сами, как строгий редактор: насколько логична последовательность? Нет ли «дыр» — шагов, которые вы делаете автоматически и потому забыли записать?</div>
     <textarea data-wb="g3r4-3" rows="3" placeholder="Итог самопроверки: какие «автоматические» шаги пришлось дописать…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r4" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Эта раскладка — разминка перед следующим шагом, «Лестницей навыков». Не пропускайте её: на знакомом навыке декомпозиция даётся легче всего.</div>
 </div>
 <img class="ill" src="images/ill-03-chemodan.jpg" alt="" loading="lazy"><div class="sheet chapter-head sec-divider" id="r13">
@@ -444,8 +442,7 @@
     <div class="q"><b>3.</b> Затем устройте себе самопроверку — пройдитесь по лестнице с тремя вопросами: насколько логична связка между ступенями? Насколько понятно, что конкретно должно произойти внутри ступени? Какое физическое действие студент совершает на этой ступени — чтобы TOTE мог открыться и закрыться?</div>
     <textarea data-wb="g3r5-3" rows="4" placeholder="Ответы по трём вопросам: где связка хромает, что происходит внутри ступени, какое действие совершает студент…"></textarea>
   </div>
-  <div class="practice-actions"><a class="wb-btn" href="tetrad.html#g3r5" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать в рабочую тетрадь</button></div>
-  <div class="practice-hint">Вопросы вместе с вашими ответами скопируются в буфер — вставьте их в свой документ.</div>
+  <div class="practice-actions pa2"><div class="pa-item"><a class="wb-btn" href="tetrad.html#g3r5" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div><div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div></div>
   <div class="calm">Вы наверняка увидите свои «слепые пятна» — места, где вместо действия у вас просто лекция, «груда материала». Это нормально, это цена победы. Спросите себя честно: «Зачем я читаю эту лекцию? Она действительно нужна для перехода на следующую ступень?»</div>
 </div>
 
@@ -468,6 +465,12 @@
   
 </div>
 <nav class="cnav"><a href="glava2.html"><span class="lb">← Глава 2</span><span class="tt">От чистого листа — к фундаменту твоей программы</span></a><a class="mid" href="oglavlenie.html"><span class="lb">Оглавление</span><span class="tt">Все главы</span></a><a class="nxt" href="glava4.html"><span class="lb">Глава 4 →</span><span class="tt">Микро-структура: как рождается навык</span></a></nav>
+<div class="fabs">
+  <button class="fab fab-bm" type="button" title="Поставить закладку здесь" aria-label="Поставить закладку">
+    <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M2 1h12v18l-6-4.4L2 19V1z" fill="#E8CF9E" stroke="#B8965A"/></svg>
+  </button>
+  <button class="fab fab-top" type="button" title="Наверх" aria-label="Наверх">↑</button>
+</div>
 <script>
 (function(){var K='up-read';
  window.upRead=function(){try{return JSON.parse(localStorage.getItem(K)||'[]')}catch(e){return []}};
@@ -505,7 +508,30 @@
    for(var s in fsecs){ftot++;if(fsecs[s].d>=fsecs[s].t)ffull++}
    f.innerHTML='Прочитано глав: <b>'+ffull+' из '+ftot+'</b>'+
      (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть 1 прочитана целиком ✓');
+   var rbm=null; try{rbm=JSON.parse(localStorage.getItem('up-ribbon')||'null')}catch(e){}
+   if(rbm&&rbm.page){f.innerHTML=f.innerHTML.replace(/Продолжить:.*$/,'')+'Продолжить: <a href="'+rbm.page+'#bm" style="color:#F0E8D5">🔖 твоя закладка</a>'}
  }
+})();</script><script>
+(function(){
+ var RB='up-ribbon';
+ function get(){try{return JSON.parse(localStorage.getItem(RB)||'null')}catch(e){return null}}
+ var rb=document.getElementById('ribbon');
+ var page=location.pathname.split('/').pop()||'index.html';
+ function place(y){rb.hidden=false; rb.style.top=y+'px'}
+ var cur=get();
+ if(cur&&cur.page===page){place(cur.y);
+   if(location.hash==='#bm'){setTimeout(function(){scrollTo({top:Math.max(0,cur.y-150)})},60)}}
+ rb.addEventListener('click',function(){rb.classList.toggle('tip')});
+ var bm=document.querySelector('.fab-bm');
+ bm.addEventListener('click',function(){
+   var y=Math.round(scrollY+140);
+   try{localStorage.setItem(RB,JSON.stringify({page:page,y:y}))}catch(e){}
+   place(y); bm.classList.add('did');
+   setTimeout(function(){bm.classList.remove('did')},1100);
+ });
+ var top=document.querySelector('.fab-top');
+ top.addEventListener('click',function(){scrollTo({top:0,behavior:'smooth'})});
+ addEventListener('scroll',function(){top.classList.toggle('show',scrollY>600)},{passive:true});
 })();</script>
 <script>
 (function(){

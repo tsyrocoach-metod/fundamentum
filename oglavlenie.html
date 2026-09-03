@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Оглавление — Управляемо и предсказуемо</title>
-<link rel="stylesheet" href="book.css?v=9fc398ee">
+<link rel="stylesheet" href="book.css?v=a1229c8b">
 </head>
 <body class="book-page sec-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -79,6 +79,8 @@
    for(var s in fsecs){ftot++;if(fsecs[s].d>=fsecs[s].t)ffull++}
    f.innerHTML='Прочитано глав: <b>'+ffull+' из '+ftot+'</b>'+
      (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть 1 прочитана целиком ✓');
+   var rbm=null; try{rbm=JSON.parse(localStorage.getItem('up-ribbon')||'null')}catch(e){}
+   if(rbm&&rbm.page){f.innerHTML=f.innerHTML.replace(/Продолжить:.*$/,'')+'Продолжить: <a href="'+rbm.page+'#bm" style="color:#F0E8D5">🔖 твоя закладка</a>'}
  }
 })();</script><script>
 (function(){var K='up-wb';
@@ -110,6 +112,8 @@
   var b=document.getElementById('startBtn');
   if(n>=17) b.textContent='Перечитать с начала';
   else if(n>0&&first){b.textContent='Продолжить чтение';b.href=first.getAttribute('href')}
+  var rbm=null; try{rbm=JSON.parse(localStorage.getItem('up-ribbon')||'null')}catch(e){}
+  if(rbm&&rbm.page){b.textContent='Продолжить чтение';b.href=rbm.page+'#bm'}
   var cp=document.getElementById('bmCopy');
   if(n>0&&first&&cp){cp.hidden=false;
     cp.addEventListener('click',function(){

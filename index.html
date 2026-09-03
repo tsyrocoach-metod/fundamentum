@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Управляемо и предсказуемо — книга Андрея Ланда</title>
-<link rel="stylesheet" href="book.css?v=9fc398ee">
+<link rel="stylesheet" href="book.css?v=a1229c8b">
 </head>
 <body class="book-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -78,8 +78,10 @@
     <div class="task">
       <div class="q"><b>2.</b> Сохрани эту запись так, как тебе удобно. В те моменты, когда будет падать мотивация, теряться драйв и казаться, что ничего не получается и ничего не понятно, — загляни в эту запись и возьми оттуда ресурс, чтобы сделать ещё один шаг навстречу своей цели, навстречу своему методологическому мастерству.</div>
     </div>
-    <div class="practice-actions"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Открыть рабочую тетрадь</a><button class="copy-btn" type="button">Скопировать вопросы и ответы</button></div>
-    <div class="practice-hint">Тетрадь откроется в соседней вкладке — удобно заполнять её параллельно с чтением.</div>
+    <div class="practice-actions pa2">
+  <div class="pa-item"><a class="wb-btn" href="tetrad.html" target="_blank" rel="noopener">Заполнять в тетради книги</a><span class="pa-cap">откроется в соседней вкладке; ответы сохраняются, тетрадь можно скачать в PDF или распечатать</span></div>
+  <div class="pa-item"><button class="copy-btn" type="button">Скопировать в свой документ</button><span class="pa-cap">вопросы вместе с ответами скопируются — вставить можно в заметки или свой файл</span></div>
+</div>
   </div>
 
 </div>
@@ -124,6 +126,8 @@
    for(var s in fsecs){ftot++;if(fsecs[s].d>=fsecs[s].t)ffull++}
    f.innerHTML='Прочитано глав: <b>'+ffull+' из '+ftot+'</b>'+
      (nxt?'<br>Продолжить: <a href="'+nxt[1]+'" style="color:#F0E8D5">'+nxt[2]+'</a>':'<br>Часть 1 прочитана целиком ✓');
+   var rbm=null; try{rbm=JSON.parse(localStorage.getItem('up-ribbon')||'null')}catch(e){}
+   if(rbm&&rbm.page){f.innerHTML=f.innerHTML.replace(/Продолжить:.*$/,'')+'Продолжить: <a href="'+rbm.page+'#bm" style="color:#F0E8D5">🔖 твоя закладка</a>'}
  }
 })();</script><script>
 (function(){var K='up-wb';

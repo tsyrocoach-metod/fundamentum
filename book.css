@@ -736,3 +736,36 @@
     body.book-page .sky-sheet .calm{color:#444}
     body.book-page .wb-note{color:#333; border-color:#bbb; background:#fff}
   }
+
+  /* ═══ v4.2: кнопки практик с подписями ═══ */
+  .pa2{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start; text-align:center}
+  .pa-item{display:flex; flex-direction:column; gap:8px; align-items:center}
+  .pa-item .wb-btn, .pa-item .copy-btn{width:100%; max-width:280px}
+  .pa-cap{font-family:-apple-system,'Segoe UI',sans-serif; font-size:12px; line-height:1.5;
+    color:rgba(240,232,213,.75); max-width:250px}
+  @media (max-width:600px){.pa2{grid-template-columns:1fr}}
+  .ill-ex{display:block; width:100%; max-width:330px; margin:12px auto 0; mix-blend-mode:multiply}
+
+  /* ═══ v4.2: наверх и ляссе ═══ */
+  .fabs{position:fixed; right:16px; bottom:calc(16px + env(safe-area-inset-bottom,0px));
+    display:flex; flex-direction:column; gap:10px; z-index:58}
+  .fab{width:46px; height:46px; border-radius:50%; border:1px solid rgba(240,232,213,.5);
+    background:rgba(52,82,88,.92); color:var(--cream); cursor:pointer; font-size:18px;
+    display:flex; align-items:center; justify-content:center; box-shadow:0 6px 20px rgba(20,40,45,.35)}
+  .fab:hover{background:var(--sea-deep)}
+  .fab-top{opacity:0; pointer-events:none; transition:opacity .25s}
+  .fab-top.show{opacity:1; pointer-events:auto}
+  .fab-bm.did{background:var(--gold); border-color:var(--gold)}
+  .ribbon{position:absolute; left:50%; margin-left:368px; width:22px; height:66px; z-index:45; cursor:pointer;
+    background:linear-gradient(180deg,#D8B96C,#B8965A);
+    clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%);
+    filter:drop-shadow(0 4px 8px rgba(20,40,45,.35))}
+  .rb-tip{position:absolute; right:140%; top:4px; white-space:nowrap;
+    background:var(--sea-deep); color:var(--cream); font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:12px; padding:8px 14px; border-radius:8px; border:1px solid rgba(240,232,213,.4);
+    opacity:0; pointer-events:none; transition:opacity .2s}
+  .ribbon:hover .rb-tip, .ribbon.tip .rb-tip{opacity:1}
+  @media (max-width:840px){
+    .ribbon{left:auto; right:6px; margin-left:0; width:18px; height:56px}
+    .rb-tip{right:130%}
+  }
