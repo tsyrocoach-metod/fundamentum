@@ -872,3 +872,9 @@
     letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:10px 22px;
     border:none; background:var(--sea-deep); color:var(--cream)}
   .copy-prompt:hover{background:var(--sea)}
+
+  /* ═══ v5.1: отступы вставок после кнопок практики ═══ */
+  .practice-note{margin-bottom:6px}
+  .sky-sheet .calm{margin-top:28px}
+  .cnav2 .act.soon{background:rgba(251,248,241,.5); color:#8E9DA1; cursor:default;
+    box-shadow:0 6px 18px rgba(20,40,45,.15); pointer-events:none}
