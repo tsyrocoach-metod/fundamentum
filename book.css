@@ -524,7 +524,8 @@
   /* ═══ v2: печать ═══ */
   .print-stub{display:none}
   @media print{
-    body.wb{background:#fff !important}
+    html{background:#fff !important}
+    body.wb{background:#fff !important; background-image:none !important; background-attachment:scroll !important}
     @page{size:A4; margin:0}
     body.wb .wb-toolbar, body.wb .menu-btn, body.wb .drawer, body.wb .overlay, body.wb .wb-head{display:none !important}
     body.wb .wb-wrap{max-width:none; margin:0; padding:0; gap:0; display:block}
@@ -700,3 +701,38 @@
   a.sec-name:hover{background:rgba(200,169,107,.07)}
   a.sec-name .go-arr{margin-left:auto; color:var(--gold); font-size:16px; opacity:0; transition:opacity .15s}
   a.sec-name:hover .go-arr{opacity:1}
+
+  /* ═══ v4.1: печать тетради как на экране ═══ */
+  .wb-ch-t{font-size:28px !important; margin-top:10px !important}
+  .wb-chapter{text-align:center; display:flex; flex-direction:column; justify-content:center; min-height:300px}
+  .wb-chapter .wb-src{max-width:52ch; margin:10px auto 0}
+  .dl-ch{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:10px 22px;
+    border:1px solid var(--line); background:#fff; color:var(--sea-deep)}
+  .dl-ch:hover{background:var(--page-edge)}
+  @media print{
+    body.wb, body.wb *{-webkit-print-color-adjust:exact !important; print-color-adjust:exact !important}
+    body.wb .noprint{display:none !important}
+    body.wb .wb-chapter{min-height:auto; padding-top:34mm}
+    body.wb[data-print-sec="1"] .wb-page:not([data-sec="1"]):not(#letter),
+    body.wb[data-print-sec="2"] .wb-page:not([data-sec="2"]),
+    body.wb[data-print-sec="3"] .wb-page:not([data-sec="3"]),
+    body.wb[data-print-sec="4"] .wb-page:not([data-sec="4"]){display:none !important}
+    body.wb[data-print-sec="2"] #letter, body.wb[data-print-sec="3"] #letter,
+    body.wb[data-print-sec="4"] #letter{display:none !important}
+    body.wb .wb-ans{border:1px solid #b9b2a0}
+    body.wb .wb-ans:empty{min-height:34mm}
+  }
+
+  /* ═══ v4.1: светлая печать страниц глав ═══ */
+  @media print{
+    body.book-page{background:#fff !important; background-image:none !important; background-attachment:scroll !important}
+    body.book-page .menu-btn, body.book-page .drawer, body.book-page .overlay,
+    body.book-page .cnav, body.book-page .sec-tiles, body.book-page .practice-actions{display:none !important}
+    body.book-page .sheet{box-shadow:none; border:none; padding:6mm 0; page-break-inside:auto}
+    body.book-page .sheet .tab{position:static; transform:none; margin:0 auto 6mm}
+    body.book-page .sky-sheet{background:#fff !important; border:1pt solid #999 !important; color:#1c1c1c}
+    body.book-page .sky-sheet h3{color:#1c1c1c}
+    body.book-page .sky-sheet .calm{color:#444}
+    body.book-page .wb-note{color:#333; border-color:#bbb; background:#fff}
+  }
