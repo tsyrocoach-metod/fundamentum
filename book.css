@@ -843,3 +843,10 @@
 
   /* ═══ v4.7: центрированная иллюстрация в листе ═══ */
   .ill-center{display:block; width:100%; max-width:540px; margin:8px auto 24px; mix-blend-mode:multiply}
+
+  /* ═══ v4.8: определения парой ═══ */
+  .define-pair{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:34px 0; align-items:stretch}
+  .define-pair .define{margin:0; padding:24px 22px; text-align:left}
+  .define-pair .define .label{text-align:center; margin-bottom:14px}
+  .define-pair .define p{font-size:17.5px; line-height:1.65; text-align:left}
+  @media (max-width:700px){.define-pair{grid-template-columns:1fr}}
