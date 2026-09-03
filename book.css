@@ -878,3 +878,16 @@
   .sky-sheet .calm{margin-top:28px}
   .cnav2 .act.soon{background:rgba(251,248,241,.5); color:#8E9DA1; cursor:default;
     box-shadow:0 6px 18px rgba(20,40,45,.15); pointer-events:none}
+
+  /* ═══ v5.2: меню в новом порядке ═══ */
+  .brand-link{text-decoration:none; color:inherit; display:block}
+  .nav-part{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10px; letter-spacing:.22em;
+    text-transform:uppercase; color:rgba(240,232,213,.55); margin:22px 0 2px; font-weight:700;
+    display:flex; align-items:baseline; gap:10px}
+  .nav-part.locked{margin:14px 0 0}
+  .np-soon{margin-left:auto; font-size:9px; letter-spacing:.14em; color:var(--gold);
+    border:1px solid rgba(200,169,107,.5); border-radius:999px; padding:2px 9px}
+  .menu-continue{display:block; margin-top:12px; background:var(--gold); color:#fff;
+    text-align:center; text-decoration:none; border-radius:999px; padding:11px 14px;
+    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase}
+  .menu-continue:hover{background:#CBA96B}
