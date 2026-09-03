@@ -809,3 +809,34 @@
   .fab-bm{animation:bmPulse 2.4s ease-out infinite}
   .fab-bm.quiet{animation:none}
   @media (prefers-reduced-motion: reduce){.fab-bm{animation:none}}
+
+  /* ═══ v4.6: карточки примеров концепта ═══ */
+  .concept-cards{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:24px 0}
+  .concept-card{border:1px solid var(--line); border-radius:12px; background:#fff; padding:18px 20px}
+  .concept-card .cc-t{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;
+    padding-bottom:8px; border-bottom:1px solid var(--line)}
+  .concept-card p{font-size:15px; line-height:1.6; margin:0 0 8px}
+  .concept-card p:last-child{margin-bottom:0}
+  @media (max-width:700px){.concept-cards{grid-template-columns:1fr}}
+
+  /* ═══ v4.6: формула TOTE одной строкой ═══ */
+  .tote-strip{display:flex; align-items:center; justify-content:center; gap:8px;
+    flex-wrap:nowrap; margin:28px 0; padding:18px 10px;
+    border-top:2px solid var(--gold); border-bottom:2px solid var(--gold);
+    background:linear-gradient(180deg, rgba(200,169,107,.06), transparent 70%)}
+  .tote-strip .tb{display:flex; flex-direction:column; align-items:center; gap:2px;
+    border:1.5px solid var(--sea-deep); border-radius:8px; background:#fff;
+    padding:9px 14px; min-width:76px}
+  .tote-strip .tb i{font-style:normal; font-size:15.5px; color:var(--sea-deep); letter-spacing:.02em}
+  .tote-strip .tb em{font-style:normal; box-shadow:none; font-family:-apple-system,'Segoe UI',sans-serif;
+    font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft)}
+  .tote-strip .ta{color:var(--gold); font-size:18px; flex:none}
+  .tote-strip .tstar{color:var(--gold); font-size:17px; margin-left:2px}
+  @media (max-width:620px){
+    .tote-strip{gap:4px; padding:14px 4px}
+    .tote-strip .tb{min-width:0; padding:7px 7px}
+    .tote-strip .tb i{font-size:12.5px}
+    .tote-strip .tb em{font-size:8.5px; letter-spacing:.04em}
+    .tote-strip .ta{font-size:13px}
+  }
