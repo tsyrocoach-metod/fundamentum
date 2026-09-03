@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Управляемо и предсказуемо — книга Андрея Ланда</title>
-<link rel="stylesheet" href="book.css?v=81121014">
+<link rel="stylesheet" href="book.css?v=7e7253f9">
 </head>
 <body class="book-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -155,6 +155,16 @@
   '.ans.empty{border:none;padding:0}'+
   '.ln{border-bottom:0.75pt solid #b5b5b5;height:8.5mm}';
  document.addEventListener('click',function(e){
+  var cp=e.target.closest('.copy-prompt');
+  if(cp){
+    var tx=cp.parentNode.querySelector('.pr-text');
+    var val=tx?tx.textContent.trim():'';
+    function ok(){var o=cp.textContent;cp.textContent='Скопировано ✓';setTimeout(function(){cp.textContent=o},2000)}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(val).then(ok);
+    else{var ta=document.createElement('textarea');ta.value=val;ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(_){}document.body.removeChild(ta)}
+    return;
+  }
   var b=e.target.closest('.print-sheet'); if(!b)return;
   var sh=b.closest('.sky-sheet'); if(!sh)return;
   var t=sh.querySelector('h3');

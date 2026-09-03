@@ -859,3 +859,16 @@
     letter-spacing:.08em; color:var(--sea-deep); white-space:nowrap}
   @media (max-width:600px){.lst-l{font-size:8.5px; letter-spacing:.04em}}
   .ill-big{max-width:440px}
+
+  /* ═══ v5.0: притча, промпт-рамка ═══ */
+  .ill-story{max-width:560px}
+  .prompt-box{margin:20px 0 24px; padding:20px 24px; border:1.5px dashed var(--gold); border-radius:12px;
+    background:linear-gradient(180deg, rgba(200,169,107,.07), rgba(200,169,107,.02))}
+  .prompt-box .pr-label{font-family:-apple-system,'Segoe UI',sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.26em; text-transform:uppercase; color:var(--gold); margin-bottom:10px}
+  .prompt-box .pr-text{font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:14.5px; line-height:1.7;
+    color:var(--ink); margin:0 0 16px}
+  .copy-prompt{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11.5px; font-weight:700;
+    letter-spacing:.1em; text-transform:uppercase; cursor:pointer; border-radius:999px; padding:10px 22px;
+    border:none; background:var(--sea-deep); color:var(--cream)}
+  .copy-prompt:hover{background:var(--sea)}
