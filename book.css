@@ -769,3 +769,22 @@
     .ribbon{left:auto; right:6px; margin-left:0; width:18px; height:56px}
     .rb-tip{right:130%}
   }
+
+  /* ═══ v4.3: подпись над плитками принципов ═══ */
+  .dd-note{font-family:-apple-system,'Segoe UI',sans-serif; font-size:14.5px; line-height:1.6;
+    color:var(--sea-deep); text-align:center; max-width:48ch; margin:26px auto 0;
+    padding-top:20px; border-top:1px solid var(--line); text-wrap:balance}
+
+  /* ═══ v4.4: финал главы и кнопки-действия ═══ */
+  .chapter-final{text-align:center}
+  .chapter-final p{font-size:19px; line-height:1.8; max-width:56ch; margin:0 auto; text-align:left}
+  .cnav2{justify-content:center; gap:14px; flex-wrap:wrap}
+  .cnav2 .act{flex:0 0 auto; font-family:-apple-system,'Segoe UI',sans-serif; font-size:12.5px;
+    font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--sea-deep);
+    background:var(--page); border-radius:999px; padding:15px 30px; display:block;
+    box-shadow:0 10px 26px rgba(20,40,45,.25)}
+  .cnav2 .act:hover{background:#fff}
+  .cnav2 .act.gold{background:var(--gold); color:#fff}
+  .cnav2 .act.gold:hover{background:#CBA96B}
+  .q strong, .wb-q strong{font-weight:700; color:inherit}
+  .task .q br{content:""; display:block; margin-top:4px}
