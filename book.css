@@ -850,3 +850,11 @@
   .define-pair .define .label{text-align:center; margin-bottom:14px}
   .define-pair .define p{font-size:17.5px; line-height:1.65; text-align:left}
   @media (max-width:700px){.define-pair{grid-template-columns:1fr}}
+
+  /* ═══ v4.9: подписи TOTE на лестнице ═══ */
+  .lst-wrap{display:block; position:relative; border:none; background:none}
+  .lst-wrap img{display:block; width:100%; mix-blend-mode:multiply}
+  .lst-l{position:absolute; transform:translate(-50%,-100%); font-style:normal;
+    font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.08em; color:var(--sea-deep); white-space:nowrap}
+  @media (max-width:600px){.lst-l{font-size:8.5px; letter-spacing:.04em}}
