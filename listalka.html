@@ -10,6 +10,9 @@
     --page:#FBF8F1; --page-edge:#F0EADA; --cream:#F0E8D5; --gold:#B8965A; --line:#E3DCC9;
   }
   *{box-sizing:border-box}
+  body{-webkit-user-select:none; -moz-user-select:none; user-select:none}
+  .sky-sheet-wrap, .sky-sheet-wrap *, .task, .task *, textarea{-webkit-user-select:text; user-select:text}
+  img{-webkit-user-drag:none}
   html,body{height:100%}
   body{
     margin:0; color:var(--ink); font-family:Georgia,'Times New Roman',serif;
@@ -2632,6 +2635,15 @@ document.addEventListener('click',function(e){
   window.print();
 });
 
+/* ── защита от копирования (практики можно) ── */
+document.addEventListener('copy',function(e){
+  var ok=e.target&&e.target.closest&&e.target.closest('textarea, .task, .sky-sheet-wrap');
+  if(ok)return;
+  var s=window.getSelection&&window.getSelection(), n=s&&s.anchorNode,
+      el=n&&(n.nodeType===1?n:n.parentElement);
+  if(el&&el.closest&&el.closest('.task, .sky-sheet-wrap'))return;
+  e.preventDefault();
+});
 /* ── старт ── */
 function boot(){
   pageSize(); paginate();

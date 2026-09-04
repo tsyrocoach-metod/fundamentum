@@ -897,9 +897,17 @@
     text-align:center; text-decoration:none; border-radius:999px; padding:11px 14px;
     font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase}
   .menu-continue:hover{background:#CBA96B}
+
+  /* ═══ v5.3: защита текста книги от копирования (практики и поля — можно) ═══ */
+  body.book-page{-webkit-user-select:none; -moz-user-select:none; user-select:none}
+  body.book-page .sky-sheet, body.book-page .sky-sheet *,
+  body.book-page .prompt-box, body.book-page .prompt-box *,
+  body.book-page textarea, body.book-page input, body.book-page .fn-pop{
+    -webkit-user-select:text; -moz-user-select:text; user-select:text}
+  body.book-page img{-webkit-user-drag:none; user-drag:none}
 </style>
 </head>
-<body>
+<body class="book-page">
 <div class="sky-head">
   <div class="over">методология обучения взрослых</div>
   <div class="brand">Управляемо и предсказуемо</div>
@@ -2938,6 +2946,19 @@
   <div class="practice-actions pa1"><button class="wb-btn print-sheet" type="button">Сохранить PDF / Распечатать этот лист</button></div><div class="practice-note">Ответы сохраняются в этом браузере автоматически. Все задания книги собраны в <a href="tetrad.html#g4r4" target="_blank" rel="noopener">рабочей тетради</a> — её можно открыть отдельно, заполнить целиком и скачать одним PDF.</div>
   <div class="calm">Собирай спокойненько, плавненько, без истерик и без попытки сделать идеально с первого раза. Мы разобрались, наверное, с самым сложным элементом, который в нашем методологическом деле существует — мозг сильнее всего закипает именно на матрёшках. Очень важный критерий того, что матрёшка закрылась: «я готов двигаться дальше». Так что можно промокнуть лоб, выдохнуть — и идти играть в этот конструктор. Необходимый минимум, чтобы идти и делать, у тебя точно уже есть.</div>
 </div></div>
-<footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · главы 1–4</footer>
+<footer style="text-align:center;padding:0 0 48px;font-family:-apple-system,sans-serif;font-size:12px;letter-spacing:.15em;color:rgba(240,232,213,.6)">Управляемо и предсказуемо · часть 1 · главы 1–4</footer><script>
+(function(){
+ function allowed(el){return el&&el.closest&&el.closest('textarea, input, .sky-sheet, .prompt-box, .fn-pop, .practice-note')}
+ document.addEventListener('copy',function(e){
+   if(allowed(e.target))return;
+   var s=window.getSelection&&window.getSelection();
+   var n=s&&s.anchorNode, el=n&&(n.nodeType===1?n:n.parentElement);
+   if(allowed(el))return;
+   e.preventDefault();
+ });
+ document.addEventListener('dragstart',function(e){
+   if(e.target&&e.target.tagName==='IMG')e.preventDefault();
+ });
+})();</script>
 </body>
 </html>

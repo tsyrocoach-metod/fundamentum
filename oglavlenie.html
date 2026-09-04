@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Оглавление — Управляемо и предсказуемо</title>
-<link rel="stylesheet" href="book.css?v=610b5cc9">
+<link rel="stylesheet" href="book.css?v=87c7f2d1">
 </head>
 <body class="book-page sec-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -95,6 +95,19 @@
    if(m[d.dataset.wb])d.innerText=m[d.dataset.wb];
    d.addEventListener('input',function(){m[d.dataset.wb]=d.innerText;save(m);
      var s=document.getElementById('wbSaved');if(s)s.textContent='Сохранено в этом браузере ✓'});
+ });
+})();</script><script>
+(function(){
+ function allowed(el){return el&&el.closest&&el.closest('textarea, input, .sky-sheet, .prompt-box, .fn-pop, .practice-note')}
+ document.addEventListener('copy',function(e){
+   if(allowed(e.target))return;
+   var s=window.getSelection&&window.getSelection();
+   var n=s&&s.anchorNode, el=n&&(n.nodeType===1?n:n.parentElement);
+   if(allowed(el))return;
+   e.preventDefault();
+ });
+ document.addEventListener('dragstart',function(e){
+   if(e.target&&e.target.tagName==='IMG')e.preventDefault();
  });
 })();</script>
 <script>
