@@ -899,3 +899,8 @@
   body.book-page textarea, body.book-page input, body.book-page .fn-pop{
     -webkit-user-select:text; -moz-user-select:text; user-select:text}
   body.book-page img{-webkit-user-drag:none; user-drag:none}
+
+  /* ═══ v5.4: оговорка об авторском праве ═══ */
+  .cright{font-family:-apple-system,'Segoe UI',sans-serif; font-size:11px; line-height:1.6;
+    color:rgba(240,232,213,.55); text-align:center}
+  .drawer .cright{margin-top:16px; padding-top:14px; border-top:1px solid rgba(240,232,213,.2); text-align:left}

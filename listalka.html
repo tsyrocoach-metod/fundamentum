@@ -2635,6 +2635,35 @@ document.addEventListener('click',function(e){
   window.print();
 });
 
+
+/* ── доступ по ключу (общий с основной версией) ── */
+(function(){
+ var HS=[2676462018,2676490342];
+ function kh(s){var h=5381;for(var i=0;i<s.length;i++){h=((h*33)^s.charCodeAt(i))>>>0}return h}
+ function ok(k){return !!k&&(k==='legacy-ok'||HS.indexOf(kh(k))>=0)}
+ try{
+   var q=new URLSearchParams(location.search), k=q.get('k');
+   if(k&&HS.indexOf(kh(k))>=0){localStorage.setItem('up-key',k);q.delete('k');
+     var qs=q.toString();history.replaceState(null,'',location.pathname+(qs?'?'+qs:'')+location.hash)}
+   var have=ok(localStorage.getItem('up-key'));
+   if(!have){
+     var rd=[];try{rd=JSON.parse(localStorage.getItem('up-read')||'[]')}catch(e){}
+     var wb={};try{wb=JSON.parse(localStorage.getItem('up-wb')||'{}')}catch(e){}
+     if(rd.length>0||Object.keys(wb).length>0){localStorage.setItem('up-key','legacy-ok');have=true}
+   }
+   if(!have){
+     var ov=document.createElement('div');
+     ov.setAttribute('style','position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(165deg,#54808C,#3B6069)');
+     ov.innerHTML='<div style="max-width:440px;background:#FBF8F1;border-radius:14px;padding:40px 36px;text-align:center;font-family:Georgia,serif;color:#2B3E43">'+
+       '<div style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#B8965A;margin-bottom:14px">Управляемо и предсказуемо</div>'+
+       '<div style="font-size:22px;line-height:1.4;color:#345258;margin-bottom:14px">Эта книга открывается по персональной ссылке из курса</div>'+
+       '<p style="font-size:15.5px;line-height:1.65;margin:0 0 10px">Открой книгу по кнопке из своего урока — доступ сохранится в этом браузере.</p>'+
+       '<p style="font-family:-apple-system,sans-serif;font-size:12.5px;color:#5C7178;margin:0">Купил книгу, но видишь это сообщение? Напиши нам — мы поможем.</p></div>';
+     document.body.appendChild(ov);
+   }
+ }catch(e){}
+})();
+
 /* ── защита от копирования (практики можно) ── */
 document.addEventListener('copy',function(e){
   var ok=e.target&&e.target.closest&&e.target.closest('textarea, .task, .sky-sheet-wrap');
