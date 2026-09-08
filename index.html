@@ -82,7 +82,7 @@
   </div>
 
 </div>
-<div style="text-align:center;padding:6px 16px 30px">
+<div style="text-align:center;padding:6px 16px 30px" id="ctaBottom">
   <a class="cover-cta" href="oglavlenie.html">Перейти к оглавлению</a>
 </div>
 <div style="max-width:560px;margin:0 auto;padding:0 16px 60px"><div class="cright">© Андрей Ланд · «Управляемо и предсказуемо». Книга защищена авторским правом: доступ персональный, пересылка ссылки и копирование материалов запрещены.</div></div>
@@ -252,6 +252,32 @@
      document.addEventListener('DOMContentLoaded',function(){document.body.appendChild(ov)});
      if(document.body)document.body.appendChild(ov);
    }
+ }catch(e){}
+})();</script><script>
+(function(){
+ var HS=[2676462018, 2676490342];
+ function kh(s){var h=5381;for(var i=0;i<s.length;i++){h=((h*33)^s.charCodeAt(i))>>>0}return h}
+ function ok(k){return !!k&&(k==='legacy-ok'||HS.indexOf(kh(k))>=0)}
+ try{
+   if(ok(localStorage.getItem('up-key')))return;
+   var sh=document.querySelector('.sheets'); if(sh)sh.style.display='none';
+   var more=document.querySelector('.cover-more'); if(more)more.style.display='none';
+   var cb=document.getElementById('ctaBottom'); if(cb)cb.style.display='none';
+   var card=document.createElement('div');
+   card.setAttribute('style','display:flex;justify-content:center;padding:34px 24px 70px');
+   card.innerHTML='<div style="max-width:440px;background:#FBF8F1;border-radius:14px;padding:40px 36px;text-align:center;font-family:Georgia,serif;color:#2B3E43;box-shadow:0 22px 60px rgba(20,40,45,.4)">'+
+     '<div style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#B8965A;margin-bottom:14px">Управляемо и предсказуемо</div>'+
+     '<div style="font-size:22px;line-height:1.4;color:#345258;margin-bottom:14px">Эта книга доступна только ее читателям</div>'+
+     '<p style="font-size:15.5px;line-height:1.65;margin:0 0 18px">Доступ открывается по персональной ссылке — она приходит вместе с книгой. Если у тебя такая ссылка есть, открой книгу по ней, и дальше все будет работать как обычно.</p>'+
+     '<button type="button" id="buyBook" style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FBF8F1;background:#B8965A;border:none;border-radius:999px;padding:15px 36px;cursor:pointer;margin:0 0 16px">Приобрести книгу</button>'+
+     '<p style="font-family:-apple-system,sans-serif;font-size:12.5px;color:#5C7178;margin:0">Купил книгу, но видишь это сообщение? Напиши нам — мы поможем.</p></div>';
+   card.addEventListener('click',function(e){
+     if(!e.target.closest('#buyBook'))return;
+     var BUY_URL='';  /* сюда вставить ссылку на покупку книги */
+     if(BUY_URL)location.href=BUY_URL;
+   });
+   var hero=document.querySelector('.cover-hero');
+   if(hero&&hero.parentNode)hero.parentNode.insertBefore(card,hero.nextSibling);
  }catch(e){}
 })();</script>
 <script>(function(){
