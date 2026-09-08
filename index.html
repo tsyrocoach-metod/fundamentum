@@ -263,10 +263,10 @@
    var sh=document.querySelector('.sheets'); if(sh)sh.style.display='none';
    var more=document.querySelector('.cover-more'); if(more)more.style.display='none';
    var cb=document.getElementById('ctaBottom'); if(cb)cb.style.display='none';
+   var hg=document.getElementById('heroGo'); if(hg)hg.style.display='none';
    var card=document.createElement('div');
-   card.setAttribute('style','display:flex;justify-content:center;padding:34px 24px 70px');
+   card.setAttribute('style','display:flex;justify-content:center;padding:26px 24px 0');
    card.innerHTML='<div style="max-width:440px;background:#FBF8F1;border-radius:14px;padding:40px 36px;text-align:center;font-family:Georgia,serif;color:#2B3E43;box-shadow:0 22px 60px rgba(20,40,45,.4)">'+
-     '<div style="font-family:-apple-system,sans-serif;font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#B8965A;margin-bottom:14px">Управляемо и предсказуемо</div>'+
      '<div style="font-size:22px;line-height:1.4;color:#345258;margin-bottom:14px">Эта книга доступна только ее читателям</div>'+
      '<p style="font-size:15.5px;line-height:1.65;margin:0 0 18px">Доступ открывается по персональной ссылке — она приходит вместе с книгой. Если у тебя такая ссылка есть, открой книгу по ней, и дальше все будет работать как обычно.</p>'+
      '<button type="button" id="buyBook" style="font-family:-apple-system,sans-serif;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#FBF8F1;background:#B8965A;border:none;border-radius:999px;padding:15px 36px;cursor:pointer;margin:0 0 16px">Приобрести книгу</button>'+
@@ -276,8 +276,9 @@
      var BUY_URL='';  /* сюда вставить ссылку на покупку книги */
      if(BUY_URL)location.href=BUY_URL;
    });
-   var hero=document.querySelector('.cover-hero');
-   if(hero&&hero.parentNode)hero.parentNode.insertBefore(card,hero.nextSibling);
+   if(hg&&hg.parentNode)hg.parentNode.insertBefore(card,hg);
+   else{var hero=document.querySelector('.cover-hero');
+     if(hero&&hero.parentNode)hero.parentNode.insertBefore(card,hero.nextSibling)}
  }catch(e){}
 })();</script>
 <script>(function(){
