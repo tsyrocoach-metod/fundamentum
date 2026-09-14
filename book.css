@@ -945,3 +945,40 @@
   .fab-tip{white-space:normal; width:max-content; max-width:230px; line-height:1.45; text-align:left}
   .fab-bm.say .fab-tip{opacity:1}
   @media (hover:none){ .fab-bm:hover .fab-tip{opacity:0} .fab-bm.say .fab-tip{opacity:1} .ribbon:hover .rb-tip{opacity:0} .ribbon.tip .rb-tip{opacity:1} }
+
+  /* ═══ 15.09: основной текст по ширине с переносами (Светлана + фото Андрея 08.09) ═══
+     :where – нулевая специфичность, центрированные классы (key-line, dd-note и т.п.) остаются как были */
+  :where(.sheet:not(.chapter-head):not(.sec-divider):not(.chapter-final) > p, .chapter-head .intro p, .story p, .example p,
+    .n-item p, .accent-block p, .fnotes p, .sheet:not(.sky-sheet) > ul li, .sheet:not(.sky-sheet) > ol li,
+    .letter p, .cover-intro p){
+    text-align:justify; -webkit-hyphens:auto; hyphens:auto; hyphenate-limit-chars:6 3 3}
+  .chapter-final p{text-align:justify; -webkit-hyphens:auto; hyphens:auto}
+
+  /* ═══ 15.09: единый ритм – отступы между блоками и интервал строк (Светлана, по всей книге) ═══ */
+  h3{line-height:1.35}
+  .sheet > h2{margin-bottom:24px}
+  .sheet > h3{margin-bottom:18px}
+  .sheet > ul, .sheet > ol{margin:14px 0}
+  .sheet > ul > li:last-child, .sheet > ol > li:last-child{margin-bottom:0}
+  .sheet > ul.toc-quote{margin:14px 0 14px 1.6em}
+  .define-pair .define p{line-height:1.7}
+  .ill-center, .ill-center.ill-portrait{margin:24px auto}
+  .sheet > p + .example, .sheet > p.drop + .example{margin-top:24px}
+  .sheet > .example{margin-bottom:24px}
+  .sheet > .example + .example{margin-top:-10px}
+  .sky-sheet > p + .task{margin-top:24px}
+  .sky-sheet > p + p.task, .sky-sheet > .task + p{margin-top:24px}
+  .chapter-final .orn + p{margin-top:14px}
+  .task .q, .yes > p, .no > p{line-height:1.8}
+  .define p{line-height:1.7}
+  .pair{line-height:1.7}
+
+  /* 15.09: правый край ровный и в карточках (Светлана: «чтобы текст по правому краю не скакал») */
+  :where(.task .q, .concept-card p, .yes > p, .no > p, .pair > div, .calm, .wb-q, .dd-src p, .dd-body p, .n-item li, .accent-block li, .story li){
+    text-align:justify; -webkit-hyphens:auto; hyphens:auto; hyphenate-limit-chars:6 3 3}
+
+  /* 15.09: при тексте по ширине узкая колонка рядом с картинкой дает дыры – картинка уже, на телефоне без обтекания */
+  .ill-lg, .ill-lg.ill-wide{width:38%; max-width:280px; margin:6px 0 14px 26px}
+  @media (max-width:700px){
+    .ill, .ill-lg, .ill-lg.ill-wide{float:none; display:block; width:auto; max-width:80%; margin:20px auto}
+  }
