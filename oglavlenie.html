@@ -153,9 +153,10 @@
   var rbm=null; try{rbm=JSON.parse(localStorage.getItem('up-ribbon')||'null')}catch(e){}
   if(rbm&&rbm.page){b.textContent='Продолжить чтение';b.href=rbm.page+'#bm'}
   var cp=document.getElementById('bmCopy');
-  if(n>0&&first&&cp){cp.hidden=false;
+  var bmHref=(rbm&&rbm.page)?(rbm.page+(rbm.id?'#bm-'+rbm.id+'~'+rbm.f:'#bm')):((n>0&&first)?first.getAttribute('href'):null);
+  if(bmHref&&cp){cp.hidden=false;
     cp.addEventListener('click',function(){
-      var u=new URL(first.getAttribute('href'),location.href).href;
+      var u=new URL(bmHref,location.href).href;
       function ok(){cp.textContent='Ссылка скопирована ✓';setTimeout(function(){cp.textContent='Скопировать ссылку-закладку'},2200)}
       if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok);else prompt('Ссылка-закладка:',u);
     });

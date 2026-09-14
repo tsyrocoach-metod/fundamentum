@@ -1553,9 +1553,28 @@
  var rb=document.getElementById('ribbon');
  var page=location.pathname.split('/').pop()||'index.html';
  function place(y){rb.hidden=false; rb.style.top=y+'px'}
+ // закладка привязана к листу (id + доля высоты) – одинаково на телефоне и компьютере
+ function anchorAt(y){var els=document.querySelectorAll('.sheet[id]');
+   for(var i=0;i<els.length;i++){var r=els[i].getBoundingClientRect(),t=r.top+scrollY;
+     if(y>=t&&y<t+r.height)return{id:els[i].id,f:Math.round((y-t)/Math.max(1,r.height)*1000)/1000}}
+   return null}
+ function yOf(b){if(b&&b.id){var el=document.getElementById(b.id);
+   if(el){var r=el.getBoundingClientRect();return Math.round(r.top+scrollY+b.f*r.height)}}
+   return b?b.y:0}
+ // ссылка-закладка с другого устройства: #bm-<id>~<доля>
+ var hm=location.hash.match(/^#bm-([\w-]+)~([\d.]+)$/);
+ if(hm&&document.getElementById(hm[1])){
+   var nb={page:page,id:hm[1],f:parseFloat(hm[2])}; nb.y=yOf(nb);
+   try{localStorage.setItem(RB,JSON.stringify(nb))}catch(e){}
+   history.replaceState(null,'',location.pathname+location.search+'#bm');
+ }
  var cur=get();
- if(cur&&cur.page===page){place(cur.y);
-   if(location.hash==='#bm'){setTimeout(function(){scrollTo({top:Math.max(0,cur.y-150)})},60)}}
+ var jumped=-1;
+ function show(jump){if(!(cur&&cur.page===page))return; var y=yOf(cur); place(y);
+   if(jump&&location.hash==='#bm'){scrollTo({top:Math.max(0,y-150)}); jumped=scrollY}}
+ if(cur&&cur.page===page){setTimeout(function(){show(true)},60);
+   // после догрузки картинок пересчитать; перескроллить, только если читатель еще не двигал страницу
+   addEventListener('load',function(){show(jumped<0||Math.abs(scrollY-jumped)<5)})}
  var bm=document.querySelector('.fab-bm'), tip=bm.querySelector('.fab-tip');
  function idle(){tip.textContent=get()?'Переложить закладку сюда':'Нажми, чтобы оставить закладку здесь'}
  function say(t,ms){tip.textContent=t; bm.classList.add('say'); clearTimeout(bm._t);
@@ -1570,9 +1589,10 @@
  if(get())bm.classList.add('quiet');
  bm.addEventListener('click',function(){
    var had=!!get();
-   var y=Math.round(scrollY+140);
-   try{localStorage.setItem(RB,JSON.stringify({page:page,y:y}))}catch(e){}
-   place(y); bm.classList.add('did'); bm.classList.add('quiet');
+   var y=Math.round(scrollY+140), a=anchorAt(y), nb={page:page,y:y};
+   if(a){nb.id=a.id; nb.f=a.f}
+   try{localStorage.setItem(RB,JSON.stringify(nb))}catch(e){}
+   cur=nb; place(y); bm.classList.add('did'); bm.classList.add('quiet');
    say(had?'Закладка переложена сюда ✓':'Закладка здесь ✓ Чтобы переложить – нажми снова в новом месте');
    setTimeout(function(){bm.classList.remove('did')},1100);
  });
