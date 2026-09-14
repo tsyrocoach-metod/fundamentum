@@ -921,3 +921,6 @@
   /* Решение Светланы 07.09: лестница ТОТЕ — одна схема, крупно, с подписями */
   .lst-big{max-width:560px; margin:0 auto}
   .lst-big img{border-radius:12px}
+
+  .nw{white-space:nowrap}
+  .ill-center.ill-portrait{max-width:320px}
