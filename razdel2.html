@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Раздел 2. Структура программы — Управляемо и предсказуемо</title>
-<link rel="stylesheet" href="book.css?v=bbd1b1c1">
+<link rel="stylesheet" href="book.css?v=2fecb3f8">
 </head>
 <body class="book-page sec-page">
 <button class="menu-btn" type="button" aria-label="Оглавление" id="menuBtn">
@@ -18,7 +18,7 @@
 <div class="foot" id="drawerFoot"></div>
 <div class="cright">© Андрей Ланд · «Управляемо и предсказуемо». Книга защищена авторским правом: доступ персональный, пересылка ссылки и копирование материалов запрещены.</div>
 </nav>
-<div class="ribbon" id="ribbon" hidden><div class="rb-tip">Это твоя закладка — ты остановился здесь</div></div>
+<div class="ribbon" id="ribbon" hidden><div class="rb-tip">Это твоя закладка – ты остановился здесь. Чтобы переложить, дочитай до нового места и нажми круглую кнопку с закладкой внизу справа. <button type="button" class="rb-del">Убрать закладку</button></div></div>
 <div class="sheets">
 <div class="sheet chapter-head"><div class="sec-band" style="border-bottom:none;margin-bottom:0;padding-bottom:0"><div class="sec-band-part">Раздел 2</div><div class="sec-band-t">Структура программы</div><p class="sec-band-d">Конструирование программы шаг за шагом: от цели и портрета студента — к концепту, лестнице навыков и «матрешке» одного шага обучения.</p></div><div class="sec-tiles"><a class="tile" data-k="g2r1" href="#r5"><span class="tn">Глава 5</span><span class="tt">Чему учим: цель обучения</span></a><a class="tile" data-k="g2r2" href="#r6"><span class="tn">Глава 6</span><span class="tt">Кого учим: портрет студента</span></a><a class="tile" data-k="g2r3" href="#r7"><span class="tn">Глава 7</span><span class="tt">Результат обучения</span></a><a class="tile" data-k="g2r4" href="#r8"><span class="tn">Глава 8</span><span class="tt">Сроки обучения: как соотнести обещания со временем</span></a><a class="tile" data-k="g3r1" href="#r9"><span class="tn">Глава 9</span><span class="tt">Концепт программы: какую историю мы рассказываем студенту?</span></a><a class="tile" data-k="g3r2" href="#r10"><span class="tn">Глава 10</span><span class="tt">Модель TOTE: строительный блок для создания изменений</span></a><a class="tile" data-k="g3r3" href="#r11"><span class="tn">Глава 11</span><span class="tt">Три позиции описания</span></a><a class="tile" data-k="g3r4" href="#r12"><span class="tn">Глава 12</span><span class="tt">Простые и комплексные навыки</span></a><a class="tile" data-k="g3r5" href="#r13"><span class="tn">Глава 13</span><span class="tt">Лестница навыков</span></a><a class="tile" data-k="g4r1" href="#r14"><span class="tn">Глава 14</span><span class="tt">Формирование навыка: «матрешка»</span></a><a class="tile" data-k="g4r2" href="#r15"><span class="tn">Глава 15</span><span class="tt">Концептуальная часть «матрешки»</span></a><a class="tile" data-k="g4r3" href="#r16"><span class="tn">Глава 16</span><span class="tt">Инструкция и опыт</span></a><a class="tile" data-k="g4r4" href="#r17"><span class="tn">Глава 17</span><span class="tt">Шеринг и рефлексия</span></a></div></div><div class="sheet chapter-head sec-divider" id="r5">
   <div class="kicker">Глава 5</div>
@@ -448,13 +448,13 @@
   <p>Заметьте: не список тем, не перечень инструментов, не «программа в двенадцати уроках». История. И как у всякой хорошей истории, <b>у нее есть главный герой — наш ученик</b>. Чтобы сразу же «приземлить» эту пока еще абстрактную идею, я предложу тебе вспомнить детскую книгу про <span class="nw">Винни-Пуха</span>. <span class="nw">Да-да</span>, ту самую книгу Алана Милна в пересказе Бориса Заходера.</p>
   <img class="ill-center ill-portrait" src="images/ill-vinni.jpg" alt="" loading="lazy">
   <p>Если ты откроешь оглавление этой книги, то увидишь следующее:</p>
-  <ul>
+  <ul class="toc-quote">
     <li>Глава первая, в которой мы знакомимся с <span class="nw">Винни-Пухом</span> и несколькими пчелами.</li>
     <li>Глава вторая, в которой <span class="nw">Винни-Пух</span> пошел в гости, а попал в безвыходное положение.</li>
     <li>Глава третья, в которой Пух и Пятачок отправились на охоту и <span class="nw">чуть-чуть</span> не поймали Буку.</li>
     <li>Глава четвертая, в которой <span class="nw">Иа-Иа</span> теряет хвост, а Пух находит</li>
+    <li class="toc-more">…и так далее.</li>
   </ul>
-  <p>…и так далее.</p>
   <p><b>Что мы можем заметить в структуре этого оглавления?</b></p>
   <p><span class="nw">Во-первых</span>, <b>Герой — тот, кто действует</b> (<span class="nw">Винни-Пух</span> или Пятачок).</p>
   <p><span class="nw">Во-вторых</span>, <b>Действие — то, что герой совершает</b>: идет в гости, попадает в безвыходное положение, находит хвост.</p>
@@ -572,8 +572,8 @@
     <textarea data-wb="g3r2-1" rows="4" placeholder="Тема: … Глава 1, в которой студент… Глава 2, в которой…"></textarea>
   </div>
   <div class="task">
-    <div class="q"><b>2.</b> Для каждой «главы» опиши: Героя (студента) и Действие, которое он совершает.</div>
-    <textarea data-wb="g3r2-2" rows="4" placeholder="Глава 1 — Герой: … Действие: … Глава 2 — …"></textarea>
+    <div class="q"><b>2.</b> Для каждой «главы» опиши: Героя (студента), Действие, которое он совершает, и обстоятельства, в которых он его совершает, — так, чтобы каждая «глава» была связана с предыдущей и последующей.</div>
+    <textarea data-wb="g3r2-2" rows="4" placeholder="Глава 1 — Герой: … Действие: … Обстоятельства: … Связка с главой 2: … Глава 2 — …"></textarea>
   </div>
   <div class="task">
     <div class="q"><b>3.</b> Встрой в каждую «главу» модель TOTE: Тест 1 — Операция — Тест 2 — Exit.</div>
@@ -1510,7 +1510,7 @@
 <div class="fabs">
   <button class="fab fab-bm" type="button" aria-label="Поставить закладку">
     <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M2 1h12v18l-6-4.4L2 19V1z" fill="#E8CF9E" stroke="#B8965A"/></svg>
-    <span class="fab-tip">Нажми, чтобы оставить закладку</span>
+    <span class="fab-tip">Нажми, чтобы оставить закладку здесь</span>
   </button>
   <button class="fab fab-top" type="button" title="Наверх" aria-label="Наверх">↑</button>
 </div>
@@ -1556,16 +1556,24 @@
  var cur=get();
  if(cur&&cur.page===page){place(cur.y);
    if(location.hash==='#bm'){setTimeout(function(){scrollTo({top:Math.max(0,cur.y-150)})},60)}}
- rb.addEventListener('click',function(){rb.classList.toggle('tip')});
- var bm=document.querySelector('.fab-bm');
+ var bm=document.querySelector('.fab-bm'), tip=bm.querySelector('.fab-tip');
+ function idle(){tip.textContent=get()?'Переложить закладку сюда':'Нажми, чтобы оставить закладку здесь'}
+ function say(t,ms){tip.textContent=t; bm.classList.add('say'); clearTimeout(bm._t);
+   bm._t=setTimeout(function(){bm.classList.remove('say'); idle()},ms||3200)}
+ idle();
+ rb.addEventListener('click',function(e){
+   if(e.target.closest('.rb-del')){e.stopPropagation();
+     try{localStorage.removeItem(RB)}catch(_){}
+     rb.hidden=true; rb.classList.remove('tip'); bm.classList.remove('quiet'); say('Закладка убрана',1800); return}
+   rb.classList.toggle('tip')});
+ document.addEventListener('click',function(e){if(!e.target.closest('#ribbon'))rb.classList.remove('tip')});
  if(get())bm.classList.add('quiet');
  bm.addEventListener('click',function(){
+   var had=!!get();
    var y=Math.round(scrollY+140);
    try{localStorage.setItem(RB,JSON.stringify({page:page,y:y}))}catch(e){}
    place(y); bm.classList.add('did'); bm.classList.add('quiet');
-   var tip=bm.querySelector('.fab-tip');
-   if(tip){var o=tip.textContent; tip.textContent='Закладка поставлена ✓';
-     setTimeout(function(){tip.textContent=o},1600)}
+   say(had?'Закладка переложена сюда ✓':'Закладка здесь ✓ Чтобы переложить – нажми снова в новом месте');
    setTimeout(function(){bm.classList.remove('did')},1100);
  });
  var top=document.querySelector('.fab-top');
