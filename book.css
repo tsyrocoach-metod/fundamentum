@@ -363,6 +363,7 @@
   a.toc-ch:hover{background:rgba(200,169,107,.07)}
   a.toc-ch .no{flex:none;width:22px;text-align:right;color:var(--gold);font-size:15px}
   a.toc-ch .tt{color:var(--ink);font-size:16.5px;line-height:1.4}
+  a.toc-ch .lvl{display:block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
   a.toc-ch.read .tt{color:var(--ink-soft)}
   a.toc-ch .ck{margin-left:auto;color:#5E8A6C;font-size:13px;display:none;flex:none}
   a.toc-ch.read .ck{display:inline}
